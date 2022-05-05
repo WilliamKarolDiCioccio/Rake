@@ -1,0 +1,13 @@
+{
+  "editor.fontSize": 20,
+  "editor.fontWeight": "bold",
+  "editor.fontFamily": "agave Nerd Font, 'Courier New', monospace",
+  "workbench.colorTheme": "Monokai Pro",
+  "workbench.iconTheme": "vscode-icons",
+  "explorer.compactFolders": false,
+  "editor.formatOnSave": true,
+  "editor.autoIndent": "brackets",
+  "explorer.confirmDragAndDrop": true,
+  "explorer.confirmDelete": true,
+  "cmake.sourceDirectory": "${workspaceFolder}"
+}

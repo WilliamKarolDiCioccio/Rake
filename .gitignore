@@ -1,0 +1,47 @@
+# Output directories
+bin/
+obj/
+
+# Output files
+# intermediate
+*.obj
+*.ilk
+*.pch
+*.tlog
+*.log
+*.idb
+*.recipe
+
+# compiled binaries
+*.exe
+*.dll
+*.lib
+*.pdb
+*.exp
+
+# Visual Studio data
+.vs/
+**.vcxproj.filters
+**.vcxproj.user
+
+# IntelliJ configuration files
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/contentModel.xml
+
+# Thirdparties
+thirdparties/premake/**
+thirdparties/RkSet/**
+thirdparties/json/**
+Engine/thirdparties/GLEW/**
+Engine/thirdparties/mathfu/**
+Engine/thirdparties/SDL2/**
+Engine/thirdparties/spdlog/**
+packages/**
+
+# Others
+logs/
+*.i386

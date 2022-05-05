@@ -1,0 +1,9 @@
+# Format Style Options 
+BasedOnStyle: Microsoft
+ColumnLimit: 250
+SortIncludes: false
+SortUsingDeclarations: false
+ReflowComments: false
+AlignConsecutiveMacros: true
+Standard: c++20
+# Format Style Options

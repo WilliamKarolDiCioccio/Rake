@@ -1,0 +1,24 @@
+[submodule "thirdparties/premake"]
+path = thirdparties/premake
+url = https://github.com/premake/premake-core.git
+branch = master
+
+[submodule "thirdparties/json"]
+path = thirdparties/json
+url = https://github.com/nlohmann/json.git
+branch = master
+
+[submodule "Engine/thirdparties/GLEW"]
+path = Engine/thirdparties/GLEW
+url = https://github.com/nigels-com/glew.git
+branch = master
+
+[submodule "Engine/thirdparties/mathfu"]
+path = Engine/thirdparties/mathfu
+url = https://github.com/google/mathfu.git
+branch = master
+
+[submodule "Engine/thirdparties/spdlog"]
+path = Engine/thirdparties/spdlog
+url = https://github.com/gabime/spdlog
+branch = master

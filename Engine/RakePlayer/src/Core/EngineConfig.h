@@ -1,0 +1,29 @@
+/*****************************************************************/ /**
+ * \file   EngineConfig.h
+ * \brief  
+ * 
+ * \author Di Cioccio William Karol
+ * \date   March 2022
+ *********************************************************************/
+
+#pragma once
+
+#include "Common.h"
+
+#define RK_TRUE  (1 == 1)
+#define RK_FALSE (!TRUE)
+
+#define ASSERTIONS_ENABLED RK_TRUE
+#define LOGGER_ENABLED     RK_TRUE
+
+#if defined(LOGGER_ENABLED) == RK_TRUE
+#define DEFAULT_LOGGER_NAME   "masterLogger"
+#define DEFAULT_LOG_FILE_NAME "logs/session_log.log"
+#define LOG_FILES_PER_SESSION 5
+#endif
+
+#if defined(DESKTOP_DEVICE) == RK_TRUE
+#define MAX_WINDOW_COUNT 10
+#define WINDOW_WIDTH     1280
+#define WINDOW_HEIGHT    720
+#endif

@@ -1,0 +1,33 @@
+#include "RkPch.hpp"
+
+#include "Common.h"
+
+#if defined(DESKTOP_DEVICE) == RK_TRUE
+
+#include "GUI/Desktop/Window.hpp"
+
+#if defined(PLATFORM_WINDOWS)
+#include "platform/Windows/Win32Window.hpp"
+#elif defined(PLATFORM_LINUX)
+#include "platform/Linux/GLFWWindow.hpp"
+#elif defined(PLATFORM_MACOS)
+#include "Platform/MacOS/CocoaWindow.hpp"
+#endif
+
+namespace Rake::GUI
+{
+
+Window *Window::CreateNativeWindow(long _width, long _height, long _minWidth, long _minHeight, const char *_title, WindowFlags _flags)
+{
+#if defined(PLATFORM_WINDOWS)
+    return new Win32Window();
+#elif defined(PLATFORM_LINUX)
+    return new X11Window();
+#elif defined(PLATFORM_MACOS)
+    return new CocoaWindow();
+#endif
+}
+
+} // namespace Rake::GUI
+
+#endif

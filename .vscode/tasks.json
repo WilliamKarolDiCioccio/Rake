@@ -1,0 +1,33 @@
+{
+  "tasks": [
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "(VS2022) Generate files",
+      "windows": {
+        "command": "${workspaceFolder}\\scripts\\VS2022GenPrjs.bat"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "(Windows) Clean output diretories",
+      "windows": {
+        "command": "${workspaceFolder}\\scripts\\Clean.bat"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    }
+  ],
+  "version": "2.0.0"
+}
