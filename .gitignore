@@ -1,9 +1,9 @@
 # Output directories
 bin/
 obj/
+**/logs/**
 
-# Output files
-# intermediate
+# Intermediate files
 *.obj
 *.ilk
 *.pch
@@ -12,7 +12,7 @@ obj/
 *.idb
 *.recipe
 
-# compiled binaries
+# Binary files
 *.exe
 *.dll
 *.lib
@@ -33,8 +33,7 @@ obj/
 .idea/**/contentModel.xml
 
 # Thirdparties
-thirdparties/premake/**
-thirdparties/RkSet/**
+thirdparties/premake/premake5.exe
 thirdparties/json/**
 Engine/thirdparties/GLEW/**
 Engine/thirdparties/mathfu/**
@@ -43,5 +42,3 @@ Engine/thirdparties/spdlog/**
 packages/**
 
 # Others
-logs/
-*.i386

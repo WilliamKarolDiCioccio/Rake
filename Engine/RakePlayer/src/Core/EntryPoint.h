@@ -20,7 +20,7 @@ RK_GUI_MAIN()
     sinks.push_back(std::make_shared<spdlog::sinks::rotating_file_sink_mt>(DEFAULT_LOG_FILE_NAME, MEBIBYTES(1), LOG_FILES_PER_SESSION, false));
     auto logger = Rake::Core::RkLogManager::Init(sinks);
 
-    ATTACH_CONSOLE_PROFILE;
+    // ATTACH_CONSOLE_PROFILE;
 
     try
     {
@@ -42,7 +42,7 @@ RK_GUI_MAIN()
     {
     }
 
-    DETACH_CONSOLE_PROFILE;
+    // DETACH_CONSOLE_PROFILE;
 
     Rake::Core::RkLogManager::Release();
 

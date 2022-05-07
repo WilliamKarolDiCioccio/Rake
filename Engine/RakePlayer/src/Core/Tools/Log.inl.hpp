@@ -29,6 +29,9 @@ namespace Rake::Core
 
 static class RkLogManager final
 {
+  private:
+    std::vector<spdlog::sink_ptr> m_sinks;
+
   public:
     static inline std::shared_ptr<spdlog::logger> Init(std::vector<spdlog::sink_ptr> _sinks) noexcept
     {

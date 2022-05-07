@@ -48,6 +48,7 @@ Win32Window::Win32Window()
 
     UpdateWindow((HWND)m_handle);
 }
+
 Win32Window::~Win32Window()
 {
     DestroyWindow((HWND)m_handle);
