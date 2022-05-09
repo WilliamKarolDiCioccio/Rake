@@ -1,4 +1,4 @@
-project "RakePlayer"
+project "RkCore"
 kind "SharedLib"
 language "C++"
 cppdialect "C++20"
@@ -15,10 +15,8 @@ pchsource "RkPch.cpp"
 files {
     "./**.h",
     "./**.hpp",
-    "./**.cpp",
-    "./**.txt",
-    "./**.lua",
-    "./**.hint"
+    "./**.c",
+    "./**.cpp"
 }
 
 defines {
@@ -26,18 +24,16 @@ defines {
 }
 
 includedirs {
-    "../RakePlayer",
-    "../RakePlayer/src",
+    "../RkCore",
+    "../RkCore/src",
     "../../RkBase/include",
     "%{IncludeDir.GLEW}",
-    "%{IncludeDir.SDL2}",
     "%{IncludeDir.spdlog}",
     "%{IncludeDir.json}"
 }
 
 libdirs {
-    "%{LibraryDir.GLEW}",
-    "%{LibraryDir.SDL2}"
+    "%{LibraryDir.GLEW}"
 }
 
 links {

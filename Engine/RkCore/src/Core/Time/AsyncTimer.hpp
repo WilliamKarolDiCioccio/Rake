@@ -32,11 +32,11 @@ class AsyncTimer final
     template <typename T> using Duration = duration<T>;
 
   public:
-    __RAKE_PLAYER_API AsyncTimer();
-    __RAKE_PLAYER_API ~AsyncTimer();
+    __RAKE_API AsyncTimer();
+    __RAKE_API ~AsyncTimer();
 
-    __RAKE_PLAYER_API void Start();
-    __RAKE_PLAYER_API void Stop();
+    __RAKE_API void Start();
+    __RAKE_API void Stop();
 
     template <typename Function> void SetCall(Function _function)
     {

@@ -11,7 +11,7 @@ namespace Rake::Core
 #include <consoleapi.h>
 #endif
 
-#include "Core/Tools/Assert.inl.h"
+#include "Core/Tools/Assert.inl.hpp"
 
 static class RkConsoleManager final
 {

@@ -1,7 +1,5 @@
 # CONVENTIONS
 
----
-
 ##### Code formatting
 
 Rake uses code formatting tools. Below is clang-format configuration file (.clang-format).

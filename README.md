@@ -1,7 +1,5 @@
 # RAKE ENGINE
 
----
-
 ##### Introduction
 
 The reason why I decided to hurt myself is that of all the game engines I used, none of them was easy enough to understand for my grandparents, my objective is to create a software capable of giving everyone the capability to create a game without limitation in possibilities (the holy grail of all APIs, abstract without limitating the user).

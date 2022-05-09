@@ -50,12 +50,12 @@ class Window
     virtual void MakeCurrent() = 0;
 
   public:
-    __RAKE_PLAYER_API virtual void MinimizeWindow() = 0;
-    __RAKE_PLAYER_API virtual void MaximizeWindow() = 0;
-    __RAKE_PLAYER_API virtual void FullscreenWindow() = 0;
-    __RAKE_PLAYER_API virtual void ShouldShow(const B8 _shouldShow) = 0;
-    __RAKE_PLAYER_API virtual void SetIcon(const char *&_iconPath) = 0;
-    __RAKE_PLAYER_API virtual void SetTitle(const char *&_title) = 0;
+    __RAKE_API virtual void MinimizeWindow() = 0;
+    __RAKE_API virtual void MaximizeWindow() = 0;
+    __RAKE_API virtual void FullscreenWindow() = 0;
+    __RAKE_API virtual void ShouldShow(const B8 _shouldShow) = 0;
+    __RAKE_API virtual void SetIcon(const char *&_iconPath) = 0;
+    __RAKE_API virtual void SetTitle(const char *&_title) = 0;
 
   public:
     __RK_INLINE U32 GetFlags() const

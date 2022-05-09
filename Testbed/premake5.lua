@@ -3,7 +3,7 @@ kind "WindowedApp"
 language "C++"
 cppdialect "C++20"
 staticruntime "Off"
-links "RakePlayer"
+links "RkCore"
 warnings "Default"
 
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
@@ -11,15 +11,15 @@ objdir("%{wks.location}/obj/" .. IntDir .. "")
 
 files {
     "./**.h",
-    "./**.cpp",
-    "./**.txt",
-    "./**.lua"
+    "./**.hpp",
+    "./**.c",
+    "./**.cpp"
 }
 
 includedirs {
     "../Testbed",
     "../Testbed/src",
-    "../Engine/RakePlayer/src",
+    "../Engine/RkCore/src",
     "../RkBase/include",
     "%{IncludeDir.GLEW}",
     "%{IncludeDir.SDL2}",

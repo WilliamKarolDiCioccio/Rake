@@ -4,13 +4,12 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}\\RkBase\\include",
-                "${workspaceFolder}\\Engine\\RakePlayer\\src\\**",
+                "${workspaceFolder}\\Engine\\RkCore\\src\\**",
                 "${workspaceFolder}\\Testbed\\src\\**",
                 "${workspaceFolder}\\Engine\\thirdparties\\GLEW\\include",
                 "${workspaceFolder}\\Engine\\thirdparties\\mathfu\\include",
                 "${workspaceFolder}\\thirdparties\\json\\single_include",
-                "${workspaceFolder}\\Engine\\thirdparties\\spdlog\\include",
-                "${workspaceFolder}\\packages\\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.5\\build\\native\\include"
+                "${workspaceFolder}\\Engine\\thirdparties\\spdlog\\include"
             ],
             "defines": [
                 "UNICODE",

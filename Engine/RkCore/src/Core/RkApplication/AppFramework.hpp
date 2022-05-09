@@ -46,23 +46,23 @@ using AppState = struct ApplicationState
 class AppFramework
 {
   public:
-    __RAKE_PLAYER_API AppFramework(const char *_appName, ApplicationMode _mode);
-    __RAKE_PLAYER_API virtual ~AppFramework();
+    __RAKE_API AppFramework(const char *_appName, ApplicationMode _mode);
+    __RAKE_API virtual ~AppFramework();
 
-    __RAKE_PLAYER_API void Start();
-    __RAKE_PLAYER_API void Update();
-    __RAKE_PLAYER_API void Stop();
+    __RAKE_API void Start();
+    __RAKE_API void Update();
+    __RAKE_API void Stop();
 
   private:
-    __RAKE_PLAYER_API bool Init();
-    __RAKE_PLAYER_API bool Release();
+    __RAKE_API bool Init();
+    __RAKE_API bool Release();
 
   protected:
-    __RAKE_PLAYER_API virtual void OnStart() = 0;
-    __RAKE_PLAYER_API virtual void OnResume() = 0;
-    __RAKE_PLAYER_API virtual void OnUpdate() = 0;
-    __RAKE_PLAYER_API virtual void OnPause() = 0;
-    __RAKE_PLAYER_API virtual void OnStop() = 0;
+    __RAKE_API virtual void OnStart() = 0;
+    __RAKE_API virtual void OnResume() = 0;
+    __RAKE_API virtual void OnUpdate() = 0;
+    __RAKE_API virtual void OnPause() = 0;
+    __RAKE_API virtual void OnStop() = 0;
 
   private:
     static inline bool m_exists = false;

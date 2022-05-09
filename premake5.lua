@@ -23,14 +23,6 @@ defines {
     "_CRT_SECURE_NO_WARNINGS"
 }
 toolset "msc"
-filter "system:Linux"
-flags {}
-defines {}
-toolset "gcc"
-filter "system:MacOSX"
-flags {}
-defines {}
-toolset "clang"
 
 filter "configurations:Debug"
 symbols "on"
@@ -43,5 +35,7 @@ symbols "Off"
 optimize "Speed"
 defines "RK_RELEASE"
 
-include "./Engine/RakePlayer"
+include "./Engine/RkCore"
 include "./Testbed"
+include "./tests"
+include "./thirdparties/premake"

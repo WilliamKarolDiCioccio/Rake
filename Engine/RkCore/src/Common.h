@@ -31,9 +31,9 @@ using B8 = bool;
 #if defined(COMPILER_MSVC)
 #define VA_ARGS(...) __VA_ARGS__
 #ifdef PLAYER_EXPORT
-#define __RAKE_PLAYER_API __declspec(dllexport)
+#define __RAKE_API __declspec(dllexport)
 #else
-#define __RAKE_PLAYER_API __declspec(dllimport)
+#define __RAKE_API __declspec(dllimport)
 #endif
 #define __RK_INLINE   __forceinline
 #define __RK_NOINLINE __declspec(noinline)
@@ -41,9 +41,9 @@ using B8 = bool;
 #elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #define VA_ARGS(...) ##__VA_ARGS__
 #ifdef PLAYER_EXPORT
-#define __RAKE_PLAYER_API __attribute__((visibility("default")))
+#define __RAKE_API __attribute__((visibility("default")))
 #else
-#define __RAKE_PLAYER_API
+#define __RAKE_API
 #endif
 #define __RK_INLINE   __attribute__((always_inline)) inline
 #define __RK_NOINLINE __attribute__((noinline))

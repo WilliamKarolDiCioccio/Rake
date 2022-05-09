@@ -40,5 +40,3 @@ Engine/thirdparties/mathfu/**
 Engine/thirdparties/SDL2/**
 Engine/thirdparties/spdlog/**
 packages/**
-
-# Others

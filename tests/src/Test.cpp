@@ -1,5 +1,10 @@
 #include <gtest/gtest.h>
 
-TEST(RakeTests, LinkedList)
+TEST(RakeTests, MainTest)
 {
+}
+
+int main()
+{
+    return 0;
 }
