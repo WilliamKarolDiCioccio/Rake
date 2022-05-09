@@ -3,181 +3,138 @@ set(PROJECT_NAME tests)
 ################################################################################
 # Source groups
 ################################################################################
-set(no_group_source_files
-    "CMakeLists.txt"
-)
-source_group("" FILES ${no_group_source_files})
-
 set(Sources
     "src/Test.cpp"
 )
 source_group("Sources" FILES ${Sources})
 
 set(ALL_FILES
-    ${no_group_source_files}
     ${Sources}
 )
 
 ################################################################################
 # Target
 ################################################################################
-
-target_precompile_headers(${PROJECT_NAME} PRIVATE
-    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch.h>"
-)
+add_executable(${PROJECT_NAME} ${ALL_FILES})
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
+set(ROOT_NAMESPACE tests)
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
+)
+################################################################################
+# Target name
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    TARGET_NAME_DEBUG       "tests"
+    TARGET_NAME_DEVELOPMENT "tests"
+    TARGET_NAME_RELEASE     "tests"
+)
+################################################################################
+# Output directory
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../bin/Debug-windows-x86_64/"
+    OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../bin/Development-windows-x86_64/"
+    OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../bin/Release-windows-x86_64/"
 )
 ################################################################################
 # MSVC runtime library
 ################################################################################
 get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-        $<$<CONFIG:Debug>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Development>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Release>:
-            MultiThreadedDLL
-        >
-        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Development>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-        $<$<CONFIG:Debug>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Development>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Release>:
-            MultiThreadedDLL
-        >
-        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Development>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-    )
-endif()
+string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
+    $<$<CONFIG:Debug>:
+        MultiThreadedDebugDLL
+    >
+    $<$<CONFIG:Development>:
+        MultiThreadedDebugDLL
+    >
+    $<$<CONFIG:Release>:
+        MultiThreadedDLL
+    >
+    $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Development>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
 ################################################################################
 # Include directories
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_include_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/."
-    )
-endif()
+target_include_directories(${PROJECT_NAME} PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/.;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../RkBase/include;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../Documenti/Visual Studio 2022/Libraries/googletest/googletest/include"
+)
 
 ################################################################################
 # Compile definitions
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
+    "$<$<CONFIG:Debug>:"
+        "RK_DEBUG"
+    ">"
+    "$<$<CONFIG:Development>:"
+        "RK_DEV"
+    ">"
+    "$<$<CONFIG:Release>:"
+        "RK_RELEASE"
+    ">"
+    "_CRT_SECURE_NO_WARNINGS;"
     "UNICODE;"
     "_UNICODE"
 )
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Development>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "X64;"
-        "_CONSOLE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Development>:"
-            "_DEBUG"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "NDEBUG"
-        ">"
-        "WIN32;"
-        "_CONSOLE"
-    )
-endif()
 
 ################################################################################
 # Compile and link options
 ################################################################################
 if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /Od;
-                /RTC1;
-                ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
-            >
-            $<$<CONFIG:Development>:
-                /Od;
-                /RTC1;
-                ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
-            >
-            $<$<CONFIG:Release>:
-                /Zi
-            >
-            /W3;
-            ${DEFAULT_CXX_EXCEPTION_HANDLING};
-            /Y-
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /Od;
-                /RTC1;
-                ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
-            >
-            $<$<CONFIG:Development>:
-                /Od;
-                /RTC1;
-                ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
-            >
-            $<$<CONFIG:Release>:
-                /Zi
-            >
-            /W3;
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF
-            >
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:
+            /Od;
+            /ZI
+        >
+        $<$<CONFIG:Development>:
+            /Od;
+            /ZI
+        >
+        $<$<CONFIG:Release>:
+            /O2;
+            /Oi;
+            /GF;
+            /Gy;
+            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
+        >
+        /MP;
+        /std:c++latest;
+        /Gm-;
+        /w;
+        ${DEFAULT_CXX_EXCEPTION_HANDLING};
+        /Y-
+    )
+    target_link_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:
             /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF
-            >
+            /INCREMENTAL
+        >
+        $<$<CONFIG:Development>:
             /DEBUG;
-            /SUBSYSTEM:CONSOLE
-        )
-    endif()
+            /INCREMENTAL
+        >
+        $<$<CONFIG:Release>:
+            /OPT:REF;
+            /OPT:ICF;
+            /INCREMENTAL:NO
+        >
+        /SUBSYSTEM:CONSOLE
+    )
 endif()
 
 ################################################################################
 # Dependencies
 ################################################################################
 # Link with other targets.
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    RakePlayer
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    RkCore
 )
 
-use_package(${PROJECT_NAME} Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn 1.8.1.5)

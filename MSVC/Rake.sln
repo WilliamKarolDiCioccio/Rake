@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "Testbed\Testbed.vcxproj", "{70E0D639-DCBF-55D5-E5D7-E0AB5136BC36}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "..\Testbed\Testbed.vcxproj", "{70E0D639-DCBF-55D5-E5D7-E0AB5136BC36}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RkCore", "Engine\RkCore\RkCore.vcxproj", "{EBEADCCE-D78C-07A5-C047-1BF9AC888EF5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RkCore", "..\Engine\RkCore\RkCore.vcxproj", "{EBEADCCE-D78C-07A5-C047-1BF9AC888EF5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "premake", "thirdparties\premake\premake.vcxproj", "{8A6487C2-F643-065E-FF5B-91346BBA6CBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "premake", "..\thirdparties\premake\premake.vcxproj", "{8A6487C2-F643-065E-FF5B-91346BBA6CBF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{78756B10-E489-93C1-AD0B-372119DF8FF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "..\tests\tests.vcxproj", "{78756B10-E489-93C1-AD0B-372119DF8FF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

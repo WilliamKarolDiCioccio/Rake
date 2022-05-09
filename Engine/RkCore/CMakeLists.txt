@@ -1,15 +1,11 @@
-set(PROJECT_NAME RakePlayer)
+set(PROJECT_NAME RkCore)
 
 ################################################################################
 # Source groups
 ################################################################################
 set(no_group_source_files
-    "CMakeLists.txt"
-    "premake5.lua"
     "RkPch.cpp"
-    "RkPch.h"
-    "src/Core/Pools/MemoryPool.hpp"
-    "src/Core/Pools/ThreadPool.hpp"
+    "RkPch.hpp"
 )
 source_group("" FILES ${no_group_source_files})
 
@@ -32,16 +28,23 @@ set(src__Core
 source_group("src\\Core" FILES ${src__Core})
 
 set(src__Core__Error
+    "src/Core/Error/RkException.cpp"
     "src/Core/Error/RkException.hpp"
-    "src/Core/Error/RkSignal.h"
+    "src/Core/Error/RkSignal.hpp"
 )
 source_group("src\\Core\\Error" FILES ${src__Core__Error})
 
 set(src__Core__Event
+    "src/Core/Event/EventBus.inl.hpp"
     "src/Core/Event/RkEvent.inl.hpp"
-    "src/Core/Event/RkEventBus.inl.hpp"
 )
 source_group("src\\Core\\Event" FILES ${src__Core__Event})
+
+set(src__Core__Pools
+    "src/Core/Pools/MemoryPool.hpp"
+    "src/Core/Pools/ThreadPool.hpp"
+)
+source_group("src\\Core\\Pools" FILES ${src__Core__Pools})
 
 set(src__Core__RkApplication
     "src/Core/RkApplication/AppFramework.cpp"
@@ -64,7 +67,7 @@ set(src__Core__Time
 source_group("src\\Core\\Time" FILES ${src__Core__Time})
 
 set(src__Core__Tools
-    "src/Core/Tools/Assert.inl.h"
+    "src/Core/Tools/Assert.inl.hpp"
     "src/Core/Tools/Console.inl.hpp"
     "src/Core/Tools/Log.inl.hpp"
 )
@@ -108,6 +111,7 @@ set(ALL_FILES
     ${src__Core}
     ${src__Core__Error}
     ${src__Core__Event}
+    ${src__Core__Pools}
     ${src__Core__RkApplication}
     ${src__Core__RkApplication__Layer__Load}
     ${src__Core__Time}
@@ -124,11 +128,11 @@ set(ALL_FILES
 add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE
-    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/RkPch.h>"
+    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/RkPch.hpp>"
 )
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
-set(ROOT_NAMESPACE RakePlayer)
+set(ROOT_NAMESPACE RkCore)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
@@ -136,269 +140,133 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 # Target name
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG       "RakePlayer"
-        TARGET_NAME_DEVELOPMENT "RakePlayer"
-        TARGET_NAME_RELEASE     "RakePlayer"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG       "RakePlayer"
-        TARGET_NAME_DEVELOPMENT "RakePlayer"
-        TARGET_NAME_RELEASE     "RakePlayer"
-    )
-endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    TARGET_NAME_DEBUG       "RkCore"
+    TARGET_NAME_DEVELOPMENT "RkCore"
+    TARGET_NAME_RELEASE     "RkCore"
+)
 ################################################################################
 # Output directory
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64/"
-        OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64/"
-        OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Release-windows-x86_64/"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64/"
-        OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64/"
-        OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Release-windows-x86_64/"
-    )
-endif()
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64"
-        ARCHIVE_OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64"
-        ARCHIVE_OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Release-windows-x86_64"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64"
-        ARCHIVE_OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64"
-        ARCHIVE_OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Release-windows-x86_64"
-    )
-endif()
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_NAME_DEBUG       "RakePlayer"
-        ARCHIVE_OUTPUT_NAME_DEVELOPMENT "RakePlayer"
-        ARCHIVE_OUTPUT_NAME_RELEASE     "RakePlayer"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        ARCHIVE_OUTPUT_NAME_DEBUG       "RakePlayer"
-        ARCHIVE_OUTPUT_NAME_DEVELOPMENT "RakePlayer"
-        ARCHIVE_OUTPUT_NAME_RELEASE     "RakePlayer"
-    )
-endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64/"
+    OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64/"
+    OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Release-windows-x86_64/"
+)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64"
+    ARCHIVE_OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64"
+    ARCHIVE_OUTPUT_DIRECTORY_RELEASE     "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Release-windows-x86_64"
+)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_NAME_DEBUG       "RkCore"
+    ARCHIVE_OUTPUT_NAME_DEVELOPMENT "RkCore"
+    ARCHIVE_OUTPUT_NAME_RELEASE     "RkCore"
+)
 ################################################################################
 # MSVC runtime library
 ################################################################################
 get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-        $<$<CONFIG:Debug>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Development>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Release>:
-            MultiThreadedDLL
-        >
-        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Development>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
-        $<$<CONFIG:Debug>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Development>:
-            MultiThreadedDebugDLL
-        >
-        $<$<CONFIG:Release>:
-            MultiThreadedDLL
-        >
-        $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Development>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
-    )
-endif()
+string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
+    $<$<CONFIG:Debug>:
+        MultiThreadedDebugDLL
+    >
+    $<$<CONFIG:Development>:
+        MultiThreadedDebugDLL
+    >
+    $<$<CONFIG:Release>:
+        MultiThreadedDLL
+    >
+    $<$<NOT:$<OR:$<CONFIG:Debug>,$<CONFIG:Development>,$<CONFIG:Release>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
 ################################################################################
 # Include directories
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_include_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../RkBase/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/GLEW/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/SDL2/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/spdlog/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparties/json/single_include"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_include_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../RkBase/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/GLEW/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/SDL2/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/spdlog/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparties/json/single_include"
-    )
-endif()
+target_include_directories(${PROJECT_NAME} PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/.;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../RkBase/include;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/GLEW/include;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/spdlog/include;"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparties/json/single_include"
+)
 
 ################################################################################
 # Compile definitions
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "RK_DEBUG"
-        ">"
-        "$<$<CONFIG:Development>:"
-            "RK_DEV"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "RK_RELEASE"
-        ">"
-        "_CRT_SECURE_NO_WARNINGS;"
-        "PLAYER_EXPORT;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "$<$<CONFIG:Debug>:"
-            "RK_DEBUG"
-        ">"
-        "$<$<CONFIG:Development>:"
-            "RK_DEV"
-        ">"
-        "$<$<CONFIG:Release>:"
-            "RK_RELEASE"
-        ">"
-        "_CRT_SECURE_NO_WARNINGS;"
-        "PLAYER_EXPORT;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    "$<$<CONFIG:Debug>:"
+        "RK_DEBUG"
+    ">"
+    "$<$<CONFIG:Development>:"
+        "RK_DEV"
+    ">"
+    "$<$<CONFIG:Release>:"
+        "RK_RELEASE"
+    ">"
+    "_CRT_SECURE_NO_WARNINGS;"
+    "PLAYER_EXPORT;"
+    "UNICODE;"
+    "_UNICODE"
+)
 
 ################################################################################
 # Compile and link options
 ################################################################################
 if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /Od;
-                /ZI
-            >
-            $<$<CONFIG:Development>:
-                /Od;
-                /ZI
-            >
-            $<$<CONFIG:Release>:
-                /O2;
-                /Oi;
-                /GF;
-                /Gy;
-                ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
-            >
-            /MP;
-            /std:c++latest;
-            /Gm-;
-            /W3;
-            /fp:fast;
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /Od;
-                /ZI
-            >
-            $<$<CONFIG:Development>:
-                /Od;
-                /ZI
-            >
-            $<$<CONFIG:Release>:
-                /O2;
-                /Oi;
-                /GF;
-                /Gy;
-                ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
-            >
-            /MP;
-            /std:c++latest;
-            /Gm-;
-            /W3;
-            /fp:fast;
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /DEBUG;
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Development>:
-                /DEBUG;
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /SUBSYSTEM:WINDOWS
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /DEBUG;
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Development>:
-                /DEBUG;
-                /INCREMENTAL
-            >
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
-            >
-            /SUBSYSTEM:WINDOWS
-        )
-    endif()
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:
+            /Od;
+            /ZI
+        >
+        $<$<CONFIG:Development>:
+            /Od;
+            /ZI
+        >
+        $<$<CONFIG:Release>:
+            /O2;
+            /Oi;
+            /GF;
+            /Gy;
+            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
+        >
+        /MP;
+        /std:c++latest;
+        /Gm-;
+        /W3;
+        /fp:fast;
+        ${DEFAULT_CXX_EXCEPTION_HANDLING}
+    )
+    target_link_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:
+            /DEBUG;
+            /INCREMENTAL
+        >
+        $<$<CONFIG:Development>:
+            /DEBUG;
+            /INCREMENTAL
+        >
+        $<$<CONFIG:Release>:
+            /OPT:REF;
+            /OPT:ICF;
+            /INCREMENTAL:NO
+        >
+        /SUBSYSTEM:WINDOWS
+    )
 endif()
 
 ################################################################################
 # Dependencies
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "../thirdparties/GLEW/lib/Release/x64/glew32"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "../thirdparties/GLEW/lib/Release/x64/glew32"
-    )
-endif()
+set(ADDITIONAL_LIBRARY_DEPENDENCIES
+    "..\thirdparties\GLEW\lib\Release\x64\glew32;"
+    ""
+)
 target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/GLEW/lib/Release/x64;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/SDL2/lib/x64"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_link_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/GLEW/lib/Release/x64;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/SDL2/lib/x64"
-    )
-endif()
+target_link_directories(${PROJECT_NAME} PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/../thirdparties/GLEW/lib/Release/x64"
+)
 
