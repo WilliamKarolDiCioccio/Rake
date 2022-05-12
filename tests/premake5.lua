@@ -3,7 +3,7 @@ kind "ConsoleApp"
 language "C++"
 cppdialect "C++20"
 staticruntime "Off"
-links "RkCore"
+links "RkPlayer"
 warnings "Off"
 
 targetdir("%{wks.location}/bin/" .. OutDir .. "")

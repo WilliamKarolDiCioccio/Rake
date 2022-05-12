@@ -24,8 +24,8 @@ defines {
 }
 
 includedirs {
-    "../RkCore",
-    "../RkCore/src",
+    "../RkPlayer",
+    "../RkPlayer/src",
     "../../RkBase/include",
     "%{IncludeDir.GLEW}",
     "%{IncludeDir.spdlog}",

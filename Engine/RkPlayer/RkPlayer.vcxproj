@@ -79,7 +79,7 @@
       <PrecompiledHeaderFile>RkPch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\RkCore;..\RkCore\src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -102,7 +102,7 @@
       <PrecompiledHeaderFile>RkPch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\RkCore;..\RkCore\src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -125,7 +125,7 @@
       <PrecompiledHeaderFile>RkPch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\RkCore;..\RkCore\src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

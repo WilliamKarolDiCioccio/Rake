@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}\\RkBase\\include",
-                "${workspaceFolder}\\Engine\\RkCore\\src\\**",
+                "${workspaceFolder}\\Engine\\RkPlayer\\src\\**",
                 "${workspaceFolder}\\Testbed\\src\\**",
                 "${workspaceFolder}\\Engine\\thirdparties\\GLEW\\include",
                 "${workspaceFolder}\\Engine\\thirdparties\\mathfu\\include",

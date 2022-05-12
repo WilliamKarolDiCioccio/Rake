@@ -33,10 +33,4 @@ obj/
 .idea/**/contentModel.xml
 
 # Thirdparties
-thirdparties/premake/premake5.exe
-thirdparties/json/**
-Engine/thirdparties/GLEW/**
-Engine/thirdparties/mathfu/**
-Engine/thirdparties/SDL2/**
-Engine/thirdparties/spdlog/**
 packages/**
