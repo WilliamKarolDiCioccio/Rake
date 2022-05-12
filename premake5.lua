@@ -35,7 +35,7 @@ symbols "Off"
 optimize "Speed"
 defines "RK_RELEASE"
 
-include "./Engine/RkCore"
+include "./Engine/RkPlayer"
 include "./Testbed"
 include "./tests"
 include "./thirdparties/premake"

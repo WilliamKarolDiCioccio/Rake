@@ -16,11 +16,10 @@ extern Rake::Core::AppFramework *RkCreateApplication(const char *_appName, Rake:
 
 RK_GUI_MAIN()
 {
-    std::vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(std::make_shared<spdlog::sinks::rotating_file_sink_mt>(DEFAULT_LOG_FILE_NAME, MEBIBYTES(1), LOG_FILES_PER_SESSION, false));
-    auto logger = Rake::Core::RkLogManager::Init(sinks);
+    Rake::Core::LogManager logManager;
+    logManager.Init();
 
-    // ATTACH_CONSOLE_PROFILE;
+    ATTACH_CONSOLE_PROFILE;
 
     try
     {
@@ -42,9 +41,9 @@ RK_GUI_MAIN()
     {
     }
 
-    // DETACH_CONSOLE_PROFILE;
+    DETACH_CONSOLE_PROFILE;
 
-    Rake::Core::RkLogManager::Release();
+    logManager.Release();
 
     return EXIT_SUCCESS;
 }

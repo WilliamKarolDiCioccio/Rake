@@ -14,4 +14,19 @@
 
 namespace Rake::Core
 {
-}
+
+class ThreadPool final
+{
+  private:
+  public:
+    ThreadPool()
+    {
+    }
+    ~ThreadPool()
+    {
+    }
+
+  private:
+};
+
+} // namespace Rake::Core

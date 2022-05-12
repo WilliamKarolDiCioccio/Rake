@@ -26,6 +26,9 @@ static class RkConsoleManager final
             created = AllocConsole();
         if (!attached)
             attached = AttachConsole(ATTACH_PARENT_PROCESS);
+
+        SetConsoleTitleW(L"RkDebugConsole");
+        CreateConsoleScreenBuffer(GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 #endif
     }
 

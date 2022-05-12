@@ -69,3 +69,7 @@ using B8 = bool;
 #define EXCLUSIVE_CLAMP(x, min, max) (x < min) ? min : (x > max) ? max : x
 
 #define FORWARD(Args, args) std::forward<Args>(args)...
+
+#define CAN_BE_INHERITED
+#define MUST_NOT_BE_INHERITED
+#define MUST_BE_INHERITED

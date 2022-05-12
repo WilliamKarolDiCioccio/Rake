@@ -27,18 +27,20 @@ DISABLE_ALL_WARNINGS
 namespace Rake::Core
 {
 
-static class RkLogManager final
+__RAKE_API static class LogManager final
 {
   private:
     std::vector<spdlog::sink_ptr> m_sinks;
 
   public:
-    static inline std::shared_ptr<spdlog::logger> Init(std::vector<spdlog::sink_ptr> _sinks) noexcept
+    inline void Init() noexcept
     {
         try
         {
             auto fileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(DEFAULT_LOG_FILE_NAME, MEBIBYTES(1), LOG_FILES_PER_SESSION, false);
             fileSink->set_pattern("[%l][%H:%M:%S.%e] %v");
+
+            m_sinks.insert(m_sinks.begin(), fileSink);
 
             auto logger = std::make_shared<spdlog::logger>(DEFAULT_LOGGER_NAME, fileSink);
             spdlog::set_default_logger(logger);
@@ -46,20 +48,24 @@ static class RkLogManager final
             logger->flush_on(spdlog::level::trace);
 
             logger->trace(__DATE__);
-
-            return logger;
         }
         catch (const spdlog::spdlog_ex &e)
         {
-            return nullptr;
-
             RK_SIGABRT;
         }
     }
 
-    static inline void Release() noexcept
+    inline void Release() noexcept
     {
         spdlog::shutdown();
+    }
+
+    inline void AddLogger() noexcept
+    {
+    }
+
+    inline void RemoveLogger() noexcept
+    {
     }
 };
 

@@ -1,4 +1,4 @@
-project "RkCore"
+project "RkPlayer"
 kind "SharedLib"
 language "C++"
 cppdialect "C++20"
@@ -37,6 +37,5 @@ libdirs {
 }
 
 links {
-    "%{Library.GLEW}",
-    "%{Library.SDL2}"
+    "%{Library.GLEW}"
 }
