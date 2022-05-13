@@ -182,6 +182,8 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Core\Error\RkException.cpp" />
+    <ClCompile Include="src\Core\Pools\MemoryPool.cpp" />
+    <ClCompile Include="src\Core\Pools\ThreadPool.cpp" />
     <ClCompile Include="src\Core\RkApplication\AppFramework.cpp" />
     <ClCompile Include="src\Core\RkApplication\Layer\Load\ConfigLoader.cpp" />
     <ClCompile Include="src\Core\Time\AsyncTimer.cpp" />

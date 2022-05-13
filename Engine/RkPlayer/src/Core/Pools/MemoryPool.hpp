@@ -17,7 +17,7 @@ namespace Rake::Core
 template <typename T> class MemoryPool
 {
   public:
-    virtual const char *m_mem[MEBIBYTES(4)];
+    const char *m_mem;
 
   public:
     MemoryPool()

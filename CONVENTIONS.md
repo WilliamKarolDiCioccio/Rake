@@ -25,7 +25,3 @@ Functions are written in Pascal's Notation.
 Member variables prefix "m_" (Ex. "m_isRunning").
 Global variables prefix "g_" (Ex. "g_applicationName").
 No prefix for stack or heap allocated variables in functions.
-
----
-
-

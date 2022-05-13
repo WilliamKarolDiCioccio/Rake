@@ -85,6 +85,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
-add_subdirectory(Engine/RkCore)
-add_subdirectory(Testbed)
-add_subdirectory(tests)
+add_subdirectory(../Engine/RkPlayer ${CMAKE_BINARY_DIR}/RkPlayer)
+add_subdirectory(../Testbed ${CMAKE_BINARY_DIR}/Testbed)
+add_subdirectory(../tests ${CMAKE_BINARY_DIR}/tests)
+add_subdirectory(../thirdparties/premake ${CMAKE_BINARY_DIR}/premake)

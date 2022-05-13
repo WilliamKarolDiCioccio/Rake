@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <RkBase/internal/Config.h>
 
 namespace Rake
@@ -25,6 +26,14 @@ using F32 = float;
 using F64 = double;
 using B32 = int;
 using B8 = bool;
+
+namespace Scientific
+{
+
+using UI32 = std::uint_fast32_t;
+using UI64 = std::uint_fast64_t;
+
+} // namespace Scientific
 
 } // namespace Rake
 
