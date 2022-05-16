@@ -18,18 +18,21 @@ typedef struct CommandLineArguments
 
 } CmdArgs;
 
-inline CmdArgs RetriveCmdArgs()
+static CmdArgs RetriveCmdArgs()
 {
-    CmdArgs temp;
-    return temp;
+#if defined(PLATFORM_WINDOWS)
+#define SINGLE_INSTANCE
+#elif defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
+#endif
 }
-
-#define RETRIVE_ARGS RetriveArgs();
 
 } // namespace RkBase
 
+#define RETRIVE_ARGS RetriveArgs();
+
 #if defined(PLATFORM_WINDOWS)
 #define RK_GUI_MAIN(...) int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+#define SINGLE_INSTANCE
 #elif defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS)
 #define RK_GUI_MAIN(...) main()
 #endif

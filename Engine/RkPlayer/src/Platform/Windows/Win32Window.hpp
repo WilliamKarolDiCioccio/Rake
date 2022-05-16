@@ -8,13 +8,15 @@
 
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
 #if defined(PLATFORM_WINDOWS)
 
 #include "GUI/Desktop/Window.hpp"
 
 namespace Rake::GUI
+{
+namespace Windows
 {
 
 class Win32Window final : public Window
@@ -39,6 +41,7 @@ class Win32Window final : public Window
     void *m_handle = nullptr;
 };
 
+} // namespace Windows
 } // namespace Rake::GUI
 
 #endif

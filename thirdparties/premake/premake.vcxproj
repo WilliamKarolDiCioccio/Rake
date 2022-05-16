@@ -67,6 +67,7 @@
   <ItemGroup>
     <None Include="..\..\Engine\RkPlayer\premake5.lua" />
     <None Include="..\..\Testbed\premake5.lua" />
+    <None Include="..\..\dependencies.lua" />
     <None Include="..\..\premake5.lua" />
     <None Include="..\..\tests\premake5.lua" />
     <None Include="premake5.lua" />

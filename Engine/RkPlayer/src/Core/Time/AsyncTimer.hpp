@@ -10,7 +10,9 @@
 
 #include <thread>
 
-#include "Common.h"
+#include "Common.def.h"
+
+#include "Core/Pools/ThreadPool.hpp"
 
 namespace Rake::Core
 {
@@ -28,6 +30,8 @@ typedef struct TimerState
 class AsyncTimer final
 {
   private:
+    TimerState m_state;
+    std::thread m_thread;
     using TimePoint = system_clock::time_point;
     template <typename T> using Duration = duration<T>;
 
@@ -38,15 +42,8 @@ class AsyncTimer final
     __RAKE_API void Start();
     __RAKE_API void Stop();
 
-    template <typename Function> void SetCall(Function _function)
-    {
-    }
-
-  private:
-    TimerState m_state;
-
-  private:
-    std::thread m_thread;
+    __RAKE_API void SetTimeout(auto _function, F64 _delay);
+    __RAKE_API void SetInterval(auto _function, F64 _interval);
 };
 
 } // namespace Rake::Core

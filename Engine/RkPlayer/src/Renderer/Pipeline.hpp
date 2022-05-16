@@ -1,8 +1,10 @@
-#include "RkPch.hpp"
-
-#include "Renderer/Renderer.hpp"
+#pragma once
 
 namespace Rake::Renderer
 {
+
+class Pipeline final
+{
+};
 
 } // namespace Rake::Renderer

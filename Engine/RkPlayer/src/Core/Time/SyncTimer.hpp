@@ -8,10 +8,11 @@
 
 #pragma once
 
-#include <chrono>
-#include <string>
+#undef GetCurrentTime
 
-#include "Common.h"
+#include <chrono>
+
+#include "Common.def.h"
 
 namespace Rake::Core
 {
@@ -19,50 +20,58 @@ namespace Rake::Core
 using namespace std::chrono;
 using namespace std::chrono_literals;
 
+typedef struct TimerData
+{
+    const time_point<high_resolution_clock> startTime = high_resolution_clock::now();
+    time_point<system_clock> currentTime;
+    duration<F32> elapsedTime;
+    duration<F32> deltaTime;
+    F32 timeScale;
+} TimerData, timer_data;
+
 class SyncTimer final
 {
   private:
-    using TimePoint = system_clock::time_point;
-    template <typename T> using Duration = duration<T>;
-
-  private:
-    TimePoint m_startTime;
-    TimePoint m_currentTime;
-    Duration<F32> m_elapsedTime;
-    Duration<F32> m_deltaTime;
-    F32 m_timeScale;
-
-  private:
-    void Reset();
-
-  private:
+    TimerData m_data;
     static SyncTimer *m_instance;
+    B8 m_isTicking;
 
   public:
-    SyncTimer();
+    SyncTimer(F32 _timescale);
     ~SyncTimer(){};
 
   public:
-    void Tick();
+    __RAKE_API void Tick();
+    __RAKE_API void Start();
+    __RAKE_API void Pause();
+    __RAKE_API void Resume();
+    __RAKE_API void Stop();
+    __RAKE_API void Reset();
 
   public:
-    inline F32 *GetTimeScale()
+    __RAKE_API long long GetStartTime()
     {
-        return &m_timeScale;
+        return m_data.startTime.time_since_epoch().count();
     }
 
-    inline long long GetStartTime()
+    __RAKE_API long long GetCurrentTime()
     {
-        auto tmp = m_startTime.time_since_epoch();
-        auto time = tmp.count();
-        return time;
+        return m_data.currentTime.time_since_epoch().count();
     }
 
-    inline long long RkGetCurrentTime()
+    __RAKE_API F32 GetElapsedTime()
     {
-        auto tmp = m_currentTime.time_since_epoch();
-        auto time = tmp.count();
-        return time;
+        return m_data.elapsedTime.count();
+    }
+
+    __RAKE_API F32 GetDeltaTime()
+    {
+        return m_data.deltaTime.count();
+    }
+
+    __RAKE_API F32 GetTimeScale()
+    {
+        return m_data.timeScale;
     }
 };
 

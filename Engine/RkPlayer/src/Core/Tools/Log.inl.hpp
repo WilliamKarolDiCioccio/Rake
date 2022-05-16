@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Common.h"
-#include "Core/EngineConfig.h"
+#include "Common.def.h"
+#include "Core/EngineConfig.def.h"
 
 DISABLE_ALL_WARNINGS
 
@@ -22,7 +22,7 @@ DISABLE_ALL_WARNINGS
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 
-#include "Core/Error/RkSignal.hpp"
+#include "Core/Error/RkSignal.inl.hpp"
 
 namespace Rake::Core
 {

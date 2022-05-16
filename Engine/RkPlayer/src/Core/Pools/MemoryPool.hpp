@@ -10,7 +10,7 @@
 
 #include <memory>
 
-#include "Common.h"
+#include "Common.def.h"
 
 namespace Rake::Core
 {
@@ -20,29 +20,17 @@ template <typename T> class MemoryPool
     const char *m_mem;
 
   public:
-    MemoryPool()
-    {
-    }
-    MemoryPool(const MemoryPool &_oldObj)
-    {
-    }
-    ~MemoryPool()
-    {
-    }
+    MemoryPool();
+    ~MemoryPool();
 
   private:
-    void *operator new(std::size_t _n)
-    {
-    }
-    void operator delete(void *_ptr, size_t &size)
-    {
-    }
+    void *operator new(std::size_t _n);
+    void operator delete(void *_ptr, size_t &size);
 
   public:
-    void Allocate()
-    {
-        void *mem;
-    }
+    void ResetPool();
+    void Malloc();
+    void Free();
 };
 
 } // namespace Rake::Core

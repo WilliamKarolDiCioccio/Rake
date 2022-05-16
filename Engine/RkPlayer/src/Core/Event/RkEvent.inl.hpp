@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
 namespace Rake::Core
 {

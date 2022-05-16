@@ -12,7 +12,7 @@
 #include <sstream>
 #include <exception>
 
-#include "Common.h"
+#include "Common.def.h"
 
 namespace Rake::Core
 {
@@ -49,7 +49,7 @@ class RkException : public std::exception
     RkException(const char *_msg, const char *_file, U32 _line) noexcept : m_msg(_msg), m_file(_file), m_line(_line){};
 
     const char *what() const noexcept;
-    const char *where() const noexcept;
+    const char *where() const;
 };
 
 } // namespace Rake::Core

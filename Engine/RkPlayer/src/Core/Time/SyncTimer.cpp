@@ -7,32 +7,48 @@ namespace Rake::Core
 
 SyncTimer *SyncTimer::m_instance = nullptr;
 
-SyncTimer::SyncTimer()
+SyncTimer::SyncTimer(F32 _timescale)
 {
-
-    if (!SyncTimer::m_instance)
+    if (SyncTimer::m_instance == nullptr)
     {
-        this->Reset();
-
-        this->m_elapsedTime = Duration<F32>(0.0f);
-        this->m_deltaTime = Duration<F32>(0.0f);
-
-        SyncTimer::m_instance = this;
+        SyncTimer::m_instance == this;
     }
     else
-    {
-        throw std::runtime_error("Attemp to create a second sync timer");
-    }
-}
-
-void SyncTimer::Reset()
-{
-    this->m_startTime = system_clock::now();
+        throw std::runtime_error("Attemp to create a sencond SyncTimer instance");
 }
 
 void SyncTimer::Tick()
 {
-    this->m_currentTime = system_clock::now();
+    if (m_isTicking)
+    {
+        m_data.currentTime = std::chrono::system_clock::now();
+
+        if (m_data.deltaTime.count() >= 1.0f)
+            this->Reset();
+    }
+}
+
+void SyncTimer::Start()
+{
+    this->m_isTicking = true;
+}
+
+void SyncTimer::Pause()
+{
+    this->m_isTicking = false;
+}
+
+void SyncTimer::Resume()
+{
+    this->m_isTicking = true;
+}
+
+void SyncTimer::Stop()
+{
+}
+
+void SyncTimer::Reset()
+{
 }
 
 } // namespace Rake::Core

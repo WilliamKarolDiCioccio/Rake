@@ -11,7 +11,7 @@
 #include <signal.h>
 #include <process.h>
 
-#include "Common.h"
+#include "Common.def.h"
 
 namespace Rake::Core
 {

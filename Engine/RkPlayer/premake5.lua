@@ -4,7 +4,7 @@ language "C++"
 cppdialect "C++20"
 staticruntime "Off"
 floatingpoint "Fast"
-warnings "Default"
+warnings "High"
 
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
 objdir("%{wks.location}/obj/" .. IntDir .. "")
@@ -27,15 +27,18 @@ includedirs {
     "../RkPlayer",
     "../RkPlayer/src",
     "../../RkBase/include",
-    "%{IncludeDir.GLEW}",
+    -- "%{IncludeDir.GLEW}",
     "%{IncludeDir.spdlog}",
-    "%{IncludeDir.json}"
+    "%{IncludeDir.json}",
+    "%{IncludeDir.VulkanSDK}"
 }
 
 libdirs {
-    "%{LibraryDir.GLEW}"
+    -- "%{LibraryDir.GLEW}"
+    "%{LibraryDir.VulkanSDK}"
 }
 
 links {
-    "%{Library.GLEW}"
+    -- "%{Library.GLEW}"
+    "%{Library.Vulkan}"
 }

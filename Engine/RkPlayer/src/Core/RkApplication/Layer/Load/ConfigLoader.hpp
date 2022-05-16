@@ -10,7 +10,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "Common.h"
+#include "Common.def.h"
 
 namespace Rake::Core
 {

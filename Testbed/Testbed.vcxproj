@@ -76,9 +76,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\Engine\RkPlayer\src;..\RkBase\include;..\Engine\thirdparties\GLEW\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\Engine\RkPlayer\src;..\RkBase\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -94,9 +94,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\Engine\RkPlayer\src;..\RkBase\include;..\Engine\thirdparties\GLEW\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\Engine\RkPlayer\src;..\RkBase\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -112,9 +112,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\Engine\RkPlayer\src;..\RkBase\include;..\Engine\thirdparties\GLEW\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\Engine\RkPlayer\src;..\RkBase\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

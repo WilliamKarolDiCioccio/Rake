@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
 #define RK_TRUE  (1 == 1)
 #define RK_FALSE (!TRUE)

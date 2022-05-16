@@ -5,11 +5,13 @@
 namespace Rake::Core
 {
 
+AppFramework *AppFramework::m_appInstance = nullptr;
+
 AppFramework::AppFramework(const char *_appName, ApplicationMode _mode)
 {
-    if (!AppFramework::m_exists)
+    if (AppFramework::m_appInstance == nullptr)
     {
-        AppFramework::m_exists = true;
+        AppFramework::m_appInstance = this;
 
         m_appInstance = this;
         RK_ASSERT(m_appInstance);
@@ -26,19 +28,16 @@ AppFramework::AppFramework(const char *_appName, ApplicationMode _mode)
         else
         {
             throw RkException("Invalid application command line arguments", __FILE__, __LINE__);
-            RK_SIGABRT;
         }
 
         if (!this->Init())
         {
             throw std::runtime_error("Unable to acquire resources");
-            RK_SIGABRT;
         }
     }
     else
     {
         throw std::runtime_error("Attempt to create a second application");
-        RK_SIGABRT;
     }
 }
 
@@ -50,22 +49,11 @@ AppFramework::~AppFramework()
     RK_ASSERT(!m_appInstance);
 }
 
-void AppFramework::Start()
-{
-    this->OnStart();
-
-#if defined(DESKTOP_DEVICE) == 1
-    m_window->ShouldShow(true);
-#endif
-
-    m_state.isRunning = true;
-}
-
 void AppFramework::Update()
 {
-    while (m_state.isRunning)
+    while (isRunning)
     {
-        if (m_state.isPaused)
+        if (isPaused)
         {
             this->OnPause();
         }
@@ -73,10 +61,7 @@ void AppFramework::Update()
         {
             this->OnUpdate();
 
-            std::cout << "vavevfauiefi";
-
-            m_syncTimer->Tick();
-
+            m_timer->Tick();
 #if defined(DESKTOP_DEVICE) == 1
             m_window->Refresh();
 #elif defined(MOBILE_DEVICE) == 1
@@ -88,39 +73,62 @@ void AppFramework::Update()
     }
 }
 
+void AppFramework::Start()
+{
+    this->OnStart();
+
+    m_timer->Start();
+#if defined(DESKTOP_DEVICE) == 1
+    m_window->ShouldShow(true);
+#endif
+
+    isRunning = true;
+}
+
+void AppFramework::Pause()
+{
+    isPaused = true;
+}
+
 void AppFramework::Stop()
 {
     this->OnStop();
 
+    m_timer->Stop();
 #if defined(DESKTOP_DEVICE) == 1
     m_window->ShouldShow(false);
 #endif
 
-    m_state.isRunning = false;
+    isRunning = false;
 }
 
 bool AppFramework::Init()
 {
-    m_syncTimer = new SyncTimer();
+    m_timer = new SyncTimer(1.0f);
 #if defined(DESKTOP_DEVICE) == 1
     m_window = GUI::Window::CreateNativeWindow(1280, 720, 480, 480, "Rake", IS_WINDOWED);
-    m_window->MakeCurrent();
 #elif defined(MOBILE_DEVICE) == 1
     m_surface = GUI::Surface::CreateNativeSurface();
-    m_surface->MakeCurrent();
 #endif
 
     return true;
 }
 
-bool AppFramework::Release()
+void AppFramework::Release()
 {
-    delete (m_syncTimer);
-    RK_ASSERT(m_syncTimer);
+    delete (m_timer);
+#if defined(DESKTOP_DEVICE) == 1
     delete (m_window);
-    RK_ASSERT(m_window);
+#elif defined(MOBILE_DEVICE) == 1
+    delete (m_surface);
+#endif
 
-    return true;
+    RK_ASSERT(!m_timer);
+#if defined(DESKTOP_DEVICE) == 1
+    RK_ASSERT(!m_window);
+#elif defined(MOBILE_DEVICE) == 1
+    RK_ASSERT(!m_surface);
+#endif
 }
 
 } // namespace Rake::Core

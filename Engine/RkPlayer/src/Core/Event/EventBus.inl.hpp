@@ -11,7 +11,7 @@
 #include <stack>
 #include <queue>
 
-#include "Common.h"
+#include "Common.def.h"
 
 #include "Core/Event/RkEvent.inl.hpp"
 

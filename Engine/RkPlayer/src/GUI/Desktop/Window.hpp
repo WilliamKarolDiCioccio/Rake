@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Common.h"
-#include "Core/EngineConfig.h"
+#include "Common.def.h"
+#include "Core/EngineConfig.def.h"
 
 #if defined(DESKTOP_DEVICE) == RK_TRUE
 

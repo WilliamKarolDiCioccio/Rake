@@ -6,6 +6,8 @@
 
 namespace Rake::GUI
 {
+namespace Windows
+{
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
 {
@@ -98,6 +100,7 @@ void Win32Window::MakeCurrent()
 {
 }
 
+} // namespace Windows
 } // namespace Rake::GUI
 
 #endif

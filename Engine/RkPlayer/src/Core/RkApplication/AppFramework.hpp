@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
 #include "Core/Error/RkException.hpp"
 #include "Core/Event/RkEvent.inl.hpp"
@@ -30,32 +30,26 @@ enum class ApplicationMode : U32
     IsEditorMode = 2
 };
 
-using AppCmdArgs = struct ApplicationCmdArgs
+class AppFramework
 {
-    const char *appName;
-    ApplicationMode mode;
-};
-
-using AppState = struct ApplicationState
-{
+  private:
+    static AppFramework *m_appInstance;
     B8 isRunning = true;
     B8 isPaused = false;
     B8 isBackground = false;
-};
 
-class AppFramework
-{
   public:
     __RAKE_API AppFramework(const char *_appName, ApplicationMode _mode);
     __RAKE_API virtual ~AppFramework();
 
-    __RAKE_API void Start();
     __RAKE_API void Update();
+    __RAKE_API void Start();
+    __RAKE_API void Pause();
     __RAKE_API void Stop();
 
   private:
     __RAKE_API bool Init();
-    __RAKE_API bool Release();
+    __RAKE_API void Release();
 
   protected:
     __RAKE_API virtual void OnStart() = 0;
@@ -65,12 +59,7 @@ class AppFramework
     __RAKE_API virtual void OnStop() = 0;
 
   private:
-    static inline bool m_exists = false;
-    AppFramework *m_appInstance = nullptr;
-    ApplicationState m_state;
-
-  private:
-    SyncTimer *m_syncTimer;
+    SyncTimer *m_timer;
 #if defined(DESKTOP_DEVICE) == 1
     GUI::Window *m_window;
 #elif defined(MOBILE_DEVICE) == 1

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
 #if defined(PLATFORM_WINDOWS)
 #ifndef NOMINMAX
@@ -52,7 +52,6 @@
 #include "Core/Tools/Log.inl.hpp"
 #include "Core/Tools/Assert.inl.hpp"
 #include "Core/Error/RkException.hpp"
-#include "Core/Error/RkSignal.hpp"
 #include "Core/Utils/RkString.hpp"
 #include "Core/Event/RkEvent.inl.hpp"
 #include "Core/Event/EventBus.inl.hpp"

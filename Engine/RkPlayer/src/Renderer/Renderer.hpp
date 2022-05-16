@@ -1,38 +1,29 @@
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
-namespace Rake
-{
-namespace Player
+namespace Rake::Renderer
 {
 
-enum class RendererType
+enum class RendererType : U32
 {
-    Vulkan,
-    DirectX,
-    Metal
+    DirectX = 0xFF,
+    Vulkan = 0x0F,
+    Metal = 0x00
 };
 
 typedef struct RendererData
 {
 } RendererData;
 
-class Renderer
+class Renderer final
 {
-  public:
-    F32 m_clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-
   public:
     virtual ~Renderer() = default;
 
-    virtual bool Init() = 0;
+  public:
+    virtual bool Init(RendererType _type) = 0;
     virtual void Deinit() = 0;
-
-    virtual void ResizeViewport() = 0;
-    virtual void ClearScreen() = 0;
 };
 
-} // namespace Player
-
-} // namespace Rake
+} // namespace Rake::Renderer

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Common.h"
+#include "Common.def.h"
 
 #if defined(RK_DEBUG) && defined(DESKTOP_DEVICE)
 
@@ -27,8 +27,9 @@ static class RkConsoleManager final
         if (!attached)
             attached = AttachConsole(ATTACH_PARENT_PROCESS);
 
-        SetConsoleTitleW(L"RkDebugConsole");
         CreateConsoleScreenBuffer(GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+        SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
+        SetConsoleTitleW(L"RkDebugConsole");
 #endif
     }
 

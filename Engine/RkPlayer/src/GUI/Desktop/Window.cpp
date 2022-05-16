@@ -1,6 +1,6 @@
 #include "RkPch.hpp"
 
-#include "Common.h"
+#include "Common.def.h"
 
 #if defined(DESKTOP_DEVICE) == RK_TRUE
 
@@ -20,11 +20,11 @@ namespace Rake::GUI
 Window *Window::CreateNativeWindow(long _width, long _height, long _minWidth, long _minHeight, const char *_title, WindowFlags _flags)
 {
 #if defined(PLATFORM_WINDOWS)
-    return new Win32Window();
+    return new Windows::Win32Window();
 #elif defined(PLATFORM_LINUX)
-    return new X11Window();
+    return new Linux::X11Window();
 #elif defined(PLATFORM_MACOS)
-    return new CocoaWindow();
+    return new MacOS::CocoaWindow();
 #endif
 }
 

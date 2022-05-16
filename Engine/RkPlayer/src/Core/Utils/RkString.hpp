@@ -11,7 +11,7 @@
 #include <string>
 #include <cctype>
 
-#include "Common.h"
+#include "Common.def.h"
 
 namespace Rake
 {

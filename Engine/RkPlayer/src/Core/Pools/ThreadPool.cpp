@@ -13,6 +13,10 @@ Rake::Core::ThreadPool::~ThreadPool()
 {
 }
 
+void ThreadPool::ResetPool()
+{
+}
+
 void Rake::Core::ThreadPool::CreateThreads()
 {
 }

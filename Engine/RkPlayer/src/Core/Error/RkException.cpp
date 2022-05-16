@@ -14,7 +14,7 @@ const char *RkException::what() const noexcept
     return buffer.c_str();
 }
 
-const char *RkException::where() const noexcept
+const char *RkException::where() const
 {
     std::string buffer;
     std::stringstream ss;
