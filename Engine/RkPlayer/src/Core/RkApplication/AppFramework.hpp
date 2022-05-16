@@ -12,7 +12,6 @@
 
 #include "Core/Error/RkException.hpp"
 #include "Core/Event/RkEvent.inl.hpp"
-#include "Core/Event/EventBus.inl.hpp"
 #include "Core/Time/SyncTimer.hpp"
 #if defined(DESKTOP_DEVICE) == 1
 #include "GUI/Desktop/Window.hpp"
@@ -46,6 +45,8 @@ class AppFramework
     __RAKE_API void Start();
     __RAKE_API void Pause();
     __RAKE_API void Stop();
+
+    __RAKE_API static AppFramework *RetriveInstance();
 
   private:
     __RAKE_API bool Init();

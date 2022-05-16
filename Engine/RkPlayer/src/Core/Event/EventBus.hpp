@@ -1,15 +1,12 @@
 /*****************************************************************/ /**
- * \file   RkEventHandler.inl.h
+ * \file   EventBus.hpp
  * \brief  
  * 
  * \author Di Cioccio William Karol
- * \date   April 2022
+ * \date   May 2022
  *********************************************************************/
 
 #pragma once
-
-#include <stack>
-#include <queue>
 
 #include "Common.def.h"
 
@@ -18,22 +15,13 @@
 namespace Rake::Core
 {
 
-class EventBus
+class EventBus final
 {
   public:
-    virtual void Dispatch(RkEvent _event) noexcept = 0;
+    void RegisterEvent(const RkEvent &_event);
 
-  public:
-    void AddEvent()
-    {
-    }
-
-    void RemoveEvent()
-    {
-    }
-
-  protected:
-    std::queue<RkEvent> m_eventQueue;
+  private:
+    void SendEvent(const RkEvent &_event);
 };
 
 } // namespace Rake::Core

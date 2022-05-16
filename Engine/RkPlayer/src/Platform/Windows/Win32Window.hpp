@@ -34,8 +34,8 @@ class Win32Window final : public Window
     void MaximizeWindow() override;
     void FullscreenWindow() override;
     void ShouldShow(const B8 _shouldShow) override;
-    void SetIcon(const char *&_iconPath) override;
-    void SetTitle(const char *&_title) override;
+    void SetIcon(const char *_iconPath) override;
+    void SetTitle(const char *_title) override;
 
   private:
     void *m_handle = nullptr;

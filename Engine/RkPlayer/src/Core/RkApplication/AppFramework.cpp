@@ -61,7 +61,7 @@ void AppFramework::Update()
         {
             this->OnUpdate();
 
-            m_timer->Tick();
+            m_timer->Tick(60);
 #if defined(DESKTOP_DEVICE) == 1
             m_window->Refresh();
 #elif defined(MOBILE_DEVICE) == 1
@@ -77,7 +77,6 @@ void AppFramework::Start()
 {
     this->OnStart();
 
-    m_timer->Start();
 #if defined(DESKTOP_DEVICE) == 1
     m_window->ShouldShow(true);
 #endif
@@ -94,12 +93,19 @@ void AppFramework::Stop()
 {
     this->OnStop();
 
-    m_timer->Stop();
 #if defined(DESKTOP_DEVICE) == 1
     m_window->ShouldShow(false);
 #endif
 
     isRunning = false;
+}
+
+AppFramework *AppFramework::RetriveInstance()
+{
+    if (AppFramework::m_appInstance != nullptr)
+    {
+        return AppFramework::m_appInstance;
+    }
 }
 
 bool AppFramework::Init()

@@ -1,7 +1,7 @@
 project "tests"
 kind "ConsoleApp"
 language "C++"
-cppdialect "C++20"
+cppdialect "C++17"
 staticruntime "Off"
 links "RkPlayer"
 warnings "Off"

@@ -7,7 +7,7 @@ namespace Testbed
 template <typename... Args> class TestbedApplication final : public Rake::Core::AppFramework
 {
   public:
-    TestbedApplication(Args... args) : Rake::Core::AppFramework(FORWARD(Args, args)){};
+    TestbedApplication(Args... args) : Rake::Core::AppFramework(std::forward<Args>(args)...){};
 
   private:
     void OnStart() override{};

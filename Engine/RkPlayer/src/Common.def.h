@@ -27,13 +27,18 @@ using F64 = double;
 using B32 = int;
 using B8 = bool;
 
-namespace Scientific
-{
-
-using UI32 = std::uint_fast32_t;
-using UI64 = std::uint_fast64_t;
-
-} // namespace Scientific
+static_assert(sizeof(U8) == 1);
+static_assert(sizeof(U16) == 2);
+static_assert(sizeof(U32) == 4);
+static_assert(sizeof(U64) == 8);
+static_assert(sizeof(I8) == 1);
+static_assert(sizeof(I16) == 2);
+static_assert(sizeof(I32) == 4);
+static_assert(sizeof(I64) == 8);
+static_assert(sizeof(F32) == 4);
+static_assert(sizeof(F64) == 8);
+static_assert(sizeof(B32) == 4);
+static_assert(sizeof(B8) == 1);
 
 } // namespace Rake
 
@@ -47,6 +52,7 @@ using UI64 = std::uint_fast64_t;
 #define __RK_INLINE   __forceinline
 #define __RK_NOINLINE __declspec(noinline)
 #define __DECL_CALL   __cdecl
+#define ALIGNOF       __alignof
 #elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #define VA_ARGS(...) ##__VA_ARGS__
 #ifdef PLAYER_EXPORT
@@ -57,6 +63,7 @@ using UI64 = std::uint_fast64_t;
 #define __RK_INLINE   __attribute__((always_inline)) inline
 #define __RK_NOINLINE __attribute__((noinline))
 #define __DECL_CALL   __stdcall
+#define ALIGNOF
 #else
 #error "Unable to specify compiler macros"
 #endif
@@ -76,9 +83,3 @@ using UI64 = std::uint_fast64_t;
 
 #define INCLUSIVE_CLAMP(x, min, max) (x <= min) ? min : (x >= max) ? max : x
 #define EXCLUSIVE_CLAMP(x, min, max) (x < min) ? min : (x > max) ? max : x
-
-#define FORWARD(Args, args) std::forward<Args>(args)...
-
-#define CAN_BE_INHERITED
-#define MUST_NOT_BE_INHERITED
-#define MUST_BE_INHERITED

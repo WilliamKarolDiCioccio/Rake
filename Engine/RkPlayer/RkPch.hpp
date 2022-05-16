@@ -53,5 +53,3 @@
 #include "Core/Tools/Assert.inl.hpp"
 #include "Core/Error/RkException.hpp"
 #include "Core/Utils/RkString.hpp"
-#include "Core/Event/RkEvent.inl.hpp"
-#include "Core/Event/EventBus.inl.hpp"

@@ -11,18 +11,16 @@
 #include "Common.def.h"
 #include "Core/EngineConfig.def.h"
 
-DISABLE_ALL_WARNINGS
-
 #if defined(LOGGER_ENABLED) == RK_TRUE
 
 #include <vector>
 #include <string>
 
+DISABLE_ALL_WARNINGS
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/rotating_file_sink.h"
-
-#include "Core/Error/RkSignal.inl.hpp"
+RESTORE_ALL_WARNINGS
 
 namespace Rake::Core
 {
@@ -38,7 +36,7 @@ __RAKE_API static class LogManager final
         try
         {
             auto fileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(DEFAULT_LOG_FILE_NAME, MEBIBYTES(1), LOG_FILES_PER_SESSION, false);
-            fileSink->set_pattern("[%l][%H:%M:%S.%e] %v");
+            fileSink->set_pattern(DEFAULT_LOG_PATTERN);
 
             m_sinks.insert(m_sinks.begin(), fileSink);
 
@@ -51,7 +49,6 @@ __RAKE_API static class LogManager final
         }
         catch (const spdlog::spdlog_ex &e)
         {
-            RK_SIGABRT;
         }
     }
 
@@ -73,22 +70,22 @@ __RAKE_API static class LogManager final
 
 #define CRITICAL(...)                                                                                                                                                                                                                                    \
     if (spdlog::get(DEFAULT_LOGGER_NAME) != NULL_PTR)                                                                                                                                                                                                    \
-    spdlog::get(DEFAULT_LOGGER_NAME)->critical(__VA_ARGS__)
+    spdlog::get(DEFAULT_LOGGER_NAME)->critical(#__VA_ARGS__)
 #define ERROR(...)                                                                                                                                                                                                                                       \
     if (spdlog::get(DEFAULT_LOGGER_NAME) != NULL_PTR)                                                                                                                                                                                                    \
-    spdlog::get(DEFAULT_LOGGER_NAME)->error(__VA_ARGS__)
+    spdlog::get(DEFAULT_LOGGER_NAME)->error(#__VA_ARGS__)
 #define WARN(...)                                                                                                                                                                                                                                        \
     if (spdlog::get(DEFAULT_LOGGER_NAME) != NULL_PTR)                                                                                                                                                                                                    \
-    spdlog::get(DEFAULT_LOGGER_NAME)->warn(__VA_ARGS__)
+    spdlog::get(DEFAULT_LOGGER_NAME)->warn(#__VA_ARGS__)
 #define INFO(...)                                                                                                                                                                                                                                        \
     if (spdlog::get(DEFAULT_LOGGER_NAME) != NULL_PTR)                                                                                                                                                                                                    \
-    spdlog::get(DEFAULT_LOGGER_NAME)->info(__VA_ARGS__)
+    spdlog::get(DEFAULT_LOGGER_NAME)->info(#__VA_ARGS__)
 #define DEBUG(...)                                                                                                                                                                                                                                       \
     if (spdlog::get(DEFAULT_LOGGER_NAME) != NULL_PTR)                                                                                                                                                                                                    \
-    spdlog::get(DEFAULT_LOGGER_NAME)->debug(__VA_ARGS__)
+    spdlog::get(DEFAULT_LOGGER_NAME)->debug(#__VA_ARGS__)
 #define TRACE(...)                                                                                                                                                                                                                                       \
     if (spdlog::get(DEFAULT_LOGGER_NAME) != NULL_PTR)                                                                                                                                                                                                    \
-    spdlog::get(DEFAULT_LOGGER_NAME)->trace(__VA_ARGS__)
+    spdlog::get(DEFAULT_LOGGER_NAME)->trace(#__VA_ARGS__)
 
 #else
 
@@ -100,5 +97,3 @@ __RAKE_API static class LogManager final
 #define LOG_TRACE(msg)   (void)0
 
 #endif
-
-RESTORE_ALL_WARNINGS

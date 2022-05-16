@@ -80,11 +80,11 @@ void Win32Window::FullscreenWindow()
 {
 }
 
-void Win32Window::SetIcon(const char *&_iconPath)
+void Win32Window::SetIcon(const char *_iconPath)
 {
 }
 
-void Win32Window::SetTitle(const char *&_title)
+void Win32Window::SetTitle(const char *_title)
 {
 }
 

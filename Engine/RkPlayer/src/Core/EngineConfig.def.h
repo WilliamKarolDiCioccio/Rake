@@ -18,6 +18,7 @@
 
 #if defined(LOGGER_ENABLED) == RK_TRUE
 #define DEFAULT_LOGGER_NAME   "masterLogger"
+#define DEFAULT_LOG_PATTERN   "[%l][%H:%M:%S.%e] %v"
 #define DEFAULT_LOG_FILE_NAME "logs/session_log.log"
 #define LOG_FILES_PER_SESSION 5
 #endif

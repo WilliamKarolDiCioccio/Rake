@@ -1,5 +1,5 @@
 /*****************************************************************/ /**
- * \file   RkEvent.inl.hpp
+ * \file   EventBus.hpp
  * \brief  
  * 
  * \author Di Cioccio William Karol
@@ -10,21 +10,16 @@
 
 #include "Common.def.h"
 
+#include "Core/Event/RkEvent.inl.hpp"
+#include "Core/RkApplication/AppFramework.hpp"
+
 namespace Rake::Core
 {
 
-enum class EventType : U32
+class AppEvent final : public RkEvent
 {
-    ShutdownRequest = 0x0001
-};
-
-class RkEvent
-{
-  protected:
-    EventType m_type;
-
-  protected:
-    virtual void Handle() = 0;
+  public:
+    AppEvent(){};
 };
 
 } // namespace Rake::Core

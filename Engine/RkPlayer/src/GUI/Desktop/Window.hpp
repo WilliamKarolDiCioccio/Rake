@@ -9,7 +9,6 @@
 #pragma once
 
 #include "Common.def.h"
-#include "Core/EngineConfig.def.h"
 
 #if defined(DESKTOP_DEVICE) == RK_TRUE
 
@@ -32,8 +31,8 @@ typedef struct WindowProps
     long height;
     long minWidth;
     long minHeight;
-    const char *title;
     WindowFlags flags;
+    const char *title;
 
     WindowProps(long _width = 1280, long _height = 720, long _minWidth = 0, long _minHeight = 0, const char *_title = "Rake", WindowFlags _flags = WindowFlags::IsWindowed)
         : width(_width), height(_height), minWidth(_minWidth), minHeight(_minHeight), title(_title), flags(_flags){};
@@ -54,8 +53,8 @@ class Window
     __RAKE_API virtual void MaximizeWindow() = 0;
     __RAKE_API virtual void FullscreenWindow() = 0;
     __RAKE_API virtual void ShouldShow(const B8 _shouldShow) = 0;
-    __RAKE_API virtual void SetIcon(const char *&_iconPath) = 0;
-    __RAKE_API virtual void SetTitle(const char *&_title) = 0;
+    __RAKE_API virtual void SetIcon(const char *_iconPath) = 0;
+    __RAKE_API virtual void SetTitle(const char *_title) = 0;
 
   public:
     __RK_INLINE U32 GetFlags() const
