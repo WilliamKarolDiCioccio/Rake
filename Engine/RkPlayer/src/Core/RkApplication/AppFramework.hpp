@@ -11,14 +11,15 @@
 #include "Common.def.h"
 
 #include "Core/Error/RkException.hpp"
+
 #include "Core/Event/RkEvent.inl.hpp"
+#include "Core/Event/EventBus.inl.hpp"
 #include "Core/Time/SyncTimer.hpp"
 #if defined(DESKTOP_DEVICE) == 1
 #include "GUI/Desktop/Window.hpp"
 #elif defined(MOBILE_DEVICE) == 1
 #include "GUI/Mobile/Surface.hpp"
 #endif
-
 namespace Rake::Core
 {
 

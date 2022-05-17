@@ -34,6 +34,8 @@ AppFramework::AppFramework(const char *_appName, ApplicationMode _mode)
         {
             throw std::runtime_error("Unable to acquire resources");
         }
+
+        RK_BIND_ON_EVENT(Stop())
     }
     else
     {

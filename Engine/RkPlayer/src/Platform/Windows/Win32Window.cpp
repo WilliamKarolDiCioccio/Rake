@@ -6,6 +6,7 @@
 
 namespace Rake::GUI
 {
+
 namespace Windows
 {
 
@@ -92,15 +93,12 @@ void Win32Window::ShouldShow(const B8 _shouldShow)
 {
     if (_shouldShow == true)
         ShowWindow((HWND)m_handle, SW_SHOW);
-    if (_shouldShow == false)
+    else
         ShowWindow((HWND)m_handle, SW_HIDE);
 }
 
-void Win32Window::MakeCurrent()
-{
-}
-
 } // namespace Windows
+
 } // namespace Rake::GUI
 
 #endif

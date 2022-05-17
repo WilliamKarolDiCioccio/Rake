@@ -9,13 +9,19 @@
 #pragma once
 
 #include "Common.def.h"
+#include "Core/EngineConfig.def.h"
 
 #if defined(DESKTOP_DEVICE) == RK_TRUE
 
 #include "Core/Error/RkException.hpp"
 
+#include "Core/Event/RkEvent.inl.hpp"
+#include "Core/Event/EventBus.inl.hpp"
+
 namespace Rake::GUI
 {
+
+using namespace Rake::Core;
 
 enum class WindowFlags : U32
 {
@@ -40,13 +46,15 @@ typedef struct WindowProps
 
 class Window
 {
+  protected:
+    WindowProps m_props;
+
   public:
     virtual ~Window() = default;
     static Window *CreateNativeWindow(long _width, long _height, long _minWidth, long _minHeight, const char *_title, WindowFlags _flags);
 
   public:
     virtual void Refresh() = 0;
-    virtual void MakeCurrent() = 0;
 
   public:
     __RAKE_API virtual void MinimizeWindow() = 0;
@@ -57,12 +65,6 @@ class Window
     __RAKE_API virtual void SetTitle(const char *_title) = 0;
 
   public:
-    __RK_INLINE U32 GetFlags() const
-    {
-        auto temp = reinterpret_cast<WindowFlags>(m_props.flags);
-        return static_cast<U32>(temp);
-    }
-
     __RK_INLINE long GetWidth() const
     {
         return m_props.width;
@@ -72,9 +74,6 @@ class Window
     {
         return m_props.width;
     }
-
-  protected:
-    WindowProps m_props;
 };
 
 } // namespace Rake::GUI

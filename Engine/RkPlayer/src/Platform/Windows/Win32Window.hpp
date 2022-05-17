@@ -27,7 +27,6 @@ class Win32Window final : public Window
 
   public:
     void Refresh() override;
-    void MakeCurrent() override;
 
   public:
     void MinimizeWindow() override;

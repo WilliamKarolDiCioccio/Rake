@@ -26,7 +26,6 @@ RK_GUI_MAIN()
     }
     else
     {
-        throw std::runtime_error("A Rake instance is already running");
         return EXIT_FAILURE;
     }
 #endif

@@ -18,13 +18,29 @@ enum class EventType : U32
     ShutdownRequest = 0x0001
 };
 
+enum class EventCategory : U32
+{
+    ApplicationEvent = 0x0001
+};
+
 class RkEvent
 {
-  protected:
+  private:
     EventType m_type;
 
-  protected:
-    virtual void Handle() = 0;
+  public:
+    RkEvent(EventType _type) : m_type(_type){};
+    ~RkEvent(){};
+
+  public:
+    EventType GetType() const
+    {
+        return m_type;
+    }
 };
+
+#define RK_BIND_ON_EVENT(action) this->action;
+
+#define SHUTDOWN_REQUEST EventType::ShutdownRequest()
 
 } // namespace Rake::Core

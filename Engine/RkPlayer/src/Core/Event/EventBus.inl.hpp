@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <queue>
+
 #include "Common.def.h"
 
 #include "Core/Event/RkEvent.inl.hpp"
@@ -15,13 +17,17 @@
 namespace Rake::Core
 {
 
-class EventBus final
+class EventBus
 {
   public:
-    void RegisterEvent(const RkEvent &_event);
-
-  private:
-    void SendEvent(const RkEvent &_event);
+    void Dispatch(const RkEvent &_event) noexcept
+    {
+        switch (_event.GetType())
+        {
+        default:
+            break;
+        }
+    }
 };
 
 } // namespace Rake::Core

@@ -1,8 +1,5 @@
 set(PROJECT_NAME RkPlayer)
 
-################################################################################
-# Source groups
-################################################################################
 set(no_group_source_files
     "RkPch.cpp"
     "RkPch.hpp"
@@ -35,7 +32,8 @@ set(src__Core__Error
 source_group("src\\Core\\Error" FILES ${src__Core__Error})
 
 set(src__Core__Event
-    "src/Core/Event/EventBus.inl.hpp"
+    "src/Core/Event/AppEvent.inl.hpp"
+    "src/Core/Event/EventBus.hpp"
     "src/Core/Event/RkEvent.inl.hpp"
 )
 source_group("src\\Core\\Event" FILES ${src__Core__Event})
@@ -122,9 +120,6 @@ set(ALL_FILES
     ${src__Renderer}
 )
 
-################################################################################
-# Target
-################################################################################
 add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE
@@ -137,17 +132,13 @@ set(ROOT_NAMESPACE RkPlayer)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
 )
-################################################################################
-# Target name
-################################################################################
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     TARGET_NAME_DEBUG       "RkPlayer"
     TARGET_NAME_DEVELOPMENT "RkPlayer"
     TARGET_NAME_RELEASE     "RkPlayer"
 )
-################################################################################
-# Output directory
-################################################################################
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     OUTPUT_DIRECTORY_DEBUG       "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Debug-windows-x86_64/"
     OUTPUT_DIRECTORY_DEVELOPMENT "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Development-windows-x86_64/"
@@ -163,9 +154,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_NAME_DEVELOPMENT "RkPlayer"
     ARCHIVE_OUTPUT_NAME_RELEASE     "RkPlayer"
 )
-################################################################################
-# MSVC runtime library
-################################################################################
+
 get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
 string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
     $<$<CONFIG:Debug>:
@@ -181,9 +170,6 @@ string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
 
-################################################################################
-# Include directories
-################################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/.;"
     "${CMAKE_CURRENT_SOURCE_DIR}/src;"
@@ -193,9 +179,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparties/json/single_include"
 )
 
-################################################################################
-# Compile definitions
-################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     "$<$<CONFIG:Debug>:"
         "RK_DEBUG"
@@ -212,9 +195,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_UNICODE"
 )
 
-################################################################################
-# Compile and link options
-################################################################################
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Debug>:
@@ -257,9 +237,6 @@ if(MSVC)
     )
 endif()
 
-################################################################################
-# Dependencies
-################################################################################
 set(ADDITIONAL_LIBRARY_DEPENDENCIES
     "..\thirdparties\GLEW\lib\Release\x64\glew32"
 )

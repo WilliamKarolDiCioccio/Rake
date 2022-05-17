@@ -1,5 +1,5 @@
 /*****************************************************************/ /**
- * \file   EventBus.hpp
+ * \file   AppEvent.inl.hpp
  * \brief  
  * 
  * \author Di Cioccio William Karol
@@ -11,15 +11,14 @@
 #include "Common.def.h"
 
 #include "Core/Event/RkEvent.inl.hpp"
-#include "Core/RkApplication/AppFramework.hpp"
 
 namespace Rake::Core
 {
 
-class AppEvent final : public RkEvent
+class WindowClosedEvent final : public RkEvent
 {
   public:
-    AppEvent(){};
+    WindowClosedEvent() = default;
 };
 
 } // namespace Rake::Core
