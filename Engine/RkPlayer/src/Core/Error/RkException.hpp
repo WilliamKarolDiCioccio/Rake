@@ -24,6 +24,12 @@ class RkException : public std::exception
     const char *m_file;
     U32 m_line;
 
+  public:
+    RkException(const char *_msg, const char *_file, const U32 _line) noexcept : m_msg(_msg), m_file(_file), m_line(_line){};
+
+    const char *what() const noexcept;
+    const char *where() const;
+
   protected:
     inline virtual const char *GetType() const
     {
@@ -44,12 +50,6 @@ class RkException : public std::exception
     {
         return m_line;
     }
-
-  public:
-    RkException(const char *_msg, const char *_file, U32 _line) noexcept : m_msg(_msg), m_file(_file), m_line(_line){};
-
-    const char *what() const noexcept;
-    const char *where() const;
 };
 
 } // namespace Rake::Core

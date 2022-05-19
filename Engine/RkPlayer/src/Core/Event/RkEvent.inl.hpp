@@ -13,26 +13,38 @@
 namespace Rake::Core
 {
 
+enum class EventCategory : U32
+{
+    ApplicationEvent = 0x0001,
+    WindowEvent = 0x0002
+};
+
+#define APPLICATION_EVENT EventCategory::ApplicationEvent
+#define WINDOW_EVENT      EventCategory::WindowEvent
+
 enum class EventType : U32
 {
     ShutdownRequest = 0x0001
 };
 
-enum class EventCategory : U32
-{
-    ApplicationEvent = 0x0001
-};
+#define SHUTDOWN_REQUEST EventType::ShutdownRequest
 
 class RkEvent
 {
   private:
+    EventCategory m_category;
     EventType m_type;
 
   public:
-    RkEvent(EventType _type) : m_type(_type){};
+    RkEvent(EventCategory _category, EventType _type) : m_category(_category), m_type(_type){};
     ~RkEvent(){};
 
   public:
+    EventCategory GetCategory() const
+    {
+        return m_category;
+    }
+
     EventType GetType() const
     {
         return m_type;
@@ -40,7 +52,5 @@ class RkEvent
 };
 
 #define RK_BIND_ON_EVENT(action) this->action;
-
-#define SHUTDOWN_REQUEST EventType::ShutdownRequest()
 
 } // namespace Rake::Core

@@ -1,5 +1,5 @@
 /*****************************************************************/ /**
- * \file   EventBus.hpp
+ * \file   EventBus.inl.hpp
  * \brief  
  * 
  * \author Di Cioccio William Karol
@@ -19,11 +19,18 @@ namespace Rake::Core
 
 class EventBus
 {
+  private:
+    EventBus() = default;
+
   public:
-    void Dispatch(const RkEvent &_event) noexcept
+    static void Dispatch(const RkEvent &_event) noexcept
     {
-        switch (_event.GetType())
+        switch (_event.GetCategory())
         {
+        case APPLICATION_EVENT: {
+        }
+        case WINDOW_EVENT: {
+        }
         default:
             break;
         }

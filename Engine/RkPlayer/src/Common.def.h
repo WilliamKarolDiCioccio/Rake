@@ -1,5 +1,5 @@
 /*****************************************************************/ /**
- * \file   Common.h
+ * \file   Common.def.h
  * \brief  
  * 
  * \author Di Cioccio William Karol
@@ -8,11 +8,7 @@
 
 #pragma once
 
-#include <cstdint>
 #include <RkBase/internal/Config.h>
-
-namespace Rake
-{
 
 using U8 = unsigned char;
 using U16 = unsigned short;
@@ -39,8 +35,6 @@ static_assert(sizeof(F32) == 4);
 static_assert(sizeof(F64) == 8);
 static_assert(sizeof(B32) == 4);
 static_assert(sizeof(B8) == 1);
-
-} // namespace Rake
 
 #if defined(COMPILER_MSVC)
 #define VA_ARGS(...) __VA_ARGS__

@@ -105,9 +105,9 @@ void AppFramework::Stop()
 AppFramework *AppFramework::RetriveInstance()
 {
     if (AppFramework::m_appInstance != nullptr)
-    {
         return AppFramework::m_appInstance;
-    }
+    else
+        return nullptr;
 }
 
 bool AppFramework::Init()

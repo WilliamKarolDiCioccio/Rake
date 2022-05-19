@@ -5,5 +5,6 @@ SortIncludes: false
 SortUsingDeclarations: false
 ReflowComments: false
 AlignConsecutiveMacros: true
+Cpp11BracedListStyle: true
 Standard: c++20
 # Format Style Options

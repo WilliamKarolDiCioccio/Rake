@@ -20,7 +20,7 @@ includedirs {
     "../tests",
     "../tests/src",
     "../RkBase/include",
-    "../Engine/RkPlayer"
+    "../Engine/RkPlayer/src"
 }
 
 filter "system:Windows"

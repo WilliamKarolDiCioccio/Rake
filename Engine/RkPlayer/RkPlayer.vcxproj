@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Event\AppEvent.inl.hpp" />
     <ClInclude Include="src\Core\Event\EventBus.inl.hpp" />
     <ClInclude Include="RkPch.hpp" />
     <ClInclude Include="src\Common.def.h" />
@@ -167,7 +168,8 @@
     <ClInclude Include="src\Core\Tools\Assert.inl.hpp" />
     <ClInclude Include="src\Core\Tools\Console.inl.hpp" />
     <ClInclude Include="src\Core\Tools\Log.inl.hpp" />
-    <ClInclude Include="src\Core\Utils\RkString.hpp" />
+    <ClInclude Include="src\Core\Utils\RkRandom.inl.h" />
+    <ClInclude Include="src\Core\Utils\RkString.inl.h" />
     <ClInclude Include="src\GUI\Desktop\MessageBox.hpp" />
     <ClInclude Include="src\GUI\Desktop\Window.hpp" />
     <ClInclude Include="src\Platform\Windows\Win32Window.hpp" />
@@ -199,6 +201,9 @@
     <ClCompile Include="src\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Renderer\Pipeline.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="RkPlayer.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
