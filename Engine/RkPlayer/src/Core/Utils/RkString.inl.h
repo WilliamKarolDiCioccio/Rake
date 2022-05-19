@@ -10,9 +10,6 @@
 
 #include "Common.def.h"
 
-namespace Rake::Core
-{
-
 bool Compare(const char *_toCompare, const char *_toCompareTo)
 {
     if (sizeof(_toCompare) == sizeof(_toCompareTo))
@@ -78,5 +75,3 @@ char LastChar(const char *_string)
 {
     return _string[sizeof(_string) + 1];
 }
-
-} // namespace Rake::Core
