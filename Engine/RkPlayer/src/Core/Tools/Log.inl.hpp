@@ -25,7 +25,7 @@ RESTORE_ALL_WARNINGS
 namespace Rake::Core
 {
 
-__RAKE_API static class LogManager final
+RAKE_API static class LogManager final
 {
   private:
     std::vector<spdlog::sink_ptr> m_sinks;

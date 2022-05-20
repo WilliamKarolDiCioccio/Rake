@@ -26,21 +26,13 @@ AppFramework::AppFramework(const char *_appName, ApplicationMode _mode)
         {
         }
         else
-        {
             throw RkException("Invalid application command line arguments", __FILE__, __LINE__);
-        }
 
         if (!this->Init())
-        {
             throw std::runtime_error("Unable to acquire resources");
-        }
-
-        RK_BIND_ON_EVENT(Stop())
     }
     else
-    {
         throw std::runtime_error("Attempt to create a second application");
-    }
 }
 
 AppFramework::~AppFramework()
@@ -102,7 +94,7 @@ void AppFramework::Stop()
     isRunning = false;
 }
 
-AppFramework *AppFramework::RetriveInstance()
+AppFramework *AppFramework::GetInstance()
 {
     if (AppFramework::m_appInstance != nullptr)
         return AppFramework::m_appInstance;

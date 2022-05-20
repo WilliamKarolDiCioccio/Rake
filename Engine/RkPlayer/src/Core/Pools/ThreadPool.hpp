@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include <stdint.h>
 #include <thread>
 #include <atomic>
 #include <future>
@@ -22,10 +21,6 @@ namespace Rake::Core
 
 class ThreadPool final
 {
-  private:
-    using UI32 = std::uint_fast32_t;
-    using UI64 = std::uint_fast64_t;
-
   private:
     const UI32 m_threadCount = std::thread::hardware_concurrency();
     std::atomic<B8> m_workersRunning = false;

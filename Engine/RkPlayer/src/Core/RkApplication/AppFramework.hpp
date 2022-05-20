@@ -15,11 +15,13 @@
 #include "Core/Event/RkEvent.inl.hpp"
 #include "Core/Event/EventBus.inl.hpp"
 #include "Core/Time/SyncTimer.hpp"
-#if defined(DESKTOP_DEVICE) == 1
+
+#ifdef DESKTOP_DEVICE
 #include "GUI/Desktop/Window.hpp"
-#elif defined(MOBILE_DEVICE) == 1
+#else
 #include "GUI/Mobile/Surface.hpp"
 #endif
+
 namespace Rake::Core
 {
 
@@ -39,26 +41,26 @@ class AppFramework
     B8 isBackground = false;
 
   public:
-    __RAKE_API AppFramework(const char *_appName, ApplicationMode _mode);
-    __RAKE_API virtual ~AppFramework();
+    RAKE_API AppFramework(const char *_appName, ApplicationMode _mode);
+    RAKE_API virtual ~AppFramework();
 
-    __RAKE_API void Update();
-    __RAKE_API void Start();
-    __RAKE_API void Pause();
-    __RAKE_API void Stop();
+    RAKE_API void Update();
+    RAKE_API void Start();
+    RAKE_API void Pause();
+    RAKE_API void Stop();
 
-    __RAKE_API static AppFramework *RetriveInstance();
+    RAKE_API static AppFramework *GetInstance();
 
   private:
-    __RAKE_API bool Init();
-    __RAKE_API void Release();
+    RAKE_API bool Init();
+    RAKE_API void Release();
 
   protected:
-    __RAKE_API virtual void OnStart() = 0;
-    __RAKE_API virtual void OnResume() = 0;
-    __RAKE_API virtual void OnUpdate() = 0;
-    __RAKE_API virtual void OnPause() = 0;
-    __RAKE_API virtual void OnStop() = 0;
+    RAKE_API virtual void OnStart() = 0;
+    RAKE_API virtual void OnResume() = 0;
+    RAKE_API virtual void OnUpdate() = 0;
+    RAKE_API virtual void OnPause() = 0;
+    RAKE_API virtual void OnStop() = 0;
 
   private:
     SyncTimer *m_timer;

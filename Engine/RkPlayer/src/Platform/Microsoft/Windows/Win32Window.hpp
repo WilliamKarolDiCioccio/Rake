@@ -14,9 +14,7 @@
 
 #include "GUI/Desktop/Window.hpp"
 
-namespace Rake::GUI
-{
-namespace Windows
+namespace Rake::GUI::Windows
 {
 
 class Win32Window final : public Window
@@ -40,7 +38,6 @@ class Win32Window final : public Window
     void *m_handle = nullptr;
 };
 
-} // namespace Windows
-} // namespace Rake::GUI
+} // namespace Rake::GUI::Windows
 
 #endif

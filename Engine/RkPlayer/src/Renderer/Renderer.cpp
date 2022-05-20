@@ -4,5 +4,4 @@
 
 namespace Rake::Renderer
 {
-
-} // namespace Rake::Renderer
+}

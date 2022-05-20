@@ -6,6 +6,7 @@ IncludeDir["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/include"
 IncludeDir["mathfu"] = "%{wks.location}/Engine/thirdparties/mathfu"
 IncludeDir["json"] = "%{wks.location}/thirdparties/json/single_include"
 IncludeDir["spdlog"] = "%{wks.location}/Engine/thirdparties/spdlog/include"
+IncludeDir["imgui"] = "%{wks.location}/Engine/thirdparties/imgui"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}

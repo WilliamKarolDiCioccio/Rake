@@ -57,20 +57,20 @@ class Window
     virtual void Refresh() = 0;
 
   public:
-    __RAKE_API virtual void MinimizeWindow() = 0;
-    __RAKE_API virtual void MaximizeWindow() = 0;
-    __RAKE_API virtual void FullscreenWindow() = 0;
-    __RAKE_API virtual void ShouldShow(const B8 _shouldShow) = 0;
-    __RAKE_API virtual void SetIcon(const char *_iconPath) = 0;
-    __RAKE_API virtual void SetTitle(const char *_title) = 0;
+    virtual void MinimizeWindow() = 0;
+    virtual void MaximizeWindow() = 0;
+    virtual void FullscreenWindow() = 0;
+    virtual void ShouldShow(const B8 _shouldShow) = 0;
+    virtual void SetIcon(const char *_iconPath) = 0;
+    virtual void SetTitle(const char *_title) = 0;
 
   public:
-    __RK_INLINE long GetWidth() const
+    inline long GetWidth() const
     {
         return m_props.width;
     }
 
-    __RK_INLINE long GetHeight() const
+    inline long GetHeight() const
     {
         return m_props.width;
     }

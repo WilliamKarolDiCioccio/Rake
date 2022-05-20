@@ -2,12 +2,9 @@
 
 #if defined(PLATFORM_WINDOWS)
 
-#include "Platform/Windows/Win32Window.hpp"
+#include "Platform/Microsoft/Windows/Win32Window.hpp"
 
-namespace Rake::GUI
-{
-
-namespace Windows
+namespace Rake::GUI::Windows
 {
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
@@ -97,8 +94,6 @@ void Win32Window::ShouldShow(const B8 _shouldShow)
         ShowWindow((HWND)m_handle, SW_HIDE);
 }
 
-} // namespace Windows
-
-} // namespace Rake::GUI
+} // namespace Rake::GUI::Windows
 
 #endif

@@ -7,11 +7,11 @@
 #include "GUI/Desktop/Window.hpp"
 
 #if defined(PLATFORM_WINDOWS)
-#include "platform/Windows/Win32Window.hpp"
+#include "platform/Microsoft/Windows/Win32Window.hpp"
 #elif defined(PLATFORM_LINUX)
-#include "platform/Linux/GLFWWindow.hpp"
+#include "platform/OpenSource/Linux/GLFWWindow.hpp"
 #elif defined(PLATFORM_MACOS)
-#include "Platform/MacOS/CocoaWindow.hpp"
+#include "Platform/Apple/MacOS/CocoaWindow.hpp"
 #endif
 
 namespace Rake::GUI

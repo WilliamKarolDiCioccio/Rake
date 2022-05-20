@@ -34,27 +34,27 @@ class SyncTimer final
     ~SyncTimer();
 
   public:
-    __RAKE_API void Tick(const U32 _frameRate);
-    __RAKE_API void Reset();
+    RAKE_API void Tick(const U32 _frameRate);
+    RAKE_API void Reset();
 
   public:
-    __RAKE_API long long GetStartTime()
+    RAKE_API long long GetStartTime()
     {
         return m_startTime.time_since_epoch().count();
     }
 
-    __RAKE_API F32 GetElapsedTime()
+    RAKE_API F32 GetElapsedTime()
     {
         auto elapsedTime = high_resolution_clock::now() - m_startTime;
         return elapsedTime.count();
     }
 
-    __RAKE_API F32 GetDeltaTime()
+    RAKE_API F32 GetDeltaTime()
     {
         return m_deltaTime.count();
     }
 
-    __RAKE_API F32 GetTimeScale()
+    RAKE_API F32 GetTimeScale()
     {
         return m_timeScale;
     }

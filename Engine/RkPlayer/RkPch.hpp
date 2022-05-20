@@ -10,13 +10,12 @@
 
 #include "Common.def.h"
 
-#if defined(PLATFORM_WINDOWS)
+#ifdef PLATFORM_WINDOWS
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include <Windows.h>
 #include <windowsx.h>
-#elif defined(PLATFORM_LINUX)
 #endif
 
 #include <iostream>

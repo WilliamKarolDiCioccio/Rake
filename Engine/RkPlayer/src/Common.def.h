@@ -36,27 +36,43 @@ static_assert(sizeof(F64) == 8);
 static_assert(sizeof(B32) == 4);
 static_assert(sizeof(B8) == 1);
 
+#include <stdint.h>
+
+using UI32 = uint_fast32_t;
+using UI64 = uint_fast64_t;
+
+static_assert(sizeof(UI32) == 4);
+static_assert(sizeof(UI64) == 8);
+
+#include <wchar.h>
+
+using CHAR16 = char16_t;
+using CHAR32 = char32_t;
+
+static_assert(sizeof(CHAR16) == 2);
+static_assert(sizeof(CHAR32) == 4);
+
 #if defined(COMPILER_MSVC)
 #define VA_ARGS(...) __VA_ARGS__
 #ifdef PLAYER_EXPORT
-#define __RAKE_API __declspec(dllexport)
+#define RAKE_API __declspec(dllexport)
 #else
-#define __RAKE_API __declspec(dllimport)
+#define RAKE_API __declspec(dllimport)
 #endif
-#define __RK_INLINE   __forceinline
-#define __RK_NOINLINE __declspec(noinline)
-#define __DECL_CALL   __cdecl
-#define ALIGNOF       __alignof
+#define RK_INLINE   __forceinline
+#define RK_NOINLINE __declspec(noinline)
+#define DECL_CALL   __cdecl
+#define ALIGNOF     __alignof
 #elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #define VA_ARGS(...) ##__VA_ARGS__
 #ifdef PLAYER_EXPORT
-#define __RAKE_API __attribute__((visibility("default")))
+#define RAKE_API __attribute__((visibility("default")))
 #else
-#define __RAKE_API
+#define RAKE_API
 #endif
-#define __RK_INLINE   __attribute__((always_inline)) inline
-#define __RK_NOINLINE __attribute__((noinline))
-#define __DECL_CALL   __stdcall
+#define RK_INLINE   __attribute__((always_inline)) inline
+#define RK_NOINLINE __attribute__((noinline))
+#define DECL_CALL   __stdcall
 #define ALIGNOF
 #else
 #error "Unable to specify compiler macros"

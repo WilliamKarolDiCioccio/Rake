@@ -36,14 +36,14 @@ class AsyncTimer final
     template <typename T> using Duration = duration<T>;
 
   public:
-    __RAKE_API AsyncTimer();
-    __RAKE_API ~AsyncTimer();
+    RAKE_API AsyncTimer();
+    RAKE_API ~AsyncTimer();
 
-    __RAKE_API void Start();
-    __RAKE_API void Stop();
+    RAKE_API void Start();
+    RAKE_API void Stop();
 
-    __RAKE_API void SetTimeout(auto _function, F64 _delay);
-    __RAKE_API void SetInterval(auto _function, F64 _interval);
+    RAKE_API void SetTimeout(auto _function, F64 _delay);
+    RAKE_API void SetInterval(auto _function, F64 _interval);
 };
 
 } // namespace Rake::Core

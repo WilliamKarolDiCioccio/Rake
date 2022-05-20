@@ -168,11 +168,9 @@
     <ClInclude Include="src\Core\Tools\Assert.inl.hpp" />
     <ClInclude Include="src\Core\Tools\Console.inl.hpp" />
     <ClInclude Include="src\Core\Tools\Log.inl.hpp" />
-    <ClInclude Include="src\Core\Utils\RkRandom.inl.h" />
     <ClInclude Include="src\Core\Utils\RkString.inl.h" />
-    <ClInclude Include="src\GUI\Desktop\MessageBox.hpp" />
     <ClInclude Include="src\GUI\Desktop\Window.hpp" />
-    <ClInclude Include="src\Platform\Windows\Win32Window.hpp" />
+    <ClInclude Include="src\Platform\Microsoft\Windows\Win32Window.hpp" />
     <ClInclude Include="src\Renderer\Buffer.hpp" />
     <ClInclude Include="src\Renderer\ComputeContext.hpp" />
     <ClInclude Include="src\Renderer\Device.hpp" />
@@ -180,6 +178,7 @@
     <ClInclude Include="src\Renderer\Pipeline.hpp" />
     <ClInclude Include="src\Renderer\Renderer.hpp" />
     <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\Platform\KhronosGroup\Vulkan\VulkanBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RkPch.cpp">
@@ -192,15 +191,15 @@
     <ClCompile Include="src\Core\RkApplication\Layer\Load\ConfigLoader.cpp" />
     <ClCompile Include="src\Core\Time\AsyncTimer.cpp" />
     <ClCompile Include="src\Core\Time\SyncTimer.cpp" />
-    <ClCompile Include="src\GUI\Desktop\MessageBox.cpp" />
     <ClCompile Include="src\GUI\Desktop\Window.cpp" />
-    <ClCompile Include="src\Platform\Windows\Win32Window.cpp" />
+    <ClCompile Include="src\Platform\Microsoft\Windows\Win32Window.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Renderer\ComputeContext.cpp" />
     <ClCompile Include="src\Renderer\Device.cpp" />
     <ClCompile Include="src\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Renderer\Pipeline.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Platform\KhronosGroup\Vulkan\VulkanBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="RkPlayer.natvis" />
