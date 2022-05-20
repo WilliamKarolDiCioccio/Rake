@@ -1,8 +1,5 @@
 # RAKE ENGINE
 
-[![badge]https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white]
-[![badge]https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white]
-
 ##### Introduction
 
 The reason why I decided to hurt myself is that of all the game engines I used, none of them was easy enough to understand for my grandparents, my objective is to create a software capable of giving everyone the capability to create a game without limitation in possibilities (the holy grail of all APIs, abstract without limitating the user).
