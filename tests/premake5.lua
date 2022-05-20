@@ -24,4 +24,4 @@ includedirs {
 }
 
 filter "system:Windows"
-nuget "gtest:1.7.0"
+nuget "Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn:1.8.1.6"

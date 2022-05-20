@@ -16,7 +16,8 @@ files {
     "./**.h",
     "./**.hpp",
     "./**.c",
-    "./**.cpp"
+    "./**.cpp",
+    "./.natvis"
 }
 
 defines {
@@ -30,6 +31,7 @@ includedirs {
     -- "%{IncludeDir.GLEW}",
     "%{IncludeDir.spdlog}",
     "%{IncludeDir.json}",
+    "%{IncludeDir.imgui}",
     "%{IncludeDir.VulkanSDK}"
 }
 

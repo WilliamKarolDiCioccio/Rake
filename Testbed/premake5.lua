@@ -24,5 +24,6 @@ includedirs {
     -- "%{IncludeDir.GLEW}",
     "%{IncludeDir.SDL2}",
     "%{IncludeDir.spdlog}",
-    "%{IncludeDir.json}"
+    "%{IncludeDir.json}",
+    "%{IncludeDir.imgui}"
 }

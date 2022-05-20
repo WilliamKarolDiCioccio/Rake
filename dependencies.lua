@@ -12,12 +12,9 @@ IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 LibraryDir = {}
 
 -- LibraryDir["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/lib/Release/x64"
--- LibraryDir["SDL2"] = "%{wks.location}/Engine/thirdparties/SDL2/lib/x64"
-
 LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/lib"
 
 Library = {}
 
 -- Library["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/lib/Release/x64/glew32.lib"
-
 Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
