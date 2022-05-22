@@ -12,7 +12,7 @@
 
 #if defined(PLATFORM_WINDOWS)
 
-#include "GUI/Desktop/Window.hpp"
+#include "Core/GUI/Window.hpp"
 
 namespace Rake::GUI::Windows
 {

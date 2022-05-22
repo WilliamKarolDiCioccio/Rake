@@ -11,8 +11,7 @@ class Pipeline
     virtual ~Pipeline() = default;
 
   public:
-    virtual bool Init() = 0;
-    virtual void Release() = 0;
+    virtual bool CreateDevice();
 };
 
 } // namespace Rake::Renderer

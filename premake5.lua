@@ -18,11 +18,10 @@ flags {
 }
 
 filter "system:Windows"
-flags {}
+toolset "msc"
 defines {
     "_CRT_SECURE_NO_WARNINGS"
 }
-toolset "msc"
 
 filter "configurations:Debug"
 symbols "on"

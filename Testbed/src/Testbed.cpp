@@ -1,5 +1,5 @@
 #include "Core/EntryPoint.h"
-#include "Core/RkApplication/AppFramework.hpp"
+#include "Core/Application/AppFramework.hpp"
 
 namespace Testbed
 {

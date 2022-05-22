@@ -51,5 +51,5 @@
 #include "Core/Tools/Log.inl.hpp"
 #include "Core/Tools/Assert.inl.hpp"
 
-#include "Core/Error/RkException.hpp"
+#include "Core/Errors/RkException.hpp"
 #include "Core/Utils/RkString.inl.h"

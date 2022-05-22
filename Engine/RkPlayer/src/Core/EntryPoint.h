@@ -10,8 +10,8 @@
 
 #include "Core/Tools/Log.inl.hpp"
 #include "Core/Tools/Console.inl.hpp"
-#include "Core/Error/RkException.hpp"
-#include "Core/RkApplication/AppFramework.hpp"
+#include "Core/Errors/RkException.hpp"
+#include "Core/Application/AppFramework.hpp"
 
 extern Rake::Core::AppFramework *RkCreateApplication(const char *_appName, Rake::Core::ApplicationMode _mode);
 

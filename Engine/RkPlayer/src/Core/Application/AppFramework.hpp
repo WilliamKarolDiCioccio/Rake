@@ -10,14 +10,12 @@
 
 #include "Common.def.h"
 
-#include "Core/Error/RkException.hpp"
+#include "Core/Errors/RkException.hpp"
 
-#include "Core/Event/RkEvent.inl.hpp"
-#include "Core/Event/EventBus.inl.hpp"
-#include "Core/Time/SyncTimer.hpp"
+#include "Core/Timers/SyncTimer.hpp"
 
-#ifdef DESKTOP_DEVICE
-#include "GUI/Desktop/Window.hpp"
+#if defined(DESKTOP_DEVICE)
+#include "Core/GUI/Window.hpp"
 #else
 #include "GUI/Mobile/Surface.hpp"
 #endif

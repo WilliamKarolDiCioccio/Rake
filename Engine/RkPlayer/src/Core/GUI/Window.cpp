@@ -1,17 +1,17 @@
-#include "RkPch.hpp"
+#include "src/RkPch.hpp"
 
 #include "Common.def.h"
 
 #if defined(DESKTOP_DEVICE) == RK_TRUE
 
-#include "GUI/Desktop/Window.hpp"
+#include "Core/GUI/Window.hpp"
 
 #if defined(PLATFORM_WINDOWS)
-#include "platform/Microsoft/Windows/Win32Window.hpp"
+#include "platform/Windows/Win32Window.hpp"
 #elif defined(PLATFORM_LINUX)
-#include "platform/OpenSource/Linux/GLFWWindow.hpp"
+#include "platform/Linux/GLFWWindow.hpp"
 #elif defined(PLATFORM_MACOS)
-#include "Platform/Apple/MacOS/CocoaWindow.hpp"
+#include "Platform/MacOS/CocoaWindow.hpp"
 #endif
 
 namespace Rake::GUI

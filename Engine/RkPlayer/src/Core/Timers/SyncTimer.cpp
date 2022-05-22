@@ -1,6 +1,6 @@
-#include "RkPch.hpp"
+#include "src/RkPch.hpp"
 
-#include "Core/Time/SyncTimer.hpp"
+#include "Core/Timers/SyncTimer.hpp"
 
 namespace Rake::Core
 {

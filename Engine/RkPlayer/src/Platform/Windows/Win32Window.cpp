@@ -1,8 +1,8 @@
-#include "RkPch.hpp"
+#include "src/RkPch.hpp"
 
 #if defined(PLATFORM_WINDOWS)
 
-#include "Platform/Microsoft/Windows/Win32Window.hpp"
+#include "Platform/Windows/Win32Window.hpp"
 
 namespace Rake::GUI::Windows
 {

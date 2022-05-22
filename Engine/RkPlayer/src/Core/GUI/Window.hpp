@@ -13,10 +13,7 @@
 
 #if defined(DESKTOP_DEVICE) == RK_TRUE
 
-#include "Core/Error/RkException.hpp"
-
-#include "Core/Event/RkEvent.inl.hpp"
-#include "Core/Event/EventBus.inl.hpp"
+#include "Core/Errors/RkException.hpp"
 
 namespace Rake::GUI
 {
@@ -55,8 +52,6 @@ class Window
 
   public:
     virtual void Refresh() = 0;
-
-  public:
     virtual void MinimizeWindow() = 0;
     virtual void MaximizeWindow() = 0;
     virtual void FullscreenWindow() = 0;

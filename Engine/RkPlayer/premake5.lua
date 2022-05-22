@@ -9,8 +9,8 @@ warnings "High"
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
 objdir("%{wks.location}/obj/" .. IntDir .. "")
 
-pchheader "RkPch.hpp"
-pchsource "RkPch.cpp"
+pchheader "src/RkPch.hpp"
+pchsource "src/RkPch.cpp"
 
 files {
     "./**.h",

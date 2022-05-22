@@ -76,10 +76,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>RkPch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src/RkPch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;C:\Users\theyo\OneDrive\Desktop\Rake\Engine\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;..\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -99,10 +99,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>RkPch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src/RkPch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;C:\Users\theyo\OneDrive\Desktop\Rake\Engine\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;..\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -122,10 +122,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>RkPch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src/RkPch.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;C:\Users\theyo\OneDrive\Desktop\Rake\Engine\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;..\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -148,58 +148,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="RkPch.hpp" />
     <ClInclude Include="src\Common.def.h" />
     <ClInclude Include="src\Containers\BinaryTree.hpp" />
     <ClInclude Include="src\Containers\LinkedList.hpp" />
+    <ClInclude Include="src\Core\Application\AppFramework.hpp" />
     <ClInclude Include="src\Core\EngineConfig.def.h" />
     <ClInclude Include="src\Core\EntryPoint.h" />
-    <ClInclude Include="src\Core\Error\RkException.hpp" />
-    <ClInclude Include="src\Core\Error\RkSignal.inl.hpp" />
-    <ClInclude Include="src\Core\Event\AppEvent.inl.hpp" />
-    <ClInclude Include="src\Core\Event\EventBus.inl.hpp" />
-    <ClInclude Include="src\Core\Event\RkEvent.inl.hpp" />
+    <ClInclude Include="src\Core\Errors\RkException.hpp" />
+    <ClInclude Include="src\Core\Errors\RkSignal.inl.hpp" />
+    <ClInclude Include="src\Core\GUI\Window.hpp" />
     <ClInclude Include="src\Core\Pools\MemoryPool.hpp" />
     <ClInclude Include="src\Core\Pools\ThreadPool.hpp" />
-    <ClInclude Include="src\Core\RkApplication\AppFramework.hpp" />
-    <ClInclude Include="src\Core\RkApplication\Layer\Load\ConfigLoader.hpp" />
-    <ClInclude Include="src\Core\Time\AsyncTimer.hpp" />
-    <ClInclude Include="src\Core\Time\SyncTimer.hpp" />
+    <ClInclude Include="src\Core\Timers\AsyncTimer.hpp" />
+    <ClInclude Include="src\Core\Timers\SyncTimer.hpp" />
     <ClInclude Include="src\Core\Tools\Assert.inl.hpp" />
     <ClInclude Include="src\Core\Tools\Console.inl.hpp" />
     <ClInclude Include="src\Core\Tools\Log.inl.hpp" />
     <ClInclude Include="src\Core\Utils\RkString.inl.h" />
-    <ClInclude Include="src\GUI\Desktop\Window.hpp" />
-    <ClInclude Include="src\Platform\KhronosGroup\Vulkan\VulkanBuffer.h" />
-    <ClInclude Include="src\Platform\Microsoft\Windows\Win32Window.hpp" />
+    <ClInclude Include="src\Core\Version.h" />
+    <ClInclude Include="src\Platform\Windows\Win32Window.hpp" />
     <ClInclude Include="src\Renderer\Buffer.hpp" />
     <ClInclude Include="src\Renderer\ComputeContext.hpp" />
     <ClInclude Include="src\Renderer\Device.hpp" />
     <ClInclude Include="src\Renderer\GraphicsContext.hpp" />
     <ClInclude Include="src\Renderer\Pipeline.hpp" />
     <ClInclude Include="src\Renderer\Renderer.hpp" />
-    <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\RkPch.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RkPch.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Core\Error\RkException.cpp" />
+    <ClCompile Include="src\Core\Application\AppFramework.cpp" />
+    <ClCompile Include="src\Core\Errors\RkException.cpp" />
+    <ClCompile Include="src\Core\GUI\Window.cpp" />
     <ClCompile Include="src\Core\Pools\MemoryPool.cpp" />
     <ClCompile Include="src\Core\Pools\ThreadPool.cpp" />
-    <ClCompile Include="src\Core\RkApplication\AppFramework.cpp" />
-    <ClCompile Include="src\Core\RkApplication\Layer\Load\ConfigLoader.cpp" />
-    <ClCompile Include="src\Core\Time\AsyncTimer.cpp" />
-    <ClCompile Include="src\Core\Time\SyncTimer.cpp" />
-    <ClCompile Include="src\GUI\Desktop\Window.cpp" />
-    <ClCompile Include="src\Platform\KhronosGroup\Vulkan\VulkanBuffer.cpp" />
-    <ClCompile Include="src\Platform\Microsoft\Windows\Win32Window.cpp" />
+    <ClCompile Include="src\Core\Timers\AsyncTimer.cpp" />
+    <ClCompile Include="src\Core\Timers\SyncTimer.cpp" />
+    <ClCompile Include="src\Platform\Windows\Win32Window.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Renderer\ComputeContext.cpp" />
     <ClCompile Include="src\Renderer\Device.cpp" />
     <ClCompile Include="src\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Renderer\Pipeline.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\RkPch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include=".natvis" />

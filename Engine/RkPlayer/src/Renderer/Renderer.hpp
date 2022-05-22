@@ -2,6 +2,8 @@
 
 #include "Common.def.h"
 
+#include "Renderer/Pipeline.hpp"
+
 namespace Rake::Renderer
 {
 
@@ -15,7 +17,11 @@ enum class RendererType : U32
 class Renderer final
 {
   public:
-    virtual ~Renderer() = default;
+    Renderer();
+
+  public:
+    bool Init();
+    void Release();
 };
 
 } // namespace Rake::Renderer

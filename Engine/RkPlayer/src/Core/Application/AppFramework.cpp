@@ -1,6 +1,6 @@
-#include "RkPch.hpp"
+#include "src/RkPch.hpp"
 
-#include "Core/RkApplication/AppFramework.hpp"
+#include "Core/Application/AppFramework.hpp"
 
 namespace Rake::Core
 {
