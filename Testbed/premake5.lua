@@ -3,7 +3,6 @@ kind "WindowedApp"
 language "C++"
 cppdialect "C++20"
 staticruntime "Off"
-links "RkPlayer"
 warnings "High"
 
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
@@ -21,9 +20,13 @@ includedirs {
     "../Testbed/src",
     "../Engine/RkPlayer/src",
     "../RkBase/include",
-    -- "%{IncludeDir.GLEW}",
+    "%{IncludeDir.GLEW}",
     "%{IncludeDir.SDL2}",
     "%{IncludeDir.spdlog}",
     "%{IncludeDir.json}",
     "%{IncludeDir.imgui}"
+}
+
+links {
+    "RkPlayer"
 }

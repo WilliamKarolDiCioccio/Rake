@@ -1,4 +1,4 @@
-/*****************************************************************/ /**
+﻿/*****************************************************************/ /**
  * \file   WindowPAL.h
  * \brief  
  * 
@@ -15,67 +15,91 @@
 
 #include "Core/Errors/RkException.hpp"
 
-namespace Rake::GUI
+namespace Rake::Core
 {
-
-using namespace Rake::Core;
-
-enum class WindowFlags : U32
-{
-    IsFullscreen = 0x0001,
-    IsWindowed = 0x0002,
-    IsFocused = 0x0010,
-    IsUnfocused = 0x0020
-};
-
-typedef struct WindowProps
-{
-    long width;
-    long height;
-    long minWidth;
-    long minHeight;
-    WindowFlags flags;
-    const char *title;
-
-    WindowProps(long _width = 1280, long _height = 720, long _minWidth = 0, long _minHeight = 0, const char *_title = "Rake", WindowFlags _flags = WindowFlags::IsWindowed)
-        : width(_width), height(_height), minWidth(_minWidth), minHeight(_minHeight), title(_title), flags(_flags){};
-} WindowProps, window_props;
 
 class Window
 {
   protected:
-    WindowProps m_props;
+    enum class State : U32
+    {
+        IsFocused = 1,
+        IsUnfocused = !IsFocused,
+        IsMaximized = 3,
+        IsMinimized = !IsMaximized | IsUnfocused,
+        IsWindowed = 5,
+        IsFullscreen = !IsWindowed | IsFocused,
+    };
+
+    typedef struct Icon
+    {
+        void *imagePath;
+        void *imageHandle;
+    } Icon, icon;
+
+    typedef struct Monitor
+    {
+        long *width;
+        long *height;
+        B32 *monitorID;
+    } Monitor, monitor;
+
+  protected:
+    State m_state;
+    long m_width = 1280;
+    long m_height = 720;
+    long m_minWidth = 0;
+    long m_minHeight = 0;
+    long m_posX = 0;
+    long m_posY = 0;
+    const wchar_t *m_title = L"🤣Rake🤣";
+
+  protected:
+    void *m_handle = nullptr;
+    void *m_context = nullptr;
 
   public:
     virtual ~Window() = default;
-    static Window *CreateNativeWindow(long _width, long _height, long _minWidth, long _minHeight, const char *_title, WindowFlags _flags);
+    static std::unique_ptr<Window> CreateNativeWindow();
 
   public:
     virtual void Refresh() = 0;
-    virtual void MinimizeWindow() = 0;
-    virtual void MaximizeWindow() = 0;
-    virtual void FullscreenWindow() = 0;
-    virtual void ShouldShow(const B8 _shouldShow) = 0;
-    virtual void SetIcon(const char *_iconPath) = 0;
-    virtual void SetTitle(const char *_title) = 0;
 
   public:
-    inline long GetWidth() const
+    RAKE_API virtual void Minimize() = 0;
+    RAKE_API virtual void Maximize() = 0;
+    RAKE_API virtual void Fullscreen() = 0;
+    RAKE_API virtual void ShouldShow(const B8 _shouldShow) = 0;
+    RAKE_API virtual void SetIcon(const char *_iconPath) = 0;
+    RAKE_API virtual void SetTitle(const wchar_t *_title) = 0;
+    RAKE_API virtual void SetSize(long _newWidth, long _setSize) = 0;
+    RAKE_API virtual void SetPos(long _newX, long _newY) = 0;
+
+    virtual void MakeCurrentContext() = 0;
+    virtual void DestroyContext() = 0;
+
+  public:
+    RAKE_API inline long GetWidth() const
     {
-        return m_props.width;
+        return this->m_width;
     }
 
-    inline long GetHeight() const
+    RAKE_API inline long GetHeight() const
     {
-        return m_props.width;
+        return this->m_width;
+    }
+
+    RAKE_API inline long GetPosX()
+    {
+        return this->m_posX;
+    }
+
+    RAKE_API inline long GetPosY()
+    {
+        return this->m_posY;
     }
 };
 
-} // namespace Rake::GUI
-
-#define IS_FULLSCREEN Rake::GUI::WindowFlags::IsFullscreen
-#define IS_WINDOWED   Rake::GUI::WindowFlags::IsWindowed
-#define IS_FOCUSED    Rake::GUI::WindowFlags::IsFocused
-#define IS_UNFOCUSED  Rake::GUI::WindowFlags::IsUnfocused
+} // namespace Rake::Core
 
 #endif

@@ -1,4 +1,4 @@
-#include "src/RkPch.hpp"
+﻿#include "src/RkPch.hpp"
 
 #include "Core/Application/AppFramework.hpp"
 
@@ -7,7 +7,7 @@ namespace Rake::Core
 
 AppFramework *AppFramework::m_appInstance = nullptr;
 
-AppFramework::AppFramework(const char *_appName, ApplicationMode _mode)
+AppFramework::AppFramework(const AppInfo &_startupInfo)
 {
     if (AppFramework::m_appInstance == nullptr)
     {
@@ -16,23 +16,24 @@ AppFramework::AppFramework(const char *_appName, ApplicationMode _mode)
         m_appInstance = this;
         RK_ASSERT(m_appInstance);
 
-        if (_mode >= ApplicationMode::IsGameMode)
+        if (_startupInfo.mode >= Mode::IsGameMode)
         {
         }
-        else if (_mode == ApplicationMode::IsCheatMode)
+        else if (_startupInfo.mode == Mode::IsCheatMode)
         {
         }
-        else if (_mode == ApplicationMode::IsEditorMode)
+        else if (_startupInfo.mode == Mode::IsEditorMode)
         {
         }
-        else
-            throw RkException("Invalid application command line arguments", __FILE__, __LINE__);
+        else if (_startupInfo.mode == Mode::IsTerminalMode)
+        {
+        }
 
         if (!this->Init())
-            throw std::runtime_error("Unable to acquire resources");
+            throw RkException("Unable to acquire resources", __FILE__, __LINE__, APPLICATION_LAYER, RESOURCE_ACQUIREMENT_TYPE);
     }
     else
-        throw std::runtime_error("Attempt to create a second application");
+        throw RkException("Attempt to create a second application", __FILE__, __LINE__, APPLICATION_LAYER, TYPE_NONE);
 }
 
 AppFramework::~AppFramework()
@@ -45,9 +46,9 @@ AppFramework::~AppFramework()
 
 void AppFramework::Update()
 {
-    while (isRunning)
+    while (m_isRunning)
     {
-        if (isPaused)
+        if (m_isPaused)
         {
             this->OnPause();
         }
@@ -75,12 +76,15 @@ void AppFramework::Start()
     m_window->ShouldShow(true);
 #endif
 
-    isRunning = true;
+    m_isRunning = true;
 }
 
 void AppFramework::Pause()
 {
-    isPaused = true;
+    if (m_isPaused != true)
+        m_isPaused = true;
+    else
+        m_isPaused = false;
 }
 
 void AppFramework::Stop()
@@ -91,7 +95,7 @@ void AppFramework::Stop()
     m_window->ShouldShow(false);
 #endif
 
-    isRunning = false;
+    m_isRunning = false;
 }
 
 AppFramework *AppFramework::GetInstance()
@@ -104,9 +108,10 @@ AppFramework *AppFramework::GetInstance()
 
 bool AppFramework::Init()
 {
-    m_timer = new SyncTimer(1.0f);
+    m_timer = std::make_unique<SyncTimer>(1.0f);
 #if defined(DESKTOP_DEVICE) == 1
-    m_window = GUI::Window::CreateNativeWindow(1280, 720, 480, 480, "Rake", IS_WINDOWED);
+    m_window = Window::CreateNativeWindow();
+    m_window->MakeCurrentContext();
 #elif defined(MOBILE_DEVICE) == 1
     m_surface = GUI::Surface::CreateNativeSurface();
 #endif
@@ -116,19 +121,7 @@ bool AppFramework::Init()
 
 void AppFramework::Release()
 {
-    delete (m_timer);
-#if defined(DESKTOP_DEVICE) == 1
-    delete (m_window);
-#elif defined(MOBILE_DEVICE) == 1
-    delete (m_surface);
-#endif
-
-    RK_ASSERT(!m_timer);
-#if defined(DESKTOP_DEVICE) == 1
-    RK_ASSERT(!m_window);
-#elif defined(MOBILE_DEVICE) == 1
-    RK_ASSERT(!m_surface);
-#endif
+    m_window->DestroyContext();
 }
 
 } // namespace Rake::Core

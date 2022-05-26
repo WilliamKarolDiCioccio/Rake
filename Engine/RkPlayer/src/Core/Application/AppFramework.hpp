@@ -23,23 +23,37 @@
 namespace Rake::Core
 {
 
-enum class ApplicationMode : U32
+enum class Mode : U32
 {
     IsGameMode = 0,
     IsCheatMode = 1,
-    IsEditorMode = 2
+    IsEditorMode = 2,
+    IsTerminalMode = 3
 };
+
+typedef struct AppInfo
+{
+    Mode mode;
+    const wchar_t *appName;
+} AppInfo, app_info;
 
 class AppFramework
 {
   private:
     static AppFramework *m_appInstance;
-    B8 isRunning = true;
-    B8 isPaused = false;
-    B8 isBackground = false;
+    B8 m_isRunning = true;
+    B8 m_isPaused = false;
+    B8 m_isBackground = false;
+
+    std::unique_ptr<SyncTimer> m_timer;
+#if defined(DESKTOP_DEVICE) == 1
+    std::unique_ptr<Window> m_window;
+#elif defined(MOBILE_DEVICE) == 1
+    GUI::Surface *m_surface;
+#endif
 
   public:
-    RAKE_API AppFramework(const char *_appName, ApplicationMode _mode);
+    RAKE_API AppFramework(const AppInfo &_startupInfo);
     RAKE_API virtual ~AppFramework();
 
     RAKE_API void Update();
@@ -59,18 +73,11 @@ class AppFramework
     RAKE_API virtual void OnUpdate() = 0;
     RAKE_API virtual void OnPause() = 0;
     RAKE_API virtual void OnStop() = 0;
-
-  private:
-    SyncTimer *m_timer;
-#if defined(DESKTOP_DEVICE) == 1
-    GUI::Window *m_window;
-#elif defined(MOBILE_DEVICE) == 1
-    GUI::Surface *m_surface;
-#endif
 };
 
-} // namespace Rake::Core
+#define IS_GAME_MODE     Rake::Core::Mode::IsGameMode
+#define IS_CHEAT_MODE    Rake::Core::Mode::IsCheatMode
+#define IS_EDITOR_MODE   Rake::Core::Mode::IsEditorMode
+#define IS_TERMINAL_MODE Rake::Core::Mode::IsTerminalMode
 
-#define IS_GAME_MODE   Rake::Core::ApplicationMode::IsGameMode
-#define IS_CHEAT_MODE  Rake::Core::ApplicationMode::IsCheatMode
-#define IS_EDITOR_MODE Rake::Core::ApplicationMode::IsEditorMode
+} // namespace Rake::Core

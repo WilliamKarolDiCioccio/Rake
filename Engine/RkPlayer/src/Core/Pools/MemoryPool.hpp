@@ -29,8 +29,9 @@ template <typename T> class MemoryPool
 
   public:
     void ResetPool();
-    void Malloc();
-    void Free();
+    void Allocate();
+    void Deallocate();
+    void RkZeroMemory();
 };
 
 } // namespace Rake::Core

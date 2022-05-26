@@ -28,12 +28,12 @@
 
 #if !defined(RK_CURRENT_FUNCTION)
 #if defined(COMPILER_MSVC)
-#define EA_CURRENT_FUNCTION __func__
+#define RK_CURRENT_FUNCTION __func__
 #elif defined()
-#define EA_CURRENT_FUNCTION __PRETTY_FUNCTION__
+#define RK_CURRENT_FUNCTION __PRETTY_FUNCTION__
 #endif
 #else
-#define EA_CURRENT_FUNCTION "(unknow function)"
+#define RK_CURRENT_FUNCTION "(unknow function)"
 #endif
 
 #define RK_STATIC_ASSERT(cnd) static_assert(cnd, "Static assert failed: " #cnd)

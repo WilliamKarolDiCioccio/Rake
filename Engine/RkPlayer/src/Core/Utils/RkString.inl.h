@@ -15,52 +15,30 @@
 #pragma warning(disable : 6384)
 #endif
 
-bool Compare(const char *_toCompare, const char *_toCompareTo)
+template <typename T> B32 StrCompare(const T *_toCompare, const T *_toCompareTo)
 {
-    if (sizeof(_toCompare) == sizeof(_toCompareTo))
+    while (*_toCompare == *_toCompareTo && _toCompareTo != '\0')
     {
-        while (*_toCompare)
-        {
-            if (*_toCompare != *_toCompareTo)
-                return false;
-
-            _toCompare++;
-            _toCompareTo++;
-        }
-
-        return true;
+        _toCompare++;
+        _toCompareTo++;
     }
-    else
-        return false;
+
+    return (B32)(T)(*_toCompare) - (B32)(T)(*_toCompareTo);
 }
 
-void Empty(char *&_string)
+template <typename T> void EmptyStr(T *&_string)
 {
-    if (_string)
-        _string[0] = 0;
+    return _string[0] = '\0';
 }
 
-char FirstChar(const char *_string)
+template <typename T> T FirstStrChar(const T *_string)
 {
     return _string[0];
 }
 
-char MidChar(const char *_string)
+template <typename T> T LastStrChar(const T *_string)
 {
-    if (sizeof(_string) != 0)
-    {
-        if (sizeof(_string) % 2 != 0)
-            return _string[((sizeof(_string) - 1) / 2) + 1];
-        else
-            return _string[sizeof(_string) / 2];
-    }
-    else
-        return 0;
-}
-
-char LastChar(const char *_string)
-{
-    return _string[sizeof(_string) + 1];
+    return _string[sizeof(_string)];
 }
 
 #ifdef COMPILER_MSVC

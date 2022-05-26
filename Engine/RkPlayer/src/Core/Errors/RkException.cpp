@@ -9,7 +9,7 @@ const char *RkException::what() const noexcept
 {
     std::string buffer;
     std::stringstream ss;
-    ss << GetType() << GetMsg();
+    ss << (U8)GetType() << GetMsg();
 
     return buffer.c_str();
 }

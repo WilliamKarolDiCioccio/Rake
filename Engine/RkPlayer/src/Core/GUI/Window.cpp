@@ -14,20 +14,20 @@
 #include "Platform/MacOS/CocoaWindow.hpp"
 #endif
 
-namespace Rake::GUI
+namespace Rake::Core
 {
 
-Window *Window::CreateNativeWindow(long _width, long _height, long _minWidth, long _minHeight, const char *_title, WindowFlags _flags)
+std::unique_ptr<Window> Window::CreateNativeWindow()
 {
 #if defined(PLATFORM_WINDOWS)
-    return new Windows::Win32Window();
+    return std::make_unique<Windows::Win32Window>();
 #elif defined(PLATFORM_LINUX)
-    return new Linux::X11Window();
+    return std::make_unique<Linux::X11Window>();
 #elif defined(PLATFORM_MACOS)
-    return new MacOS::CocoaWindow();
+    return std::make_unique<MacOS::CocoaWindow>();
 #endif
 }
 
-} // namespace Rake::GUI
+} // namespace Rake::Core
 
 #endif

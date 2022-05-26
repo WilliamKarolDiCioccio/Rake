@@ -21,7 +21,6 @@ static class RkConsoleManager final
         B8 created = false;
         B8 attached = false;
 
-#if defined(PLATFORM_WINDOWS)
         if (!created)
             created = AllocConsole();
         if (!attached)
@@ -29,15 +28,12 @@ static class RkConsoleManager final
 
         CreateConsoleScreenBuffer(GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
         SetConsoleActiveScreenBuffer(GetStdHandle(STD_OUTPUT_HANDLE));
-        SetConsoleTitleW(L"RkDebugConsole");
-#endif
+        SetConsoleTitle(L"RkDebugConsole");
     }
 
     static inline void DestroyConsole()
     {
-#if defined(PLATFORM_WINDOWS)
         FreeConsole();
-#endif
     }
 };
 

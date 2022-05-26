@@ -18,23 +18,27 @@ flags {
 }
 
 filter "system:Windows"
-toolset "msc"
-defines {
-    "_CRT_SECURE_NO_WARNINGS"
-}
+    atl "Dynamic"
+    toolset "msc"
+    defines {
+        "_CRT_SECURE_NO_WARNINGS"
+    }
 
 filter "configurations:Debug"
-symbols "on"
-defines "RK_DEBUG"
+    symbols "on"
+    defines "RK_DEBUG"
+
 filter "configurations:Development"
-symbols "On"
-defines "RK_DEV"
+    symbols "On"
+    defines "RK_DEV"
+
 filter "configurations:Release"
-symbols "Off"
-optimize "Speed"
-defines "RK_RELEASE"
+    symbols "Off"
+    optimize "Speed"
+    defines "RK_RELEASE"
 
 include "./Engine/RkPlayer"
 include "./Testbed"
 include "./tests"
 include "./thirdparties/premake"
+include "./Engine/thirdparties/imgui"

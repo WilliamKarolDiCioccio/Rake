@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 #include <memory>
@@ -13,21 +13,17 @@
 #include "Core/Errors/RkException.hpp"
 #include "Core/Application/AppFramework.hpp"
 
-extern Rake::Core::AppFramework *RkCreateApplication(const char *_appName, Rake::Core::ApplicationMode _mode);
+extern Rake::Core::AppFramework *RkCreateApplication(const Rake::Core::AppInfo _info);
 
 RK_GUI_MAIN()
 {
 #if defined(PLATFORM_WINDOWS)
     HANDLE hMutex = OpenMutex(MUTEX_ALL_ACCESS, NULL, L"RakeInstance");
 
-    if (!hMutex)
-    {
+    if (hMutex == NULL)
         hMutex = CreateMutex(NULL, NULL, L"RakeInstance");
-    }
     else
-    {
         return EXIT_FAILURE;
-    }
 #endif
 
     Rake::Core::LogManager logManager;
@@ -36,15 +32,17 @@ RK_GUI_MAIN()
 
     ATTACH_CONSOLE_PROFILE;
 
+    Rake::Core::AppInfo appInfo = {IS_CHEAT_MODE, L"🛏️Testbed🛏️"};
+
     try
     {
-        auto app = RkCreateApplication("Testbed", IS_CHEAT_MODE);
+        auto app = RkCreateApplication(appInfo);
 
         app->Start();
         app->Update();
         app->Stop();
 
-        delete (app);
+        delete app;
     }
     catch (const Rake::Core::RkException &e)
     {
@@ -62,9 +60,7 @@ RK_GUI_MAIN()
 
 #if defined(PLATFORM_WINDOWS)
     if (hMutex != NULL)
-    {
         ReleaseMutex(hMutex);
-    }
 #endif
 
     return EXIT_SUCCESS;

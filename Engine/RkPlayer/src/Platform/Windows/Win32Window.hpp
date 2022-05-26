@@ -14,10 +14,10 @@
 
 #include "Core/GUI/Window.hpp"
 
-namespace Rake::GUI::Windows
+namespace Rake::Windows
 {
 
-class Win32Window final : public Window
+class Win32Window final : public Core::Window
 {
   public:
     Win32Window();
@@ -27,17 +27,31 @@ class Win32Window final : public Window
     void Refresh() override;
 
   public:
-    void MinimizeWindow() override;
-    void MaximizeWindow() override;
-    void FullscreenWindow() override;
+    void Minimize() override;
+    void Maximize() override;
+    void Fullscreen() override;
     void ShouldShow(const B8 _shouldShow) override;
     void SetIcon(const char *_iconPath) override;
-    void SetTitle(const char *_title) override;
+    void SetTitle(const wchar_t *_title) override;
+    void SetSize(long _newWidth, long _newHeight) override;
+    void SetPos(long _newX, long _newY) override;
+
+    void MakeCurrentContext() override;
+    void DestroyContext() override;
 
   private:
-    void *m_handle = nullptr;
+    WNDCLASSEX wcex = {};
+    RECT rc = {};
+    PIXELFORMATDESCRIPTOR pfd = {};
+    HMONITOR hMonitor = MonitorFromWindow((HWND)m_handle, MONITOR_DEFAULTTONEAREST);
+    MONITORINFOEX hMonitorInfo;
+    HRSRC hFindRes;
+    HRSRC hLoadRes;
+    HICON hIcon;
+    BYTE *lpRes;
+    B32 currentResID;
 };
 
-} // namespace Rake::GUI::Windows
+} // namespace Rake::Windows
 
 #endif

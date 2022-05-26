@@ -11,10 +11,12 @@ IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}
 
--- LibraryDir["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/lib/Release/x64"
+LibraryDir["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/lib/Release/x64"
+LibraryDir["imgui"] = "%{wks.location}/Engine/thirdparties/imgui/bin/Release-windows-x86_64"
 LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/lib"
 
 Library = {}
 
--- Library["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/lib/Release/x64/glew32.lib"
+Library["GLEW"] = "%{wks.location}/Engine/thirdparties/GLEW/lib/Release/x64/glew32.lib"
+Library["imgui"] = "%{wks.location}/Engine/thirdparties/imgui/bin/Release-windows-x86_64/ImGui.lib"
 Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"

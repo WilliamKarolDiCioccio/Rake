@@ -28,7 +28,7 @@ includedirs {
     "../RkPlayer",
     "../RkPlayer/src",
     "../../RkBase/include",
-    -- "%{IncludeDir.GLEW}",
+    "%{IncludeDir.GLEW}",
     "%{IncludeDir.spdlog}",
     "%{IncludeDir.json}",
     "%{IncludeDir.imgui}",
@@ -36,11 +36,19 @@ includedirs {
 }
 
 libdirs {
-    -- "%{LibraryDir.GLEW}"
+    "%{LibraryDir.GLEW}",
+    "%{LibraryDir.imgui}",
     "%{LibraryDir.VulkanSDK}"
 }
 
 links {
-    -- "%{Library.GLEW}"
+    "%{Library.GLEW}",
+    "%{Library.imgui}",
     "%{Library.Vulkan}"
+}
+
+filter "system:Windows"
+links {
+    "opengl32.lib",
+    "glu32.lib"
 }

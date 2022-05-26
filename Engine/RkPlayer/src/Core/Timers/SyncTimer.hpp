@@ -23,11 +23,13 @@ using namespace std::chrono_literals;
 class SyncTimer final
 {
   private:
+    static SyncTimer *m_instance;
+
+  private:
     F32 m_timeScale;
     duration<F32> m_deltaTime;
     const time_point<high_resolution_clock> m_startTime = high_resolution_clock::now();
     time_point<high_resolution_clock> m_lastStartTime = m_startTime;
-    static SyncTimer *m_instance;
 
   public:
     SyncTimer(F32 _timeScale);

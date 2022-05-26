@@ -19,7 +19,7 @@ template <typename... Args> class TestbedApplication final : public Rake::Core::
 
 } // namespace Testbed
 
-Rake::Core::AppFramework *RkCreateApplication(const char *_appName, Rake::Core::ApplicationMode _mode)
+Rake::Core::AppFramework *RkCreateApplication(const Rake::Core::AppInfo _info)
 {
-    return new Testbed::TestbedApplication(_appName, _mode);
+    return new Testbed::TestbedApplication(_info);
 }
