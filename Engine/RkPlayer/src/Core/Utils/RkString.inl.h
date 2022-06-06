@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Common.def.h"
+#include "Types.h"
 
 #ifdef COMPILER_MSVC
 #pragma warning(push)

@@ -6,7 +6,7 @@
 #include <mutex>
 #include <RkBase/RkMain.h>
 
-#include "Common.def.h"
+#include "Types.h"
 
 #include "Core/Tools/Log.inl.hpp"
 #include "Core/Tools/Console.inl.hpp"
@@ -26,13 +26,13 @@ RK_GUI_MAIN()
         return EXIT_FAILURE;
 #endif
 
-    Rake::Core::LogManager logManager;
+    std::vector<spdlog::sink_ptr> m_sinks;
 
-    logManager.Init();
+    Rake::Core::LogManager::Init(m_sinks);
 
     ATTACH_CONSOLE_PROFILE;
 
-    Rake::Core::AppInfo appInfo = {IS_CHEAT_MODE, L"🛏️Testbed🛏️"};
+    Rake::Core::AppInfo appInfo = {IS_CHEAT_MODE, L"Testbed", NULL, NULL};
 
     try
     {
@@ -56,7 +56,7 @@ RK_GUI_MAIN()
 
     DETACH_CONSOLE_PROFILE;
 
-    logManager.Release();
+    Rake::Core::LogManager::Release();
 
 #if defined(PLATFORM_WINDOWS)
     if (hMutex != NULL)

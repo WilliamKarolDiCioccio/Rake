@@ -2,38 +2,54 @@
 
 #include "Core/Application/AppFramework.hpp"
 
+#include <gl/glew.h>
+
 namespace Rake::Core
 {
 
 AppFramework *AppFramework::m_appInstance = nullptr;
 
-AppFramework::AppFramework(const AppInfo &_startupInfo)
+AppFramework::AppFramework(const AppInfo &_appInfo)
 {
     if (AppFramework::m_appInstance == nullptr)
     {
         AppFramework::m_appInstance = this;
 
-        m_appInstance = this;
-        RK_ASSERT(m_appInstance);
+        if (!m_appInstance)
+            throw Core::RkException("", __FILE__, __LINE__);
 
-        if (_startupInfo.mode >= Mode::IsGameMode)
+        if (_appInfo.mode >= Mode::IsGameMode)
         {
         }
-        else if (_startupInfo.mode == Mode::IsCheatMode)
+        else if (_appInfo.mode == Mode::IsCheatMode)
         {
         }
-        else if (_startupInfo.mode == Mode::IsEditorMode)
+        else if (_appInfo.mode == Mode::IsEditorMode)
         {
         }
-        else if (_startupInfo.mode == Mode::IsTerminalMode)
+        else if (_appInfo.mode == Mode::IsTerminalMode)
         {
+        }
+        else
+        {
+            throw RkException("", __FILE__, __LINE__);
         }
 
         if (!this->Init())
-            throw RkException("Unable to acquire resources", __FILE__, __LINE__, APPLICATION_LAYER, RESOURCE_ACQUIREMENT_TYPE);
+        {
+            throw RkException("", __FILE__, __LINE__);
+        }
+        else
+        {
+            m_window->SetTitle(_appInfo.appName);
+            m_window->SetIcon(_appInfo.iconPath);
+            m_window->RkSetCursor(_appInfo.cursorPath);
+        }
     }
     else
-        throw RkException("Attempt to create a second application", __FILE__, __LINE__, APPLICATION_LAYER, TYPE_NONE);
+    {
+        throw RkException("", __FILE__, __LINE__);
+    }
 }
 
 AppFramework::~AppFramework()
@@ -54,7 +70,7 @@ void AppFramework::Update()
         }
         else
         {
-            this->OnUpdate();
+            Platform::DispatchMessages();
 
             m_timer->Tick(60);
 #if defined(DESKTOP_DEVICE) == 1
@@ -62,6 +78,8 @@ void AppFramework::Update()
 #elif defined(MOBILE_DEVICE) == 1
             m_surface->Refresh();
 #endif
+
+            this->OnUpdate();
         }
 
         std::this_thread::sleep_for(16ms);
@@ -73,7 +91,7 @@ void AppFramework::Start()
     this->OnStart();
 
 #if defined(DESKTOP_DEVICE) == 1
-    m_window->ShouldShow(true);
+    m_window->Show(true);
 #endif
 
     m_isRunning = true;
@@ -92,7 +110,7 @@ void AppFramework::Stop()
     this->OnStop();
 
 #if defined(DESKTOP_DEVICE) == 1
-    m_window->ShouldShow(false);
+    m_window->Show(false);
 #endif
 
     m_isRunning = false;

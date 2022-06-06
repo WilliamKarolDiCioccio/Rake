@@ -8,15 +8,24 @@
 
 #pragma once
 
-#include "Common.def.h"
+#include "Types.h"
+#include "Core/Macros.h"
+#include "Core/Rake.h"
+
+#if defined(PLATFORM_WINDOWS)
+#include "platform/Windows/Windows.hpp"
+#elif defined(PLATFORM_LINUX)
+#include "platform/Linux/Linux.hpp"
+#elif defined(PLATFORM_MACOS)
+#include "Platform/MacOS/Macos.hpp"
+#endif
 
 #include "Core/Errors/RkException.hpp"
-
 #include "Core/Timers/SyncTimer.hpp"
 
 #if defined(DESKTOP_DEVICE)
 #include "Core/GUI/Window.hpp"
-#else
+#elif defined(MOBILE_DEVICE)
 #include "GUI/Mobile/Surface.hpp"
 #endif
 
@@ -35,6 +44,8 @@ typedef struct AppInfo
 {
     Mode mode;
     const wchar_t *appName;
+    const char *iconPath;
+    const char *cursorPath;
 } AppInfo, app_info;
 
 class AppFramework
@@ -53,7 +64,7 @@ class AppFramework
 #endif
 
   public:
-    RAKE_API AppFramework(const AppInfo &_startupInfo);
+    RAKE_API AppFramework(const AppInfo &_appInfo);
     RAKE_API virtual ~AppFramework();
 
     RAKE_API void Update();

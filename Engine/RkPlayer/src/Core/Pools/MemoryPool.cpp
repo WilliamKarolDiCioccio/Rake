@@ -4,4 +4,5 @@
 
 namespace Rake::Core
 {
-}
+
+} // namespace Rake::Core

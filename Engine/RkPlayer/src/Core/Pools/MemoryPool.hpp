@@ -10,28 +10,33 @@
 
 #include <memory>
 
-#include "Common.def.h"
+#include "Types.h"
 
 namespace Rake::Core
 {
+
 template <typename T> class MemoryPool
 {
   public:
-    const char *m_mem;
+    const T *m_mem;
 
   public:
-    MemoryPool();
-    ~MemoryPool();
+    RAKE_API MemoryPool(){};
+    RAKE_API ~MemoryPool(){};
 
   private:
-    void *operator new(std::size_t _n);
-    void operator delete(void *_ptr, size_t &size);
+    /*void *operator new()
+    {
+    }
+    void operator delete()
+    {
+    }*/
 
   public:
-    void ResetPool();
-    void Allocate();
-    void Deallocate();
-    void RkZeroMemory();
+    RAKE_API void ResetPool(){};
+    RAKE_API void *Allocate(const size_t &_size){};
+    RAKE_API void Deallocate(){};
+    RAKE_API void RkZeroMemory(){};
 };
 
 } // namespace Rake::Core

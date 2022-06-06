@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Common.def.h"
+#include "Types.h"
 
 #include "Core/Tools/Log.inl.hpp"
 
@@ -21,7 +21,7 @@ class TreeNode
     TreeNode *right;
     TreeNode *parent;
 
-    U_32 nodeIndex;
+    U32 nodeIndex;
 };
 
 class Tree
@@ -31,7 +31,7 @@ class Tree
     TreeNode *root;
     TreeNode *pastNode;
 
-    U_32 index;
+    U32 index;
 };
 
 } // namespace Rake::Containers

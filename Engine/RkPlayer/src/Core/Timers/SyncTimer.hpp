@@ -12,7 +12,8 @@
 
 #include <chrono>
 
-#include "Common.def.h"
+#include "Types.h"
+#include "Core/Rake.h"
 
 namespace Rake::Core
 {
@@ -27,7 +28,7 @@ class SyncTimer final
 
   private:
     F32 m_timeScale;
-    duration<F32> m_deltaTime;
+    duration<F32> m_deltaTime = 0ms;
     const time_point<high_resolution_clock> m_startTime = high_resolution_clock::now();
     time_point<high_resolution_clock> m_lastStartTime = m_startTime;
 

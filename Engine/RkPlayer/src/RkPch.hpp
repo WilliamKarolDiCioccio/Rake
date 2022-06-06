@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "Common.def.h"
-
 #ifdef PLATFORM_WINDOWS
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -49,7 +47,7 @@
 #include <atomic>
 
 #include "Core/Tools/Log.inl.hpp"
-#include "Core/Tools/Assert.inl.hpp"
+#include "Core/Tools/Assert.inl.h"
 
 #include "Core/Errors/RkException.hpp"
 #include "Core/Utils/RkString.inl.h"

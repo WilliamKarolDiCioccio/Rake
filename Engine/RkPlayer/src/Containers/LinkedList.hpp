@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "Common.def.h"
+#include <iostream>
 
-#include "Core/Tools/Log.inl.hpp"
+#include "Types.h"
 
 namespace Rake::Containers
 {
@@ -19,85 +19,65 @@ template <typename T> class ListNode
 {
   public:
     T data;
-    U_32 index;
+    U32 index = NULL;
     ListNode<T> *previousNode;
     ListNode<T> *nextNode;
 
-    ListNode()
-    {
-        index = 0;
-
-        this->nextNode = nullptr;
-        this->previousNode = nullptr;
-    }
+    ListNode() : previousNode(nullptr), nextNode(nullptr){};
 };
 
 template <typename T> class LinkedList
 {
   private:
-    U_32 m_count;
-    const U_32 m_size;
-    ListNode<T> *m_head = nullptr;
-    ListNode<T> *m_tail = nullptr;
+    U32 m_count = NULL;
+    U32 m_size = NULL;
+    ListNode<T> *m_head = new ListNode<T>();
+    ListNode<T> *m_tail = new ListNode<T>();
 
   public:
-    LinkedList(U_32 _size)
-    {
-        m_count = 0;
-        m_size = _size;
-    }
+    LinkedList(const U32 _size) : m_size(_size){};
     ~LinkedList()
     {
         delete (m_head);
         delete (m_tail);
     }
 
-    inline void AddNode(T _item)
+    inline void AddNode(const T _item)
     {
         if (m_count < m_size)
         {
-            if (m_head == nullptr)
-                m_head->data = _item;
-
             ListNode<T> *temp = new ListNode<T>();
 
-            m_head->nextNode = temp;
-            m_head = m_head->nextNode;
+            while (temp->nextNode != nullptr)
+                temp = temp->nextNode;
+
+            temp->data = _item;
+            temp->index = m_count;
 
             m_count++;
         }
-        else
-            INFO("List full");
     }
 
     inline void RemoveNode()
     {
         if (m_head != nullptr)
         {
-            m_head = m_head->previousNode;
-
-            delete (m_head->nextNode)
+            m_count--;
         }
-        else
-            INFO("List empty");
     }
 
-    inline void AddNodeAt(T _item, U_32 _index)
+    inline void AddNodeAt(const T _item, const U32 _index)
     {
         if (m_count < m_size)
         {
         }
-        else
-            INFO("List full");
     }
 
-    inline void RemoveNodeAt(T _item, U_32 _index)
+    inline void RemoveNodeAt(const T _item, const U32 _index)
     {
         if (m_head != nullptr)
         {
         }
-        else
-            INFO("List empty");
     }
 
     inline void Display() noexcept
@@ -106,47 +86,49 @@ template <typename T> class LinkedList
         {
             ListNode<T> *temp = m_head;
 
-            while (temp->previousNode != nullptr)
+            do
             {
-                std::cout << GetNodeData(temp) << std::endl;
-
-                temp = temp->previousNode;
-            }
+                std::cout << temp->data << std::endl;
+                temp = temp->nextNode;
+            } while (m_tempNode->nextNode != nullptr);
         }
     }
 
-    inline void Resize(U_32 _newSize) noexcept
+    inline void Resize(const U32 _newSize) noexcept
     {
-        if (m_size < _newSize)
+        if (_newSize >= m_size)
             m_size = _newSize;
-
-        if (m_size > _newSize)
-            m_size = m_size - (m_size - _newSize);
+        else if (_newSize < m_size)
+        {
+        }
     }
 
-    inline ListNode<T> SearchNodeByIndex(B_32 _nodeIndex)
+    inline ListNode<T> GetNode(const U32 _index)
     {
         ListNode<T> *temp = m_head;
 
-        for (m_size != 0; temp->index != _nodeIndex; temp = temp->nextNode)
-        {
-        }
+        for (U32 i = 1; i <= _index, temp->nextNode != nullptr; i++)
+            temp = temp->nextNode;
 
-        return
+        return temp;
     }
 
-    inline T GetNodeData(ListNode<T> *_node)
+    inline void SetNodeData(const T _item, const U32 _index)
     {
-        if (_node != nullptr)
-            return _node->data;
+        ListNode<T> *temp = m_head;
+
+        for (U32 i = 1; i <= _index, temp->nextNode != nullptr; i++)
+            temp = temp->nextNode;
+
+        temp->data = _item;
     }
 
-    inline U_32 GetCount() const
+    inline U32 GetCount() const
     {
         return m_count;
     }
 
-    inline U_32 GetSize() const
+    inline U32 GetSize() const
     {
         return m_size;
     }

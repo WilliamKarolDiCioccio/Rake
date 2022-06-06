@@ -4,8 +4,13 @@
 
 #include "Platform/Windows/Win32Window.hpp"
 
+#if defined(SUPPORT_OPENGL) == RK_TRUE
+#ifndef GLEW_STATIC
+#define GLEW_STATIC
+#endif
 #include <gl/glew.h>
 #include <gl/wglew.h>
+#endif
 
 namespace Rake::Windows
 {
@@ -14,11 +19,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 {
     switch (uMsg)
     {
-    case WM_PAINT: {
+    case WM_SETICON: {
     }
-    case WM_CREATE: {
-    }
-    case WM_DESTROY: {
+    case WM_SETCURSOR: {
     }
     case WM_SIZE: {
     }
@@ -35,77 +38,92 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 Win32Window::Win32Window()
 {
-    wcex.cbSize = sizeof(WNDCLASSEX);
-    wcex.style = 0;
-    wcex.lpszClassName = L"ApplicationWindow";
-    wcex.lpfnWndProc = &WindowProc;
+    {
+        MONITORINFOEX hMonIn = {};
 
-    RK_ASSERT(RegisterClassEx(&wcex) != NULL);
+        m_monIn.height = hMonIn.rcMonitor.bottom - hMonIn.rcMonitor.top;
+        m_monIn.width = hMonIn.rcMonitor.right - hMonIn.rcMonitor.left;
 
-    rc = {0, 0, m_width, m_height};
+        DISPLAY_DEVICE dispDevice = {};
+
+        while (EnumDisplayDevices(NULL, reinterpret_cast<DWORD>(m_monIn.ID), &dispDevice, DISPLAY_DEVICE_PRIMARY_DEVICE))
+            m_monIn.ID++;
+    }
+
+    WNDCLASSEX wcex = {
+        .cbSize = sizeof(WNDCLASSEX),
+        .style = 0,
+        .lpfnWndProc = &WindowProc,
+        .hIcon = LoadIcon(NULL, IDI_WINLOGO),
+        .hCursor = LoadCursor(NULL, IDC_ARROW),
+        .lpszClassName = L"ApplicationWindow",
+    };
+
+    if (RegisterClassEx(&wcex) == NULL)
+        throw Core::RkException("Unable to register window class", __FILE__, __LINE__);
+
+    RECT rc = {0, 0, m_winIn.width, m_winIn.height};
     AdjustWindowRect(&rc, WS_SYSMENU, false);
 
-    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-    pfd.nVersion = 1;
-    pfd.iPixelType = PFD_TYPE_RGBA;
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_GENERIC_ACCELERATED;
+    m_handle = CreateWindowEx(NULL, L"ApplicationWindow", reinterpret_cast<LPCWSTR>(m_winIn.title), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, NULL, NULL);
 
-    m_handle = CreateWindowEx(NULL, L"ApplicationWindow", reinterpret_cast<LPCWSTR>(m_title), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, NULL, NULL);
-    RK_ASSERT(m_handle != NULL);
+    if (!m_handle)
+        throw Core::RkException("Handle to the window is NULL!", __FILE__, __LINE__);
+
+    hDC = GetDC((HWND)m_handle);
+    m_pixelFormat = SetupPixelFormat();
+
+    if (!hDC)
+        throw Core::RkException("Device context is a NULL value!", __FILE__, __LINE__);
 
     SetWindowLongPtr((HWND)m_handle, GWLP_USERDATA, (LONG_PTR)this);
-
-    UpdateWindow((HWND)m_handle);
+    SetWindowDisplayAffinity((HWND)m_handle, WDA_NONE);
 }
 
 Win32Window::~Win32Window()
 {
+    ReleaseDC((HWND)m_handle, hDC);
+    RK_ASSERT(!hDC);
     DestroyWindow((HWND)m_handle);
     RK_ASSERT(!m_handle);
-    UnregisterClass(L"ApplicationWindow", wcex.hInstance);
-    RK_ASSERT(!&wcex);
 }
 
 void Win32Window::Refresh()
 {
-    MSG msg;
-
-    if (PeekMessage(&msg, (HWND)m_handle, NULL, NULL, PM_REMOVE))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
 }
 
-void Win32Window::Minimize()
+void Win32Window::Maximize(const B8 _maximize)
 {
-    if (m_state != Core::Window::State::IsMinimized)
-    {
-        ShowWindow((HWND)m_handle, SW_SHOWMINIMIZED);
-        m_state = Core::Window::State::IsMinimized;
-    }
-}
-
-void Win32Window::Maximize()
-{
-    if (m_state != Core::Window::State::IsMaximized)
-    {
+    if (_maximize)
         ShowWindow((HWND)m_handle, SW_SHOWMAXIMIZED);
-        m_state = Core::Window::State::IsMaximized;
-    }
+    else
+        ShowWindow((HWND)m_handle, SW_SHOWMINIMIZED);
+
+    m_isMaximized = true;
 }
 
-void Win32Window::Fullscreen()
+void Win32Window::Fullscreen(const B8 _fullscreen)
 {
-    if (m_state != Core::Window::State::IsFullscreen)
+    MONITORINFOEX hMonIn;
+    DWORD hStyle = GetWindowLong((HWND)m_handle, GWL_STYLE);
+
+    if (_fullscreen)
     {
-        m_state = Core::Window::State::IsFullscreen;
-    }
-}
+        RECT rc;
 
-void Win32Window::SetIcon(const char *_iconPath)
-{
-    DrawIcon(GetDC((HWND)m_handle), 10, 10, hIcon);
+        GetWindowRect((HWND)m_handle, &rc);
+        GetMonitorInfo(MonitorFromWindow((HWND)m_handle, MONITOR_DEFAULTTOPRIMARY), &hMonIn);
+
+        SetWindowLong((HWND)m_handle, GWL_STYLE, hStyle);
+        SetWindowPos((HWND)m_handle, HWND_TOP, hMonIn.rcMonitor.left, hMonIn.rcMonitor.top, hMonIn.rcMonitor.right - hMonIn.rcMonitor.left, hMonIn.rcMonitor.bottom - hMonIn.rcMonitor.top,
+                     SWP_NOOWNERZORDER | SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+
+        m_isFullscreen = true;
+    }
+    else
+    {
+        m_isFullscreen = false;
+    }
 }
 
 void Win32Window::SetTitle(const wchar_t *_title)
@@ -113,7 +131,15 @@ void Win32Window::SetTitle(const wchar_t *_title)
     SetWindowTextW((HWND)m_handle, reinterpret_cast<LPCWSTR>(_title));
 }
 
-void Win32Window::ShouldShow(const B8 _shouldShow)
+void Win32Window::SetIcon(const char *_iconPath)
+{
+}
+
+void Win32Window::RkSetCursor(const char *_spritePath)
+{
+}
+
+void Win32Window::Show(const B8 _shouldShow)
 {
     ShowWindow((HWND)m_handle, _shouldShow);
 }
@@ -122,27 +148,64 @@ void Win32Window::SetSize(long _newWidth, long _newHeight)
 {
     SetWindowPos((HWND)m_handle, HWND_TOPMOST, NULL, NULL, _newWidth, _newHeight, SWP_NOREPOSITION);
 
-    m_width = _newWidth;
-    m_height = _newHeight;
+    m_winIn.width = _newWidth, m_winIn.height = _newHeight;
 }
 
 void Win32Window::SetPos(long _newX, long _newY)
 {
     SetWindowPos((HWND)m_handle, HWND_TOPMOST, _newX, _newY, NULL, NULL, SWP_NOSIZE);
 
-    m_posX = _newX;
-    m_posY = _newY;
+    m_winIn.posX = _newX, m_winIn.posY = _newY;
+}
+
+UINT Win32Window::SetupPixelFormat()
+{
+    PIXELFORMATDESCRIPTOR pfd = {
+        .nSize = sizeof(PIXELFORMATDESCRIPTOR),
+        .nVersion = 1,
+        .dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+        .iPixelType = PFD_TYPE_RGBA,
+        .cColorBits = 24,
+        .cAlphaBits = 8,
+        .cDepthBits = 24,
+        .cStencilBits = 8,
+        .iLayerType = PFD_MAIN_PLANE,
+    };
+
+    const UINT iPixelFormat = ChoosePixelFormat(hDC, &pfd);
+
+    if (!iPixelFormat)
+    {
+        throw Core::RkException("iPixelFormat (int) is a NULL value!", __FILE__, __LINE__);
+        return NULL;
+    }
+
+    if (!SetPixelFormat(hDC, iPixelFormat, &pfd))
+    {
+        throw Core::RkException("Unable to set an adequate pixel format", __FILE__, __LINE__);
+        return NULL;
+    }
+
+    DescribePixelFormat(hDC, iPixelFormat, sizeof(iPixelFormat), &pfd);
+
+    return iPixelFormat;
 }
 
 void Win32Window::MakeCurrentContext()
 {
-    wglCreateContext(GetDC((HWND)m_handle));
-    wglMakeCurrent(GetDC((HWND)m_handle), (HGLRC)m_context);
+    hRC = wglCreateContext(hDC);
+
+    if (!hRC)
+        throw Core::RkException("hRC (HGLRC) is a NULL value!", __FILE__, __LINE__);
+
+    if (!wglMakeCurrent(hDC, hRC))
+        throw Core::RkException("Unable to make the context current", __FILE__, __LINE__);
 }
 
 void Win32Window::DestroyContext()
 {
-    wglDeleteContext((HGLRC)m_context);
+    wglDeleteContext(hRC);
+    RK_ASSERT(!hRC);
 }
 
 } // namespace Rake::Windows

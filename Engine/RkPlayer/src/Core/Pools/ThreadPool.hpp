@@ -16,7 +16,7 @@
 #include <queue>
 #include <vector>
 
-#include "Common.def.h"
+#include "Types.h"
 
 namespace Rake::Core
 {
@@ -35,8 +35,8 @@ class ThreadPool final
     UI32 m_delayedTasks = 0;
 
   public:
-    ThreadPool();
-    ~ThreadPool();
+    RAKE_API ThreadPool();
+    RAKE_API ~ThreadPool();
 
   private:
     bool Init();

@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "Common.def.h"
 #include "Core/EngineConfig.def.h"
 
 #if defined(ASSERTIONS_ENABLED) == 1
@@ -38,20 +37,11 @@
 
 #define RK_STATIC_ASSERT(cnd) static_assert(cnd, "Static assert failed: " #cnd)
 
-namespace Rake::Core
-{
-
-template <typename T> void RkAssert(T _cnd)
-{
-    if (!_cnd)
-    {
-        RK_DEBUG_BREAK;
+#define RK_ASSERT(cnd)                                                                                                                                                                                                          \
+    if (!cnd)                                                                                                                                                                                                                   \
+    {                                                                                                                                                                                                                           \
+        RK_DEBUG_BREAK;                                                                                                                                                                                                         \
     }
-}
-
-} // namespace Rake::Core
-
-#define RK_ASSERT(cnd) Rake::Core::RkAssert(cnd);
 
 #else
 

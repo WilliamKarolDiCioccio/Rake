@@ -1,0 +1,20 @@
+#pragma once
+
+#if defined(COMPILER_MSVC)
+#define DLL_EXPORT  __declspec(dllexport)
+#define DLL_IMPORT  __declspec(dllimport)
+#define RK_INLINE   __forceinline
+#define RK_NOINLINE __declspec(noinline)
+#define DECL_CALL   __cdecl
+#define ALIGNOF     __alignof
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
+#ifdef PLAYER_EXPORT
+#define RAKE_API __attribute__((visibility("default")))
+#else
+#define RAKE_API
+#endif
+#define RK_INLINE   __attribute__((always_inline)) inline
+#define RK_NOINLINE __attribute__((noinline))
+#define DECL_CALL   __stdcall
+#define ALIGNOF
+#endif

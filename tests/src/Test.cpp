@@ -1,14 +1,15 @@
 #include <iostream>
 
-// #include <gtest/gtest.h>
+#include <CppUnitTest.h>
 
-#include "Common.def.h"
+#include "Types.h"
 
-// TEST(RkPlayer, string)
-// {
-// }
+#include "Core/Utils/RkString.inl.h"
+#include "Containers/LinkedList.hpp"
 
-int main()
+using namespace Rake::Containers;
+
+B32 main()
 {
     system("pause");
 

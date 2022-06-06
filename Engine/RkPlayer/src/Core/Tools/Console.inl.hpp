@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Common.def.h"
+#include "Types.h"
+#include "Core/EngineConfig.def.h"
 
 #if defined(RK_DEBUG) && defined(DESKTOP_DEVICE)
 
@@ -11,7 +12,7 @@ namespace Rake::Core
 #include <consoleapi.h>
 #endif
 
-#include "Core/Tools/Assert.inl.hpp"
+#include "Core/Tools/Assert.inl.h"
 
 static class RkConsoleManager final
 {

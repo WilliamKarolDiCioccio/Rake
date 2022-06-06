@@ -1,6 +1,6 @@
 # Format Style Options 
 BasedOnStyle: Microsoft
-ColumnLimit: 250
+ColumnLimit: 225
 SortIncludes: false
 SortUsingDeclarations: false
 ReflowComments: false
