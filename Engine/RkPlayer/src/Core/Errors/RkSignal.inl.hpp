@@ -16,20 +16,16 @@
 namespace Rake::Core
 {
 
-class RkSignalHandler final
+static inline void RaiseInterrupt(U32 _signum)
 {
-  public:
-    static inline void RaiseInterrupt(U32 _signum)
-    {
-        exit(_signum);
-    }
-};
+    exit(_signum);
+}
 
-#define RK_SIGINT  Core::RkSignalHandler::RaiseInterrupt(SIGINT);
-#define RK_SIGILL  Core::RkSignalHandler::RaiseInterrupt(SIGILL)
-#define RK_SIGFPE  Core::RkSignalHandler::RaiseInterrupt(SIGFPE)
-#define RK_SIGSEGV Core::RkSignalHandler::RaiseInterrupt(SIGSEGV)
-#define RK_SIGTERM Core::RkSignalHandler::RaiseInterrupt(SIGTERM)
-#define RK_SIGABRT Core::RkSignalHandler::RaiseInterrupt(SIGABRT)
+#define RK_SIGINT  Core::RaiseInterrupt(SIGINT);
+#define RK_SIGILL  Core::RaiseInterrupt(SIGILL)
+#define RK_SIGFPE  Core::RaiseInterrupt(SIGFPE)
+#define RK_SIGSEGV Core::RaiseInterrupt(SIGSEGV)
+#define RK_SIGTERM Core::RaiseInterrupt(SIGTERM)
+#define RK_SIGABRT Core::RaiseInterrupt(SIGABRT)
 
 } // namespace Rake::Core

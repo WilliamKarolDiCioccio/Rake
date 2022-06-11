@@ -2,8 +2,6 @@
 
 #include "Core/Application/AppFramework.hpp"
 
-#include <gl/glew.h>
-
 namespace Rake::Core
 {
 
@@ -70,15 +68,13 @@ void AppFramework::Update()
         }
         else
         {
-            Platform::DispatchMessages();
-
             m_timer->Tick(60);
 #if defined(DESKTOP_DEVICE) == 1
             m_window->Refresh();
 #elif defined(MOBILE_DEVICE) == 1
             m_surface->Refresh();
 #endif
-
+            this->PumpPlatformMessages();
             this->OnUpdate();
         }
 

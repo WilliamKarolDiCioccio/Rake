@@ -21,7 +21,8 @@ files {
 }
 
 defines {
-    "PLAYER_EXPORT"
+    "PLAYER_EXPORT",
+    "GLEW_STATIC"
 }
 
 includedirs {

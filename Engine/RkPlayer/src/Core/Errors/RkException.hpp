@@ -19,6 +19,10 @@
 namespace Rake::Core
 {
 
+enum class ExceptionType : U32
+{
+};
+
 class RkException : public std::exception
 {
   protected:

@@ -150,7 +150,7 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Macros.h" />
     <ClInclude Include="src\Core\Rake.h" />
-    <ClInclude Include="src\Platform\Windows\Windows.hpp" />
+    <ClInclude Include="src\Platform\Windows\Win32App.hpp" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\Containers\BinaryTree.hpp" />
     <ClInclude Include="src\Containers\LinkedList.hpp" />
@@ -165,8 +165,7 @@
     <ClInclude Include="src\Core\Timers\AsyncTimer.hpp" />
     <ClInclude Include="src\Core\Timers\SyncTimer.hpp" />
     <ClInclude Include="src\Core\Tools\Assert.inl.h" />
-    <ClInclude Include="src\Core\Tools\Console.inl.hpp" />
-    <ClInclude Include="src\Core\Tools\Log.inl.hpp" />
+    <ClInclude Include="src\Core\Tools\Log.hpp" />
     <ClInclude Include="src\Core\Utils\RkString.inl.h" />
     <ClInclude Include="src\Core\Version.h" />
     <ClInclude Include="src\Platform\Windows\Win32Window.hpp" />
@@ -186,6 +185,8 @@
     <ClCompile Include="src\Core\Pools\ThreadPool.cpp" />
     <ClCompile Include="src\Core\Timers\AsyncTimer.cpp" />
     <ClCompile Include="src\Core\Timers\SyncTimer.cpp" />
+    <ClCompile Include="src\Core\Tools\Log.cpp" />
+    <ClCompile Include="src\Platform\Windows\Win32App.cpp" />
     <ClCompile Include="src\Platform\Windows\Win32Window.cpp" />
     <ClCompile Include="src\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Renderer\ComputeContext.cpp" />

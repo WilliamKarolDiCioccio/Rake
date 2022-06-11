@@ -15,6 +15,7 @@
 
 #define ASSERTIONS_ENABLED RK_TRUE
 #define LOGGER_ENABLED     RK_TRUE
+#define CONSOLE_ENABLED    RK_TRUE
 
 #if defined(LOGGER_ENABLED) == RK_TRUE
 #define DEFAULT_LOGGER        "DefaultLogger"

@@ -24,7 +24,7 @@ typedef struct MonitorInfo
 {
     long width;
     long height;
-    U32 *ID;
+    U32 *Id;
 } MonitorInfo, monitor_info;
 
 typedef struct WindowInfo

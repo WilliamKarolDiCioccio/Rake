@@ -13,11 +13,11 @@
 #include "Core/Rake.h"
 
 #if defined(PLATFORM_WINDOWS)
-#include "platform/Windows/Windows.hpp"
+#include "Platform/Windows/Win32App.hpp"
 #elif defined(PLATFORM_LINUX)
-#include "platform/Linux/Linux.hpp"
+#include "Platform/Linux/LinuxApp.hpp"
 #elif defined(PLATFORM_MACOS)
-#include "Platform/MacOS/Macos.hpp"
+#include "Platform/MacOS/MacosApp.hpp"
 #endif
 
 #include "Core/Errors/RkException.hpp"
@@ -48,7 +48,7 @@ typedef struct AppInfo
     const char *cursorPath;
 } AppInfo, app_info;
 
-class AppFramework
+class AppFramework : public PLATFORM_APP_FRAMEWORK
 {
   private:
     static AppFramework *m_appInstance;
@@ -75,8 +75,8 @@ class AppFramework
     RAKE_API static AppFramework *GetInstance();
 
   private:
-    RAKE_API bool Init();
-    RAKE_API void Release();
+    bool Init();
+    void Release();
 
   protected:
     RAKE_API virtual void OnStart() = 0;
@@ -86,9 +86,11 @@ class AppFramework
     RAKE_API virtual void OnStop() = 0;
 };
 
+} // namespace Rake::Core
+
+#define APP_FRAMEWORK Rake::Core::AppFramework
+
 #define IS_GAME_MODE     Rake::Core::Mode::IsGameMode
 #define IS_CHEAT_MODE    Rake::Core::Mode::IsCheatMode
 #define IS_EDITOR_MODE   Rake::Core::Mode::IsEditorMode
 #define IS_TERMINAL_MODE Rake::Core::Mode::IsTerminalMode
-
-} // namespace Rake::Core

@@ -1,13 +1,14 @@
-#include "Core/EntryPoint.h"
-#include "Core/Application/AppFramework.hpp"
+#include <Core/EntryPoint.h>
+
+using namespace Rake::Core;
 
 namespace Testbed
 {
 
-template <typename... Args> class TestbedApplication final : public Rake::Core::AppFramework
+class TestbedApp final : public APP_FRAMEWORK
 {
   public:
-    TestbedApplication(Args... args) : Rake::Core::AppFramework(std::forward<Args>(args)...){};
+    TestbedApp(AppInfo _info) : Rake::Core::AppFramework(std::forward<AppInfo>(_info)){};
 
   private:
     void OnStart() override{};
@@ -19,7 +20,9 @@ template <typename... Args> class TestbedApplication final : public Rake::Core::
 
 } // namespace Testbed
 
-Rake::Core::AppFramework *RkCreateApplication(const Rake::Core::AppInfo _info)
+AppInfo myAppInfo = {IS_CHEAT_MODE, L"Testbed", NULL, NULL};
+
+AppFramework *RkCreateApplication()
 {
-    return new Testbed::TestbedApplication(_info);
+    return new Testbed::TestbedApp(myAppInfo);
 }

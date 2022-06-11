@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <RkBase/internal/Config.h>
-
 using U8 = unsigned char;
 using U16 = unsigned short;
 using U32 = unsigned int;

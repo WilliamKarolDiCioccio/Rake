@@ -24,7 +24,7 @@ std::unique_ptr<Window> Window::CreateNativeWindow()
 #elif defined(PLATFORM_LINUX)
     return std::make_unique<Linux::X11Window>();
 #elif defined(PLATFORM_MACOS)
-    return std::make_unique<MacOS::CocoaWindow>();
+    return std::make_unique<Macos::CocoaWindow>();
 #endif
 }
 

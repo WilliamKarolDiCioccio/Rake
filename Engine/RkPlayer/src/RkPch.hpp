@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <RkBase/internal/Config.h>
+
 #ifdef PLATFORM_WINDOWS
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -46,7 +48,9 @@
 #include <future>
 #include <atomic>
 
-#include "Core/Tools/Log.inl.hpp"
+#include <RkBase/internal/Config.h>
+
+#include "Core/Tools/Log.hpp"
 #include "Core/Tools/Assert.inl.h"
 
 #include "Core/Errors/RkException.hpp"

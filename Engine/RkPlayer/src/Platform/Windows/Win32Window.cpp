@@ -4,13 +4,8 @@
 
 #include "Platform/Windows/Win32Window.hpp"
 
-#if defined(SUPPORT_OPENGL) == RK_TRUE
-#ifndef GLEW_STATIC
-#define GLEW_STATIC
-#endif
 #include <gl/glew.h>
 #include <gl/wglew.h>
-#endif
 
 namespace Rake::Windows
 {
@@ -39,15 +34,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 Win32Window::Win32Window()
 {
     {
-        MONITORINFOEX hMonIn = {};
-
-        m_monIn.height = hMonIn.rcMonitor.bottom - hMonIn.rcMonitor.top;
-        m_monIn.width = hMonIn.rcMonitor.right - hMonIn.rcMonitor.left;
+        m_monIn.height = GetSystemMetrics(SM_CXSCREEN);
+        m_monIn.width = GetSystemMetrics(SM_CYSCREEN);
 
         DISPLAY_DEVICE dispDevice = {};
 
-        while (EnumDisplayDevices(NULL, reinterpret_cast<DWORD>(m_monIn.ID), &dispDevice, DISPLAY_DEVICE_PRIMARY_DEVICE))
-            m_monIn.ID++;
+        while (EnumDisplayDevices(NULL, reinterpret_cast<DWORD>(m_monIn.Id), &dispDevice, DISPLAY_DEVICE_PRIMARY_DEVICE))
+            m_monIn.Id++;
     }
 
     WNDCLASSEX wcex = {
@@ -104,20 +97,10 @@ void Win32Window::Maximize(const B8 _maximize)
 
 void Win32Window::Fullscreen(const B8 _fullscreen)
 {
-    MONITORINFOEX hMonIn;
     DWORD hStyle = GetWindowLong((HWND)m_handle, GWL_STYLE);
 
     if (_fullscreen)
     {
-        RECT rc;
-
-        GetWindowRect((HWND)m_handle, &rc);
-        GetMonitorInfo(MonitorFromWindow((HWND)m_handle, MONITOR_DEFAULTTOPRIMARY), &hMonIn);
-
-        SetWindowLong((HWND)m_handle, GWL_STYLE, hStyle);
-        SetWindowPos((HWND)m_handle, HWND_TOP, hMonIn.rcMonitor.left, hMonIn.rcMonitor.top, hMonIn.rcMonitor.right - hMonIn.rcMonitor.left, hMonIn.rcMonitor.bottom - hMonIn.rcMonitor.top,
-                     SWP_NOOWNERZORDER | SWP_FRAMECHANGED | SWP_SHOWWINDOW);
-
         m_isFullscreen = true;
     }
     else
