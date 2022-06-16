@@ -5,11 +5,22 @@
 namespace Rake::Renderer
 {
 
-Renderer::Renderer()
+Renderer *Renderer::m_rendererInstance = nullptr;
+
+Renderer::Renderer(const RendererAPI _rendererApi, const RendererType _type)
 {
+    if ()
+    {
+
+        switch (_rendererApi)
+        {
+        default:
+            break;
+        }
+    }
 }
 
-bool Renderer::Init()
+B8 Renderer::Init()
 {
     return true;
 }

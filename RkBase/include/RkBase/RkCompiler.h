@@ -1,3 +1,11 @@
+/*****************************************************************/ /**
+ * \file   Config.h
+ * \brief  
+ * 
+ * \author Di Cioccio William Karol
+ * \date   April 2022
+ *********************************************************************/
+
 #pragma once
 
 #if defined(COMPILER_MSVC)
@@ -8,11 +16,8 @@
 #define DECL_CALL   __cdecl
 #define ALIGNOF     __alignof
 #elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
-#ifdef PLAYER_EXPORT
-#define RAKE_API __attribute__((visibility("default")))
-#else
-#define RAKE_API
-#endif
+#define DLL_EXPORT __attribute__((visibility("default")))
+#define DLL_IMPORT
 #define RK_INLINE   __attribute__((always_inline)) inline
 #define RK_NOINLINE __attribute__((noinline))
 #define DECL_CALL   __stdcall

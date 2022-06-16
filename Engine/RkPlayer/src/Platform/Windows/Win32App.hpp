@@ -3,6 +3,8 @@
 #if defined(PLATFORM_WINDOWS)
 
 #include <mutex>
+#include <processenv.h>
+#include <consoleapi.h>
 
 #include "Types.h"
 
@@ -13,7 +15,6 @@ class Win32App
 {
   public:
     HANDLE hMutex;
-    HMODULE hModule;
     DWORD processId;
 
   protected:

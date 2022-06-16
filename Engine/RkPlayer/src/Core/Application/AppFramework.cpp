@@ -55,7 +55,6 @@ AppFramework::~AppFramework()
     this->Release();
 
     delete (m_appInstance);
-    RK_ASSERT(!m_appInstance);
 }
 
 void AppFramework::Update()
@@ -68,13 +67,15 @@ void AppFramework::Update()
         }
         else
         {
+            this->PumpPlatformMessages();
+
             m_timer->Tick(60);
+
 #if defined(DESKTOP_DEVICE) == 1
             m_window->Refresh();
 #elif defined(MOBILE_DEVICE) == 1
             m_surface->Refresh();
 #endif
-            this->PumpPlatformMessages();
             this->OnUpdate();
         }
 
@@ -120,7 +121,7 @@ AppFramework *AppFramework::GetInstance()
         return nullptr;
 }
 
-bool AppFramework::Init()
+B8 AppFramework::Init()
 {
     m_timer = std::make_unique<SyncTimer>(1.0f);
 #if defined(DESKTOP_DEVICE) == 1

@@ -26,6 +26,10 @@ template <typename T> B32 StrCompare(const T *_toCompare, const T *_toCompareTo)
     return (B32)(T)(*_toCompare) - (B32)(T)(*_toCompareTo);
 }
 
+template <typename T> T *FlipStr(T *&_toFlip)
+{
+}
+
 template <typename T> void EmptyStr(T *&_string)
 {
     return _string[0] = '\0';

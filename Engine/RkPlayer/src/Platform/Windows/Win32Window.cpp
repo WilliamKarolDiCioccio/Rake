@@ -15,20 +15,25 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     switch (uMsg)
     {
     case WM_SETICON: {
+        [[falltrough]];
     }
     case WM_SETCURSOR: {
+        [[falltrough]];
     }
     case WM_SIZE: {
+        [[falltrough]];
     }
     case WM_SIZING: {
+        [[falltrough]];
     }
     case WM_CLOSE: {
         PostQuitMessage(NULL);
+        [[falltrough]];
     }
     default:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
+        break;
     }
-    return NULL;
 }
 
 Win32Window::Win32Window()

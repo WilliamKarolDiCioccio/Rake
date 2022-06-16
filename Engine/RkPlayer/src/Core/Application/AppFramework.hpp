@@ -29,6 +29,8 @@
 #include "GUI/Mobile/Surface.hpp"
 #endif
 
+#include "Renderer/Renderer.hpp"
+
 namespace Rake::Core
 {
 
@@ -75,7 +77,7 @@ class AppFramework : public PLATFORM_APP_FRAMEWORK
     RAKE_API static AppFramework *GetInstance();
 
   private:
-    bool Init();
+    B8 Init();
     void Release();
 
   protected:
