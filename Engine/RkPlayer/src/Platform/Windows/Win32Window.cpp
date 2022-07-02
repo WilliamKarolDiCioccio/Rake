@@ -1,78 +1,56 @@
-#include "src/RkPch.hpp"
+#include "src/RkPch.h"
 
-#if defined(PLATFORM_WINDOWS)
+#if defined(PLATFORM_WINDOWS) == 1
 
 #include "Platform/Windows/Win32Window.hpp"
 
-#include <gl/glew.h>
-#include <gl/wglew.h>
-
-namespace Rake::Windows
+namespace Rake::Platform::Windows
 {
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
 {
     switch (uMsg)
     {
-    case WM_SETICON: {
-        [[falltrough]];
-    }
-    case WM_SETCURSOR: {
-        [[falltrough]];
-    }
     case WM_SIZE: {
-        [[falltrough]];
     }
     case WM_SIZING: {
-        [[falltrough]];
     }
     case WM_CLOSE: {
         PostQuitMessage(NULL);
-        [[falltrough]];
     }
     default:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
-        break;
     }
+    return NULL;
 }
 
 Win32Window::Win32Window()
 {
-    {
-        m_monIn.height = GetSystemMetrics(SM_CXSCREEN);
-        m_monIn.width = GetSystemMetrics(SM_CYSCREEN);
+    this->GetMonitorMetrics(m_monitorList);
 
-        DISPLAY_DEVICE dispDevice = {};
-
-        while (EnumDisplayDevices(NULL, reinterpret_cast<DWORD>(m_monIn.Id), &dispDevice, DISPLAY_DEVICE_PRIMARY_DEVICE))
-            m_monIn.Id++;
-    }
-
-    WNDCLASSEX wcex = {
+    WNDCLASSEX extendedWindow = {
         .cbSize = sizeof(WNDCLASSEX),
         .style = 0,
         .lpfnWndProc = &WindowProc,
-        .hIcon = LoadIcon(NULL, IDI_WINLOGO),
-        .hCursor = LoadCursor(NULL, IDC_ARROW),
-        .lpszClassName = L"ApplicationWindow",
+        .lpszClassName = L"RakeWindow",
     };
 
-    if (RegisterClassEx(&wcex) == NULL)
-        throw Core::RkException("Unable to register window class", __FILE__, __LINE__);
+    if (RegisterClassEx(&extendedWindow) == NULL)
+        throw Core::Error::RkException("Unable to register window class", __FILE__, __LINE__);
 
-    RECT rc = {0, 0, m_winIn.width, m_winIn.height};
+    RECT rc = {0, 0, m_width, m_height};
     AdjustWindowRect(&rc, WS_SYSMENU, false);
 
-    m_handle = CreateWindowEx(NULL, L"ApplicationWindow", reinterpret_cast<LPCWSTR>(m_winIn.title), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, NULL, NULL);
+    m_handle = CreateWindowEx(NULL, L"RakeWindow", reinterpret_cast<LPCWSTR>(m_title), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, NULL, NULL);
 
     if (!m_handle)
-        throw Core::RkException("Handle to the window is NULL!", __FILE__, __LINE__);
+        throw Core::Error::RkException("Handle to the window is NULL!", __FILE__, __LINE__);
 
-    hDC = GetDC((HWND)m_handle);
+    hDC = GetDC((HWND)m_handle), m_context = hDC;
     m_pixelFormat = SetupPixelFormat();
 
     if (!hDC)
-        throw Core::RkException("Device context is a NULL value!", __FILE__, __LINE__);
+        throw Core::Error::RkException("Device context is a NULL value!", __FILE__, __LINE__);
 
     SetWindowLongPtr((HWND)m_handle, GWLP_USERDATA, (LONG_PTR)this);
     SetWindowDisplayAffinity((HWND)m_handle, WDA_NONE);
@@ -83,7 +61,7 @@ Win32Window::~Win32Window()
     ReleaseDC((HWND)m_handle, hDC);
     RK_ASSERT(!hDC);
     DestroyWindow((HWND)m_handle);
-    RK_ASSERT(!m_handle);
+    delete (m_handle);
 }
 
 void Win32Window::Refresh()
@@ -97,7 +75,7 @@ void Win32Window::Maximize(const B8 _maximize)
     else
         ShowWindow((HWND)m_handle, SW_SHOWMINIMIZED);
 
-    m_isMaximized = true;
+    m_isMaximized = _maximize;
 }
 
 void Win32Window::Fullscreen(const B8 _fullscreen)
@@ -106,12 +84,12 @@ void Win32Window::Fullscreen(const B8 _fullscreen)
 
     if (_fullscreen)
     {
-        m_isFullscreen = true;
     }
     else
     {
-        m_isFullscreen = false;
     }
+
+    m_isFullscreen = _fullscreen;
 }
 
 void Win32Window::SetTitle(const wchar_t *_title)
@@ -132,18 +110,30 @@ void Win32Window::Show(const B8 _shouldShow)
     ShowWindow((HWND)m_handle, _shouldShow);
 }
 
+void Win32Window::RkShowCursor(const B8 _shouldShow)
+{
+    ShowCursor(_shouldShow);
+}
+
 void Win32Window::SetSize(long _newWidth, long _newHeight)
 {
     SetWindowPos((HWND)m_handle, HWND_TOPMOST, NULL, NULL, _newWidth, _newHeight, SWP_NOREPOSITION);
 
-    m_winIn.width = _newWidth, m_winIn.height = _newHeight;
+    m_width = _newWidth, m_height = _newHeight;
 }
 
 void Win32Window::SetPos(long _newX, long _newY)
 {
     SetWindowPos((HWND)m_handle, HWND_TOPMOST, _newX, _newY, NULL, NULL, SWP_NOSIZE);
 
-    m_winIn.posX = _newX, m_winIn.posY = _newY;
+    m_posX = _newX, m_posY = _newY;
+}
+
+void Win32Window::RkSetCursorPos(long _newX, long _newY)
+{
+    SetCursorPos(_newX, _newY);
+
+    m_cursor.posX = _newX, m_cursor.posY = _newY;
 }
 
 UINT Win32Window::SetupPixelFormat()
@@ -151,7 +141,7 @@ UINT Win32Window::SetupPixelFormat()
     PIXELFORMATDESCRIPTOR pfd = {
         .nSize = sizeof(PIXELFORMATDESCRIPTOR),
         .nVersion = 1,
-        .dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+        .dwFlags = PFD_DRAW_TO_WINDOW,
         .iPixelType = PFD_TYPE_RGBA,
         .cColorBits = 24,
         .cAlphaBits = 8,
@@ -164,13 +154,13 @@ UINT Win32Window::SetupPixelFormat()
 
     if (!iPixelFormat)
     {
-        throw Core::RkException("iPixelFormat (int) is a NULL value!", __FILE__, __LINE__);
+        throw Core::Error::RkException("iPixelFormat (int) is a NULL value!", __FILE__, __LINE__);
         return NULL;
     }
 
     if (!SetPixelFormat(hDC, iPixelFormat, &pfd))
     {
-        throw Core::RkException("Unable to set an adequate pixel format", __FILE__, __LINE__);
+        throw Core::Error::RkException("Unable to set an adequate pixel format", __FILE__, __LINE__);
         return NULL;
     }
 
@@ -179,23 +169,30 @@ UINT Win32Window::SetupPixelFormat()
     return iPixelFormat;
 }
 
-void Win32Window::MakeCurrentContext()
+void Win32Window::GetMonitorMetrics(std::vector<Application::GUI::Monitor> &_monitorList)
 {
-    hRC = wglCreateContext(hDC);
+    DISPLAY_DEVICE displayDevice = {.cb = sizeof(displayDevice)};
+    DWORD deviceIndex = NULL;
 
-    if (!hRC)
-        throw Core::RkException("hRC (HGLRC) is a NULL value!", __FILE__, __LINE__);
+    while (EnumDisplayDevices(NULL, deviceIndex, &displayDevice, NULL))
+    {
+        Application::GUI::Monitor monitor;
 
-    if (!wglMakeCurrent(hDC, hRC))
-        throw Core::RkException("Unable to make the context current", __FILE__, __LINE__);
+        monitor.name = displayDevice.DeviceName;
+        monitor.ID = displayDevice.DeviceID;
+        _monitorList.push_back(monitor);
+
+        U32 monitorIndex = NULL;
+
+        while (EnumDisplayDevices(reinterpret_cast<LPCWSTR>(monitor.name), monitorIndex, &displayDevice, NULL))
+        {
+            monitorIndex++;
+        }
+
+        deviceIndex++;
+    }
 }
 
-void Win32Window::DestroyContext()
-{
-    wglDeleteContext(hRC);
-    RK_ASSERT(!hRC);
-}
-
-} // namespace Rake::Windows
+} // namespace Rake::Platform::Windows
 
 #endif

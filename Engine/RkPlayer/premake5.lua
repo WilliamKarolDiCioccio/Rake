@@ -9,7 +9,7 @@ warnings "High"
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
 objdir("%{wks.location}/obj/" .. IntDir .. "")
 
-pchheader "src/RkPch.hpp"
+pchheader "src/RkPch.h"
 pchsource "src/RkPch.cpp"
 
 files {
@@ -21,35 +21,17 @@ files {
 }
 
 defines {
-    "PLAYER_EXPORT",
-    "GLEW_STATIC"
+    "PLAYER_EXPORT"
 }
 
 includedirs {
+    "../../RkSTL/include",
     "../RkPlayer",
     "../RkPlayer/src",
-    "../../RkBase/include",
-    "%{IncludeDir.GLEW}",
     "%{IncludeDir.spdlog}",
     "%{IncludeDir.json}",
-    "%{IncludeDir.imgui}",
-    "%{IncludeDir.VulkanSDK}"
-}
-
-libdirs {
-    "%{LibraryDir.GLEW}",
-    "%{LibraryDir.imgui}",
-    "%{LibraryDir.VulkanSDK}"
 }
 
 links {
-    "%{Library.GLEW}",
-    "%{Library.imgui}",
-    "%{Library.Vulkan}"
-}
-
-filter "system:Windows"
-links {
-    "opengl32.lib",
-    "glu32.lib"
+    "d3dcompiler.lib"
 }

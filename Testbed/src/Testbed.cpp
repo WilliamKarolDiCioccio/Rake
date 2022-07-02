@@ -1,6 +1,6 @@
-#include <Core/EntryPoint.h>
+#include <Rake/Rake.h>
 
-using namespace Rake::Core;
+using namespace Rake::Application;
 
 namespace Testbed
 {
@@ -8,7 +8,7 @@ namespace Testbed
 class TestbedApp final : public APP_FRAMEWORK
 {
   public:
-    TestbedApp(AppInfo _info) : Rake::Core::AppFramework(std::forward<AppInfo>(_info)){};
+    TestbedApp(AppInfo _info) : Rake::Application::AppFramework(std::forward<AppInfo>(_info)){};
 
   private:
     void OnStart() override{};

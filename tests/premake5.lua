@@ -17,10 +17,11 @@ files {
 }
 
 includedirs {
+    "../RkSTL/include",
     "../tests",
     "../tests/src",
-    "../RkBase/include",
-    "../Engine/RkPlayer/src"
+    "../Engine/RkPlayer/src",
+    "../Engine/RkPlayer/include"
 }
 
 filter "system:Windows"

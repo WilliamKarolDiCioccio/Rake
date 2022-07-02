@@ -16,15 +16,14 @@ files {
 }
 
 includedirs {
+    "../RkSTL/include",
     "../Testbed",
     "../Testbed/src",
     "../Engine/RkPlayer/src",
-    "../RkBase/include",
-    "%{IncludeDir.GLEW}",
+    "../Engine/RkPlayer/include",
     "%{IncludeDir.SDL2}",
     "%{IncludeDir.spdlog}",
     "%{IncludeDir.json}",
-    "%{IncludeDir.imgui}"
 }
 
 links {

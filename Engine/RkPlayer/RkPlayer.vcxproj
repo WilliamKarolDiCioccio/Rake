@@ -79,10 +79,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>src/RkPch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src/RkPch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;PLAYER_EXPORT;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;..\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\RkSTL\include;.;src;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -94,18 +94,17 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\thirdparties\GLEW\lib\Release\x64\glew32.lib;..\thirdparties\imgui\bin\Release-windows-x86_64\ImGui.lib;C:\VulkanSDK\1.3.211.0\lib\vulkan-1.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\thirdparties\GLEW\lib\Release\x64;..\thirdparties\imgui\bin\Release-windows-x86_64;C:\VulkanSDK\1.3.211.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\bin\Debug-windows-x86_64\RkPlayer.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>src/RkPch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src/RkPch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;PLAYER_EXPORT;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;..\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\RkSTL\include;.;src;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -117,18 +116,17 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\thirdparties\GLEW\lib\Release\x64\glew32.lib;..\thirdparties\imgui\bin\Release-windows-x86_64\ImGui.lib;C:\VulkanSDK\1.3.211.0\lib\vulkan-1.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\thirdparties\GLEW\lib\Release\x64;..\thirdparties\imgui\bin\Release-windows-x86_64;C:\VulkanSDK\1.3.211.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\bin\Development-windows-x86_64\RkPlayer.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>src/RkPch.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>src/RkPch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;PLAYER_EXPORT;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;src;..\..\RkBase\include;..\thirdparties\GLEW\include;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;..\thirdparties\imgui;C:\VulkanSDK\1.3.211.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;PLAYER_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\RkSTL\include;.;src;..\thirdparties\spdlog\include;..\..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -145,59 +143,58 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\thirdparties\GLEW\lib\Release\x64\glew32.lib;..\thirdparties\imgui\bin\Release-windows-x86_64\ImGui.lib;C:\VulkanSDK\1.3.211.0\lib\vulkan-1.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\thirdparties\GLEW\lib\Release\x64;..\thirdparties\imgui\bin\Release-windows-x86_64;C:\VulkanSDK\1.3.211.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\..\bin\Release-windows-x86_64\RkPlayer.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Rake\Rake.h" />
+    <ClInclude Include="src\Application\AppFramework.hpp" />
+    <ClInclude Include="src\Application\GUI\Window.hpp" />
     <ClInclude Include="src\Containers\BinaryTree.hpp" />
     <ClInclude Include="src\Containers\LinkedList.hpp" />
-    <ClInclude Include="src\Core\Application\AppFramework.hpp" />
-    <ClInclude Include="src\Core\EngineConfig.def.h" />
-    <ClInclude Include="src\Core\EntryPoint.h" />
-    <ClInclude Include="src\Core\Errors\RkException.hpp" />
-    <ClInclude Include="src\Core\Errors\RkSignal.inl.hpp" />
-    <ClInclude Include="src\Core\GUI\Window.hpp" />
-    <ClInclude Include="src\Core\Macros.h" />
-    <ClInclude Include="src\Core\Pools\MemoryPool.hpp" />
-    <ClInclude Include="src\Core\Pools\ThreadPool.hpp" />
-    <ClInclude Include="src\Core\Rake.h" />
-    <ClInclude Include="src\Core\Timers\AsyncTimer.hpp" />
-    <ClInclude Include="src\Core\Timers\SyncTimer.hpp" />
-    <ClInclude Include="src\Core\Tools\Assert.inl.h" />
-    <ClInclude Include="src\Core\Tools\Log.hpp" />
-    <ClInclude Include="src\Core\Utils\RkString.inl.h" />
-    <ClInclude Include="src\Core\Version.h" />
+    <ClInclude Include="src\Core\Base.hpp" />
+    <ClInclude Include="src\Core\Config.h" />
+    <ClInclude Include="src\Core\Error\RkException.hpp" />
+    <ClInclude Include="src\Core\Pool\MemoryPool.hpp" />
+    <ClInclude Include="src\Core\Pool\ThreadPool.hpp" />
+    <ClInclude Include="src\Core\Random.hpp" />
+    <ClInclude Include="src\Core\StringUtils.hpp" />
+    <ClInclude Include="src\Core\Timer\AsyncTimer.hpp" />
+    <ClInclude Include="src\Core\Timer\SyncTimer.hpp" />
+    <ClInclude Include="src\Drivers\Direct3D\Direct3DRenderer.hpp" />
+    <ClInclude Include="src\Engine\Renderer\Buffer.hpp" />
+    <ClInclude Include="src\Engine\Renderer\ComputeContext.hpp" />
+    <ClInclude Include="src\Engine\Renderer\Device.hpp" />
+    <ClInclude Include="src\Engine\Renderer\GraphicsContext.hpp" />
+    <ClInclude Include="src\Engine\Renderer\Renderer.hpp" />
+    <ClInclude Include="src\EntryPoint.h" />
     <ClInclude Include="src\Platform\Windows\Win32App.hpp" />
     <ClInclude Include="src\Platform\Windows\Win32Window.hpp" />
-    <ClInclude Include="src\Renderer\Buffer.hpp" />
-    <ClInclude Include="src\Renderer\ComputeContext.hpp" />
-    <ClInclude Include="src\Renderer\Device.hpp" />
-    <ClInclude Include="src\Renderer\GraphicsContext.hpp" />
-    <ClInclude Include="src\Renderer\Renderer.hpp" />
-    <ClInclude Include="src\RkPch.hpp" />
-    <ClInclude Include="src\Types.h" />
+    <ClInclude Include="src\RkPch.h" />
+    <ClInclude Include="src\Tools\Assert.h" />
+    <ClInclude Include="src\Tools\Log.hpp" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Application\AppFramework.cpp" />
-    <ClCompile Include="src\Core\Errors\RkException.cpp" />
-    <ClCompile Include="src\Core\GUI\Window.cpp" />
-    <ClCompile Include="src\Core\Pools\MemoryPool.cpp" />
-    <ClCompile Include="src\Core\Pools\ThreadPool.cpp" />
-    <ClCompile Include="src\Core\Timers\AsyncTimer.cpp" />
-    <ClCompile Include="src\Core\Timers\SyncTimer.cpp" />
-    <ClCompile Include="src\Core\Tools\Log.cpp" />
+    <ClCompile Include="src\Application\AppFramework.cpp" />
+    <ClCompile Include="src\Application\GUI\Window.cpp" />
+    <ClCompile Include="src\Core\Error\RkException.cpp" />
+    <ClCompile Include="src\Core\Pool\ThreadPool.cpp" />
+    <ClCompile Include="src\Core\Timer\AsyncTimer.cpp" />
+    <ClCompile Include="src\Core\Timer\SyncTimer.cpp" />
+    <ClCompile Include="src\Drivers\Direct3D\Direct3DRenderer.cpp" />
+    <ClCompile Include="src\Engine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Engine\Renderer\ComputeContext.cpp" />
+    <ClCompile Include="src\Engine\Renderer\Device.cpp" />
+    <ClCompile Include="src\Engine\Renderer\GraphicsContext.cpp" />
+    <ClCompile Include="src\Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Platform\Windows\Win32App.cpp" />
     <ClCompile Include="src\Platform\Windows\Win32Window.cpp" />
-    <ClCompile Include="src\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Renderer\ComputeContext.cpp" />
-    <ClCompile Include="src\Renderer\Device.cpp" />
-    <ClCompile Include="src\Renderer\GraphicsContext.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\RkPch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Tools\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include=".natvis" />

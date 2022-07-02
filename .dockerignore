@@ -1,0 +1,15 @@
+# IntelliJ configuration files
+.idea/** 
+
+# Github templates and workflows
+.github/** 
+
+# vscode user settings
+.vscode/settings.json 
+
+# Binary and intermediate files
+.bin/** 
+.obj/**
+
+# Branding resources
+.branding/** 

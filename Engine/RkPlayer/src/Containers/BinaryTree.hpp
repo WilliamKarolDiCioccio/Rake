@@ -8,9 +8,8 @@
 
 #pragma once
 
-#include "Types.h"
-
-#include "Core/Tools/Log.inl.hpp"
+#include "Core/Base.hpp"
+#include "Tools/Log.hpp"
 
 namespace Rake::Containers
 {
