@@ -46,9 +46,9 @@
 #include "Tools/Assert.h"
 #include "Tools/Log.hpp"
 
-#include "Core/Error/RkException.hpp"
-#include "Core/Pool/MemoryPool.hpp"
-#include "Core/Pool/ThreadPool.hpp"
+#include "Core/RkException.hpp"
+#include "Core/MemoryPool.hpp"
+#include "Core/ThreadPool.hpp"
 
 /**********************************************************************/
 
@@ -60,5 +60,4 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <windows.h>
-#include <wrl.h>
 #endif

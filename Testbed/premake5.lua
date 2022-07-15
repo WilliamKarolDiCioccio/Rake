@@ -1,9 +1,10 @@
 project "Testbed"
-kind "WindowedApp"
-language "C++"
-cppdialect "C++20"
-staticruntime "Off"
-warnings "High"
+    kind "WindowedApp"
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "Off"
+    warnings "High"
+    dpiawareness "HighPerMonitor"
 
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
 objdir("%{wks.location}/obj/" .. IntDir .. "")
@@ -12,18 +13,19 @@ files {
     "./**.h",
     "./**.hpp",
     "./**.c",
-    "./**.cpp"
+    "./**.cpp",
+    ".natvis"
 }
 
 includedirs {
-    "../RkSTL/include",
-    "../Testbed",
-    "../Testbed/src",
+    "./src",
     "../Engine/RkPlayer/src",
-    "../Engine/RkPlayer/include",
-    "%{IncludeDir.SDL2}",
+    "%{IncludeDir.RkSTL}",
+    "%{IncludeDir.Boost}",
+    "%{IncludeDir.VulkanSDK}",
     "%{IncludeDir.spdlog}",
-    "%{IncludeDir.json}",
+    "%{IncludeDir.imgui}",
+    "%{IncludeDir.json}"
 }
 
 links {

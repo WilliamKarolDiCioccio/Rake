@@ -12,7 +12,7 @@
 #define ARCHITECTURE_X86_64
 #define ARCHITECTURE_NAME "x86_64 64-bits"
 #elif defined(__i386__) || defined(_M_IX86) || defined(__X86__) || defined(_X86_)
-#define ARCHITECTURE_X86_64
+#define ARCHITECTURE_X86
 #define ARCHITECTURE_NAME "i386 32-bits"
 #elif defined(__aarch64__) || defined(_M_ARM64)
 #define ARCHITECTURE_ARM_64

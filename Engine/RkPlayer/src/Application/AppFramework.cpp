@@ -7,47 +7,36 @@ namespace Rake::Application
 
 AppFramework *AppFramework::m_appInstance = nullptr;
 
-AppFramework::AppFramework(const AppInfo _appInfo)
+AppFramework::AppFramework(const AppData _appData)
 {
     if (!m_appInstance)
     {
         m_appInstance = this;
 
-        if (!m_appInstance)
-            throw Core::Error::RkException("", __FILE__, __LINE__);
-
-        if (_appInfo.mode == IS_GAME_MODE)
+        if (_appData.mode == IS_GAME_MODE)
         {
         }
-        else if (_appInfo.mode == IS_CHEAT_MODE)
+        else if (_appData.mode == IS_CHEAT_MODE)
         {
         }
-        else if (_appInfo.mode == IS_EDITOR_MODE)
-        {
-        }
-        else if (_appInfo.mode == IS_TERMINAL_MODE)
+        else if (_appData.mode == IS_EDITOR_MODE)
         {
         }
         else
         {
-            throw Core::Error::RkException("Unrecognized applicaton mode!", __FILE__, __LINE__);
+            RK_SIGABRT;
         }
 
         if (!this->Init())
         {
-            throw Core::Error::RkException("Cannot init members!", __FILE__, __LINE__);
+            RK_SIGABRT;
         }
-        else
-        {
-            m_timer->SetTimescale(1.0f);
-            m_window->SetTitle(_appInfo.appName);
-            m_window->SetIcon(_appInfo.iconPath);
-            m_window->RkSetCursor(_appInfo.cursorPath);
-        }
+
+        m_window->SetTitle(_appData.appName);
     }
     else
     {
-        throw Core::Error::RkException("Application instance already created!", __FILE__, __LINE__);
+        return;
     }
 }
 
@@ -60,48 +49,51 @@ AppFramework::~AppFramework()
 
 void AppFramework::Update()
 {
-    while (m_isRunning)
+    while (m_appState.isRunning)
     {
-        if (m_isPaused)
-        {
-            this->OnPause();
-        }
-        else
-        {
+        while (m_appState.isPaused)
             this->PumpPlatformMessages();
 
-            m_timer->Tick();
-            m_window->Refresh();
+        this->PumpPlatformMessages();
 
-            this->OnUpdate();
-        }
+        m_timer->Tick();
+        m_window->Refresh();
 
-        std::this_thread::sleep_for(m_sleep);
+        std::cout << "Width:" << m_window->GetWidth() << "Height:" << m_window->GetHeight() << '\r';
+
+        this->OnUpdate();
+
+        std::this_thread::sleep_for(16ms);
     }
 }
 
 void AppFramework::Start()
 {
     m_window->Show(true);
+    m_window->Maximize(true);
+    m_window->Fullscreen(true);
 
-    m_isRunning = true;
+    m_appState.isRunning = true;
 
     this->OnStart();
 }
 
-void AppFramework::Pause()
+void AppFramework::Pause(B8 _isPaused)
 {
-    if (m_isPaused != true)
-        m_isPaused = true;
-    else
-        m_isPaused = false;
+    if (m_appState.isPaused != _isPaused)
+    {
+        m_appState.isPaused = _isPaused;
+
+        if (_isPaused)
+            this->OnPause();
+    }
 }
 
 void AppFramework::Stop()
 {
     m_window->Show(false);
 
-    m_isRunning = false;
+    m_appState.isRunning = false;
 
     this->OnStop();
 }
@@ -116,15 +108,26 @@ AppFramework *AppFramework::GetInstance()
 
 B8 AppFramework::Init()
 {
-    m_timer = std::make_unique<Core::Timer::SyncTimer>();
+#if defined(RK_DEBUG)
+    this->AllocateConsole();
+#endif
+
+    m_timer = std::make_unique<Core::SyncTimer>();
     m_window = GUI::Window::CreateWindow();
-    m_gEngine = Engine::Graphics::Renderer::CreateRenderer();
+    m_gEngine = Engine::Renderer::CreateRenderer(API_VULKAN);
+
+    GUI::WindowManager::RegisterWindow();
 
     return true;
 }
 
 void AppFramework::Release()
 {
+#if defined(RK_DEBUG)
+    this->ReleaseConsole();
+#endif
+
+    GUI::WindowManager::UnregisterAllWindows();
 }
 
 } // namespace Rake::Application

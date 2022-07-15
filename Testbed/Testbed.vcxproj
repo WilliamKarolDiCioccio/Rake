@@ -24,21 +24,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <UseOfATL>Dynamic</UseOfATL>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <UseOfATL>Dynamic</UseOfATL>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <UseOfATL>Dynamic</UseOfATL>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
@@ -81,7 +78,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\RkSTL\include;.;src;..\Engine\RkPlayer\src;..\Engine\RkPlayer\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\spdlog\include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -93,13 +90,16 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\RkSTL\include;.;src;..\Engine\RkPlayer\src;..\Engine\RkPlayer\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\spdlog\include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -111,13 +111,16 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\RkSTL\include;.;src;..\Engine\RkPlayer\src;..\Engine\RkPlayer\include;.;..\Engine\thirdparties\spdlog\include;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\spdlog\include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -134,9 +137,15 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Testbed.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include=".natvis" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\RkPlayer\RkPlayer.vcxproj">

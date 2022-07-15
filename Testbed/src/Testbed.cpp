@@ -1,4 +1,4 @@
-#include <Rake/Rake.h>
+#include <EntryPoint.h>
 
 using namespace Rake::Application;
 
@@ -8,7 +8,7 @@ namespace Testbed
 class TestbedApp final : public APP_FRAMEWORK
 {
   public:
-    TestbedApp(AppInfo _info) : Rake::Application::AppFramework(std::forward<AppInfo>(_info)){};
+    TestbedApp(AppData _appData) : APP_FRAMEWORK(std::forward<AppData>(_appData)){};
 
   private:
     void OnStart() override{};
@@ -20,9 +20,10 @@ class TestbedApp final : public APP_FRAMEWORK
 
 } // namespace Testbed
 
-AppInfo myAppInfo = {IS_CHEAT_MODE, L"Testbed", NULL, NULL};
-
 AppFramework *RkCreateApplication()
 {
-    return new Testbed::TestbedApp(myAppInfo);
+    AppData appData = {IS_CHEAT_MODE, L"Testbed", "\0", "\0"};
+    ParseCmdLineArgs(appData);
+
+    return new Testbed::TestbedApp(appData);
 }

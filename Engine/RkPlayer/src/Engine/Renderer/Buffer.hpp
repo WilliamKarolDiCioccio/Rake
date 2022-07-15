@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Rake::Engine::Graphics
+namespace Rake::Engine
 {
 
 class Buffer
@@ -9,4 +9,4 @@ class Buffer
     virtual ~Buffer() = default;
 };
 
-} // namespace Rake::Engine::Graphics
+} // namespace Rake::Engine

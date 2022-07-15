@@ -9,5 +9,6 @@
   "editor.autoIndent": "brackets",
   "explorer.confirmDragAndDrop": true,
   "explorer.confirmDelete": true,
-  "cmake.sourceDirectory": "${workspaceFolder}"
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "git.ignoreLimitWarning": true
 }

@@ -6,37 +6,55 @@
 #include "Core/Base.hpp"
 #include "Tools/Assert.h"
 #include "Tools/Log.hpp"
-#include "Core/Error/RkException.hpp"
+#include "Core/RkException.hpp"
 #include "Application/AppFramework.hpp"
 
 extern Rake::Application::AppFramework *RkCreateApplication();
+
+#if defined(PLATFORM_WINDOWS) == 1
+#include <shellapi.h>
+#endif
+
+void ParseCmdLineArgs(Rake::Application::AppData &_appData)
+{
+    int argc = __argc;
+    wchar_t **argv = __wargv;
+
+#if defined(PLATFORM_WINDOWS)
+    argv = ::CommandLineToArgvW(GetCommandLine(), &argc);
+#endif
+
+    for (size_t i = 0; i < argc; i++)
+    {
+        // if (::wcscmp(argv[i], L"") == 0)
+        // {
+        // }
+    }
+}
 
 RK_GUI_MAIN()
 {
     Rake::Tools::RkLogManager::Init();
 
-    auto app = RkCreateApplication();
-
     try
     {
+        auto app = RkCreateApplication();
+
         app->Start();
         app->Update();
         app->Stop();
+
+        delete (app);
     }
-    catch (const Rake::Core::Error::RkException e)
+    catch (const RkException &e)
     {
-        std::wcout << e.what() << std::endl;
     }
-    catch (const std::exception e)
+    catch (const std::exception &e)
     {
-        std::wcout << e.what() << std::endl;
     }
     catch (...)
     {
-        ERROR("Undefined program behavior");
     }
-
-    delete app;
 
     Rake::Tools::RkLogManager::Release();
 

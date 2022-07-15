@@ -2,6 +2,6 @@
 
 #include "Buffer.hpp"
 
-namespace Rake::Engine::Graphics
+namespace Rake::Engine
 {
 }

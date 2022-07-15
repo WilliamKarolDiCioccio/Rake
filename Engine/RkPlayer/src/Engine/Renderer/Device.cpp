@@ -2,6 +2,6 @@
 
 #include "Device.hpp"
 
-namespace Rake::Engine::Graphics
+namespace Rake::Engine
 {
 }

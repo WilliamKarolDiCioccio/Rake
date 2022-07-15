@@ -1,11 +1,11 @@
 #pragma once
 
-namespace Rake::Engine::Graphics
+namespace Rake::Engine
 {
 
 enum class GraphicsAPI : U32
 {
-    DirectX12 = 4
+    Vulkan = 4
 };
 
 class Renderer
@@ -15,17 +15,13 @@ class Renderer
 
   public:
     virtual ~Renderer() = default;
-    static std::unique_ptr<Renderer> CreateRenderer();
-
-  public:
-    virtual B8 InitAPI() = 0;
+    static std::unique_ptr<Renderer> CreateRenderer(GraphicsAPI _api);
 
   protected:
-    virtual B8 CheckDeviceSuitability() = 0;
-    virtual U32 RateDeviceSuitability() = 0;
-    virtual B8 CheckDeviceExtensionSupport() = 0;
+    virtual B8 InitAPI() = 0;
+    virtual void ReleaseAPI() = 0;
 };
 
-} // namespace Rake::Engine::Graphics
+} // namespace Rake::Engine
 
-#define API_DIRECTX Rake::Engine::Graphics::GraphicsAPI::DirectX12
+#define API_VULKAN Rake::Engine::GraphicsAPI::Vulkan

@@ -1,10 +1,10 @@
 project "tests"
-kind "ConsoleApp"
-language "C++"
-cppdialect "C++17"
-staticruntime "Off"
-links "RkPlayer"
-warnings "Off"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "Off"
+    links "RkPlayer"
+    warnings "Off"
 
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
 objdir("%{wks.location}/obj/" .. IntDir .. "")
@@ -17,11 +17,10 @@ files {
 }
 
 includedirs {
-    "../RkSTL/include",
-    "../tests",
-    "../tests/src",
+    "./src",
     "../Engine/RkPlayer/src",
-    "../Engine/RkPlayer/include"
+    "%{IncludeDir.RkSTL}",
+    "%{IncludeDir.Boost}"
 }
 
 filter "system:Windows"

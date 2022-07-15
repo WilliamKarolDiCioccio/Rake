@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Rake::Engine::Graphics
+namespace Rake::Engine
 {
 
 class Device
@@ -9,4 +9,4 @@ class Device
     virtual ~Device() = default;
 };
 
-} // namespace Rake::Renderer
+} // namespace Rake::Engine

@@ -2,28 +2,24 @@
 
 #include "Renderer.hpp"
 
-#if defined(PLATFORM_WINDOWS) == 1
-#include "Drivers/Direct3D/Direct3DRenderer.hpp"
-#endif
+#include "Drivers/Vulkan/VulkanRenderer.hpp"
 
-namespace Rake::Engine::Graphics
+namespace Rake::Engine
 {
 
 B8 Renderer::m_isInitialized = false;
 
-std::unique_ptr<Renderer> Renderer::CreateRenderer()
+std::unique_ptr<Renderer> Renderer::CreateRenderer(GraphicsAPI _api)
 {
     if (!m_isInitialized)
     {
-#if defined(PLATFORM_WINDOWS) == 1
-        return std::make_unique<Drivers::Direct3D::Direct3DRenderer>();
-#endif
+        if (_api == API_VULKAN)
+            return std::make_unique<Drivers::VulkanRenderer>();
+        else
+            RK_SIGABRT;
     }
     else
-    {
-        throw Core::Error::RkException("GraphicsEngine instance already created!", __FILE__, __LINE__);
-        RK_SIGABRT;
-    }
+        return nullptr;
 }
 
-} // namespace Rake::Engine::Graphics
+} // namespace Rake::Engine

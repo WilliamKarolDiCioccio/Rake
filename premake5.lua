@@ -3,6 +3,7 @@ include "dependencies.lua"
 solution "Rake"
 architecture "x86_64"
 startproject "Testbed"
+characterset ("Unicode")
 
 OutDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IntDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -18,11 +19,9 @@ flags {
 }
 
 filter "system:Windows"
-    atl "Dynamic"
     toolset "msc"
-    defines {
-        "_CRT_SECURE_NO_WARNINGS"
-    }
+    defines "_CRT_SECURE_NO_WARNINGS"
+    
 
 filter "configurations:Debug"
     symbols "on"
@@ -38,6 +37,7 @@ filter "configurations:Release"
     defines "RK_RELEASE"
 
 include "./Engine/RkPlayer"
+include "./Engine/RkMaths"
 include "./Testbed"
 include "./tests"
 include "./thirdparties/premake"

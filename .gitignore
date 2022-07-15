@@ -34,3 +34,6 @@ obj/
 
 # NuGet
 **/packages/**
+
+# Boost
+thirdparties/boost/**

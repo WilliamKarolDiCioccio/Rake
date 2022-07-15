@@ -8,13 +8,15 @@
 
 #pragma once
 
+#include "Core/Base.hpp"
+
 #if defined(PLATFORM_WINDOWS) == 1
 
 #include <mutex>
 #include <processenv.h>
 #include <consoleapi.h>
 
-namespace Rake::Platform::Windows
+namespace Rake::Platform
 {
 
 class Win32App
@@ -24,14 +26,16 @@ class Win32App
     virtual ~Win32App();
 
   protected:
-    void PumpPlatformMessages();
+    void PumpPlatformMessages() const;
+    B8 AllocateConsole();
+    B8 ReleaseConsole();
 
   private:
-    B8 CheckMutex();
+    B8 RedirectConsoleIO();
 };
 
-} // namespace Rake::Platform::Windows
+} // namespace Rake::Platform
 
-#define PLATFORM_APP_FRAMEWORK Rake::Platform::Windows::Win32App
+#define PLATFORM_APP_FRAMEWORK Rake::Platform::Win32App
 
 #endif

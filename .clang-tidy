@@ -1,0 +1,10 @@
+Checks: '-*,
+	bugprone-*,
+	concurrency-*,
+    misc-*,
+    modernize-*,
+    performance-*,
+    portability-*'
+WarningsAsErrors:	''
+HeaderFilterRegex: none
+FormatStyle:	'file'

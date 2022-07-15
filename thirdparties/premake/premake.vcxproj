@@ -65,6 +65,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\..\Engine\RkMaths\premake5.lua" />
     <None Include="..\..\Engine\RkPlayer\premake5.lua" />
     <None Include="..\..\Engine\thirdparties\imgui\premake5.lua" />
     <None Include="..\..\Testbed\premake5.lua" />

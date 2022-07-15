@@ -7,35 +7,31 @@
 namespace Rake::Tools
 {
 
-std::shared_ptr<spdlog::logger> RkLogManager::defaultLogger = nullptr;
+std::shared_ptr<spdlog::logger> RkLogManager::m_defaultLogger = nullptr;
 
 void RkLogManager::Init()
 {
     try
     {
-        std::vector<spdlog::sink_ptr> sinks;
+        std::shared_ptr<spdlog::logger> logger = spdlog::rotating_logger_mt("DefaultLogger", "logs/session.log", MEBIBYTES(4), 1);
 
-        sinks.emplace_back(std::make_shared<spdlog::sinks::rotating_file_sink_mt>(DEFAULT_LOG_FILE_NAME, MEBIBYTES(1), LOG_FILES_PER_SESSION, false));
-        // sinks[0]->set_pattern("[%c]");
+        logger->set_pattern("[%H]-[%n]-[%l]: %v");
+        logger->set_level(spdlog::level::info);
+        logger->flush_on(spdlog::level::info);
 
-        defaultLogger = std::make_shared<spdlog::logger>(DEFAULT_LOGGER, sinks.begin(), sinks.end());
-        // spdlog::set_default_logger(defaultLogger);
-        defaultLogger->set_level(spdlog::level::trace);
-        defaultLogger->flush_on(spdlog::level::trace);
+        logger->trace("Starting session...");
 
-        defaultLogger->trace("");
-
-        // sinks[0]->set_pattern(DEFAULT_LOG_PATTERN);
+        m_defaultLogger = logger;
     }
-    catch (const spdlog::spdlog_ex e)
+    catch (const spdlog::spdlog_ex &e)
     {
-        RK_SIGTERM;
+        std::cout << e.what() << '\n';
     }
 }
 
 void RkLogManager::Release()
 {
-    // spdlog::shutdown();
+    spdlog::drop_all();
 }
 
 } // namespace Rake::Tools

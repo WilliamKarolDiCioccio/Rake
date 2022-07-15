@@ -11,3 +11,4 @@ branch = master
 [submodule "Engine/thirdparties/imgui"]
 	path = Engine/thirdparties/imgui
 	url = https://github.com/WilliamKarolDiCioccio/imgui.git
+branch = master

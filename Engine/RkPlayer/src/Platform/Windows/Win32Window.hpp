@@ -12,13 +12,28 @@
 
 #if defined(PLATFORM_WINDOWS) == 1
 
-#include "Application/GUI/Window.hpp"
+#include <vector>
+#include <ShellScalingApi.h>
 
-namespace Rake::Platform::Windows
+#include "GUI/Desktop/Window.hpp"
+
+namespace Rake::Platform
 {
 
-class Win32Window final : public Application::GUI::Window
+class Win32Window final : public GUI::Window
 {
+  private:
+    struct SavedProps
+    {
+        RECT rect;
+        LONG style;
+        LONG extendedStyle;
+        HDC deviceContext;
+        UINT scalingFactor;
+    };
+
+    SavedProps m_savedProps;
+
   public:
     Win32Window();
     ~Win32Window();
@@ -27,28 +42,44 @@ class Win32Window final : public Application::GUI::Window
     void Refresh() override;
 
   public:
-    void Maximize(const B8 _maximize) override;
-    void Fullscreen(const B8 _fullscreen) override;
-    void Show(const B8 _shouldShow) override;
-    void RkShowCursor(const B8 _shouldShow) override;
-    void SetTitle(const wchar_t *_title) override;
-    void SetIcon(const char *_iconPath) override;
-    void RkSetCursor(const char *_spritePath) override;
+    void Show(B8 _shouldShow) override;
+    void Maximize(B8 _maximize) override;
+    void Fullscreen(B8 _fullscreen) override;
     void SetSize(long _newWidth, long _newHeight) override;
-    void SetPos(long _newX, long _newY) override;
-    void RkSetCursorPos(long _newX, long _newY) override;
-
-  private:
-    void GetMonitorMetrics(std::vector<Application::GUI::Monitor> &_monitor) override;
+    void SetPos(B32 _newX, B32 _newY) override;
+    void SetIcon(const char *_iconPath) override;
+    void SetTitle(const wchar_t *_title) override;
+    void ShowCursor(B8 _shouldShow) override;
+    void SetCursor(char *_spritePath) override;
+    void SetCursorPos(B32 _newX, B32 _newY) override;
+    void ConfineCursor(B8 _isClipped) override;
 
   private:
     UINT SetupPixelFormat();
+    UINT GetDPIScale();
 
-  private:
-    HDC hDC;
-    UINT m_pixelFormat;
+  public:
+    inline U32 GetWidth() const override
+    {
+        RECT rect;
+
+        if (!::GetClientRect((HWND)m_handle, &rect))
+            return NULL;
+
+        return rect.right - rect.left;
+    }
+
+    inline U32 GetHeight() const override
+    {
+        RECT rect;
+
+        if (!::GetClientRect((HWND)m_handle, &rect))
+            return NULL;
+
+        return rect.bottom - rect.top;
+    }
 };
 
-} // namespace Rake::Platform::Windows
+} // namespace Rake::Platform
 
 #endif

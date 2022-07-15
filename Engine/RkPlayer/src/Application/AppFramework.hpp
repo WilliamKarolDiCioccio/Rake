@@ -8,12 +8,15 @@
 
 #pragma once
 
+#include "Core/Base.hpp"
+
 #if defined(PLATFORM_WINDOWS) == 1
 #include "Platform/Windows/Win32App.hpp"
 #endif
 
-#include "Core/Timer/SyncTimer.hpp"
-#include "GUI/Window.hpp"
+#include "Core/SyncTimer.hpp"
+#include "GUI/Desktop/Window.hpp"
+#include "GUI/Desktop/WindowManager.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 
 namespace Rake::Application
@@ -26,38 +29,42 @@ enum class Mode : U32
     IsGameMode = 0,
     IsCheatMode = 1,
     IsEditorMode = 2,
-    IsTerminalMode = 3
 };
 
-typedef struct AppInfo
+typedef struct AppData
 {
     Mode mode;
     const wchar_t *appName;
     const char *iconPath;
     const char *cursorPath;
-} AppInfo, app_info;
+} AppData;
 
 class AppFramework : public PLATFORM_APP_FRAMEWORK
 {
   private:
     static AppFramework *m_appInstance;
-    B8 m_isRunning = true;
-    B8 m_isPaused = false;
-    B8 m_isBackground = false;
-    const std::chrono::milliseconds m_sleep = 16ms;
 
-  protected:
-    std::unique_ptr<Core::Timer::SyncTimer> m_timer;
+    struct AppState
+    {
+        B8 isRunning = true;
+        B8 isPaused = false;
+        B8 isBackground = false;
+    };
+
+    AppState m_appState;
+
+  private:
+    std::unique_ptr<Core::SyncTimer> m_timer;
     std::unique_ptr<GUI::Window> m_window;
-    std::unique_ptr<Engine::Graphics::Renderer> m_gEngine;
+    std::unique_ptr<Engine::Renderer> m_gEngine;
 
   public:
-    RAKE_API AppFramework(const AppInfo _appInfo);
+    RAKE_API AppFramework(AppData _appData);
     RAKE_API virtual ~AppFramework();
 
     RAKE_API void Update();
     RAKE_API void Start();
-    RAKE_API void Pause();
+    RAKE_API void Pause(B8 _isPaused);
     RAKE_API void Stop();
 
     RAKE_API static AppFramework *GetInstance();
@@ -78,7 +85,6 @@ class AppFramework : public PLATFORM_APP_FRAMEWORK
 
 #define APP_FRAMEWORK Rake::Application::AppFramework
 
-#define IS_GAME_MODE     Rake::Application::Mode::IsGameMode
-#define IS_CHEAT_MODE    Rake::Application::Mode::IsCheatMode
-#define IS_EDITOR_MODE   Rake::Application::Mode::IsEditorMode
-#define IS_TERMINAL_MODE Rake::Application::Mode::IsTerminalMode
+#define IS_GAME_MODE   Rake::Application::Mode::IsGameMode
+#define IS_CHEAT_MODE  Rake::Application::Mode::IsCheatMode
+#define IS_EDITOR_MODE Rake::Application::Mode::IsEditorMode

@@ -26,7 +26,7 @@
 #if !defined(RK_CURRENT_FUNCTION)
 #if defined(COMPILER_MSVC)
 #define RK_CURRENT_FUNCTION __func__
-#elif defined()
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
 #define RK_CURRENT_FUNCTION __PRETTY_FUNCTION__
 #endif
 #else
