@@ -9,23 +9,22 @@
 #pragma once
 
 #include <wchar.h>
+#include <vector>
 
 #include "Core/Base.hpp"
 
 namespace Rake::Core
 {
 
-static inline const wchar_t *Stringify()
+static inline std::string Stringify()
 {
-    return NULL;
-}
+    std::wstringstream wss;
 
-static inline void ToUppercase(wchar_t *&_string)
-{
+    return "";
 }
-
-static inline void ToLowercase(wchar_t *&_string)
+static inline void Reverse(std::string &_string)
 {
+    std::reverse(_string.begin(), _string.end());
 }
 
 static inline U32 CountWords()
@@ -33,7 +32,7 @@ static inline U32 CountWords()
     return NULL;
 }
 
-static inline void GetWords()
+static inline std::vector<wchar_t *> GetWords()
 {
 }
 

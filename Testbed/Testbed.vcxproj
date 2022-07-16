@@ -78,7 +78,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\spdlog\include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -99,7 +99,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_DEV;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\spdlog\include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -120,7 +120,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\spdlog\include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Engine\RkPlayer\src;..\RkSTL\include;..\thirdparties\boost;C:\SDKs\VulkanSDK\1.3.211.0\Include;..\Engine\thirdparties\imgui;..\thirdparties\json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

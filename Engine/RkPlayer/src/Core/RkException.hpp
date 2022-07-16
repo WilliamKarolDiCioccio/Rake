@@ -57,23 +57,10 @@ class RkException final : public std::exception
 
 #define RkException Rake::Core::RkException
 
-#if defined(PLATFORM_WINDOWS)
-
-inline void ThrowIfFailed(HRESULT _hr)
-{
-    if (FAILED(_hr))
-        throw std::exception();
-}
-
-#endif
-
 } // namespace Rake::Core
-
-#define ThrowIfFailed()
 
 #else
 
 #define RkException(...) ((void)0)
-#define ThrowIfFailed()  ((void)0)
 
 #endif

@@ -13,7 +13,7 @@ pchheader "src/RkPch.h"
 pchsource "src/RkPch.cpp"
 
 files {
-    "./**"
+    "./**",
     "./**.h",
     "./**.hpp",
     "./**.c",
@@ -30,7 +30,6 @@ includedirs {
     "%{IncludeDir.RkSTL}",
     "%{IncludeDir.Boost}",
     "%{IncludeDir.VulkanSDK}",
-    "%{IncludeDir.spdlog}",
     "%{IncludeDir.imgui}",
     "%{IncludeDir.json}"
 }

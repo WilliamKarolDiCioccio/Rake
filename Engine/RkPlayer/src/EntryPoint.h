@@ -34,8 +34,6 @@ void ParseCmdLineArgs(Rake::Application::AppData &_appData)
 
 RK_GUI_MAIN()
 {
-    Rake::Tools::RkLogManager::Init();
-
     try
     {
         auto app = RkCreateApplication();
@@ -55,8 +53,6 @@ RK_GUI_MAIN()
     catch (...)
     {
     }
-
-    Rake::Tools::RkLogManager::Release();
 
     return EXIT_SUCCESS;
 }

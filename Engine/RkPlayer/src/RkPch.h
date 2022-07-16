@@ -50,6 +50,9 @@
 #include "Core/MemoryPool.hpp"
 #include "Core/ThreadPool.hpp"
 
+#include "Core/String.hpp"
+#include "Core/Random.hpp"
+
 /**********************************************************************/
 
 #ifdef PLATFORM_WINDOWS
@@ -60,4 +63,5 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <windows.h>
+#include <windowsx.h>
 #endif

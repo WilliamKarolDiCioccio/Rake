@@ -1,5 +1,5 @@
 /*****************************************************************/ /**
- * \file   Logger.inl.h
+ * \file   Log.hpp
  * \brief  
  * 
  * \author Di Cioccio William Karol
@@ -12,57 +12,77 @@
 
 #if defined(LOGGER_ENABLED) == RK_TRUE
 
-#include <vector>
-
-#include <RkSTL/internal/DisableWarnings.h>
-
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/file_sinks.h>
-#include <spdlog/details/registry.h>
-
-#include <RkSTL/internal/RestoreWarnings.h>
+#define LevelFatal 1
+#define LevelError 2
+#define LevelWarn  3
+#define LevelInfo  4
+#define LevelDebug 5
+#define LevelTrace 6
 
 namespace Rake::Tools
 {
 
-class RAKE_API RkLogManager final
+class Logger
 {
   private:
-    static std::shared_ptr<spdlog::logger> m_defaultLogger;
+    const char *m_logLevel[6] = {"FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
 
   public:
-    static void Init();
-    static void Release();
+    virtual ~Logger() = default;
 
   public:
-    static inline std::shared_ptr<spdlog::logger> &GetDefaultLogger()
-    {
-        return m_defaultLogger;
-    }
+    void Fatal(const wchar_t *_msg, ...);
+    void Error(const wchar_t *_msg, ...);
+    void Warn(const wchar_t *_msg, ...);
+    void Info(const wchar_t *_msg, ...);
+    void Debug(const wchar_t *_msg, ...);
+    void Trace(const wchar_t *_msg, ...);
+};
+
+class ConsoleLogger final : public Logger
+{
+  public:
+    ConsoleLogger();
+};
+
+class FileLogger final : public Logger
+{
+  public:
+    FileLogger(const char *_fileName, B32 _fileSize);
+};
+
+class LogManager final
+{
+  private:
+    LogManager() = default;
+
+  public:
+    void RegisterLogger();
+    std::shared_ptr<Logger> GetLogger(B32 _key);
 };
 
 } // namespace Rake::Tools
 
-#define Critical(...) Rake::Tools::RkLogManager::GetDefaultLogger()->critical(#__VA_ARGS__)
-#define Error(...)    Rake::Tools::RkLogManager::GetDefaultLogger()->error(#__VA_ARGS__)
-#define Warn(...)     Rake::Tools::RkLogManager::GetDefaultLogger()->warn(#__VA_ARGS__)
-#define Info(...)     Rake::Tools::RkLogManager::GetDefaultLogger()->info(#__VA_ARGS__)
+#define LogFatal(...)
+#define LogError(...)
+#define LogWarn(...)
+#define LogInfo(...)
 
 #ifdef RK_DEBUG
-#define Debug(...) Rake::Tools::RkLogManager::GetDefaultLogger()->debug(#__VA_ARGS__)
-#define Trace(...) Rake::Tools::RkLogManager::GetDefaultLogger()->trace(#__VA_ARGS__)
+#define LogDebug(...)
+#define LogTrace(...)
 #else
-#define Debug(...) ((void)0)
-#define Trace(...) ((void)0)
+#define LogDebug(...) ((void)0)
+#define LogTrace(...) ((void)0)
 #endif
 
 #else
 
-#define Critical(...) ((void)0)
-#define Error(...)    ((void)0)
-#define Warn(...)     ((void)0)
-#define Info(...)     ((void)0)
-#define Debug(...)    ((void)0)
-#define Trace(...)    ((void)0)
+#define LogFatal(...) ((void)0)
+#define LogError(...) ((void)0)
+#define LogWarn(...)  ((void)0)
+#define LogInfo(...)  ((void)0)
+#define LogDebug(...) ((void)0)
+#define LogTrace(...) ((void)0)
 
 #endif

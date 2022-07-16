@@ -23,7 +23,6 @@ includedirs {
     "%{IncludeDir.RkSTL}",
     "%{IncludeDir.Boost}",
     "%{IncludeDir.VulkanSDK}",
-    "%{IncludeDir.spdlog}",
     "%{IncludeDir.imgui}",
     "%{IncludeDir.json}"
 }

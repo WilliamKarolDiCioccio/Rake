@@ -3,11 +3,6 @@
 	url = https://github.com/nlohmann/json.git
 branch = master
 
-[submodule "Engine/thirdparties/spdlog"]
-	path = Engine/thirdparties/spdlog
-	url = https://github.com/gabime/spdlog
-branch = master
-
 [submodule "Engine/thirdparties/imgui"]
 	path = Engine/thirdparties/imgui
 	url = https://github.com/WilliamKarolDiCioccio/imgui.git

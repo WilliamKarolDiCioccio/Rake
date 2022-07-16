@@ -17,18 +17,21 @@
 namespace Rake::Core
 {
 
-#define DEFAULT_CHARSET
+static const char alphaNum[] = "0123456789"
+                               "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                               "abcdefghijklmnopqrstuvwxyz";
 
-static inline const wchar_t *RandString(const wchar_t *_charSet)
+static inline std::string RandString(B32 _len)
 {
+    INCLUSIVE_CLAMP(_len, 1, 255);
+
+    std::string temp;
+    temp.reserve(_len);
+
+    for (int i = 0; i < _len; ++i)
+        temp += alphaNum[rand() % (sizeof(alphaNum) - 1)];
+
+    return temp;
 }
-
-// static inline vec4 RandRGBA()
-// {
-// }
-
-// static inline vec4 RandCMYK()
-// {
-// }
 
 } // namespace Rake::Core
