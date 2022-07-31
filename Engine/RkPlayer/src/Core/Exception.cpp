@@ -1,13 +1,13 @@
-#include "src/RkPch.h"
+#include "RkPch.h"
 
 #if defined(EXCEPTION_HANDLING_ENABLED)
 
-#include "RkException.hpp"
+#include "Exception.hpp"
 
 namespace Rake::Core
 {
 
-const char *RkException::what() const noexcept
+const char *Exception::what() const noexcept
 {
     std::string buffer;
     std::stringstream ss;
@@ -17,7 +17,7 @@ const char *RkException::what() const noexcept
     return buffer.c_str();
 }
 
-const char *RkException::Code() const
+const char *Exception::Code() const
 {
     std::string buffer;
     std::stringstream ss;

@@ -1,4 +1,5 @@
-#include <EntryPoint.h>
+#include <Main.h>
+#include <Version.h>
 
 using namespace Rake::Application;
 
@@ -20,10 +21,9 @@ class TestbedApp final : public APP_FRAMEWORK
 
 } // namespace Testbed
 
-AppFramework *RkCreateApplication()
+std::unique_ptr<APP_FRAMEWORK> RkCreateApplication()
 {
-    AppData appData = {IS_CHEAT_MODE, L"Testbed", "\0", "\0"};
-    ParseCmdLineArgs(appData);
+    AppData appData = {CHEAT_MODE, L"Testbed - Version 0.0.1 - Build 'Irrelevant'", "\0", "\0"};
 
-    return new Testbed::TestbedApp(appData);
+    return std::make_unique<Testbed::TestbedApp>(appData);
 }

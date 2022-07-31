@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "Core/Base.hpp"
+#include "Core/Internal/Detection.h"
 
-#if defined(DESKTOP_DEVICE) == 1
+#if defined(DESKTOP_DEVICE)
 
 #if defined CreateWindow
 #undef CreateWindow
@@ -22,8 +22,9 @@
 #undef SetCursorPos
 #endif
 
-#include <vector>
 #include <memory>
+
+#include "Core/Base.hpp"
 
 namespace Rake::GUI
 {
@@ -31,7 +32,7 @@ namespace Rake::GUI
 class Window
 {
   protected:
-    struct SavedState
+    struct WindowState
     {
         B8 isShowing = false;
         B8 isFullscreen = false;
@@ -40,19 +41,15 @@ class Window
         B8 isCursorClipped = false;
     };
 
-    SavedState m_savedState;
-
-  public:
+    WindowState m_savedState;
     void *m_handle = nullptr;
 
   public:
     virtual ~Window() = default;
-    static std::unique_ptr<Window> CreateWindow();
+    Window &operator=(const Window &) = delete;
 
   public:
     virtual void Refresh() = 0;
-
-  public:
     virtual void Show(B8 _shouldShow) = 0;
     virtual void Maximize(B8 _maximize) = 0;
     virtual void Fullscreen(B8 _fullscreen) = 0;
@@ -63,11 +60,18 @@ class Window
     virtual void ShowCursor(B8 _shouldShow) = 0;
     virtual void SetCursor(char *_spritePath) = 0;
     virtual void SetCursorPos(B32 _newX, B32 _newY) = 0;
-    virtual void ConfineCursor(B8 _isClipped) = 0;
+    virtual void ConfineCursor(B8 _clip) = 0;
+    virtual void Highlight() const = 0;
 
   public:
     virtual U32 GetWidth() const = 0;
     virtual U32 GetHeight() const = 0;
+};
+
+class WindowManager final
+{
+  public:
+    static std::unique_ptr<Window> CreateNativeView();
 };
 
 } // namespace Rake::GUI

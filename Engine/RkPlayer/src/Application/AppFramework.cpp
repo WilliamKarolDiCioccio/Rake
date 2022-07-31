@@ -1,42 +1,36 @@
-﻿#include "src/RkPch.h"
+﻿#include "RkPch.h"
 
 #include "AppFramework.hpp"
+
+using namespace std::chrono_literals;
 
 namespace Rake::Application
 {
 
-AppFramework *AppFramework::m_appInstance = nullptr;
-
-AppFramework::AppFramework(const AppData _appData)
+AppFramework::AppFramework(const AppData &_appData) : m_appData(_appData)
 {
     if (!m_appInstance)
     {
         m_appInstance = this;
 
-        if (_appData.mode == IS_GAME_MODE)
+        if (_appData.mode == GAME_MODE)
         {
         }
-        else if (_appData.mode == IS_CHEAT_MODE)
+        else if (_appData.mode == CHEAT_MODE)
         {
         }
-        else if (_appData.mode == IS_EDITOR_MODE)
+        else if (_appData.mode == EDITOR_MODE)
         {
         }
         else
         {
-            RK_SIGABRT;
         }
 
         if (!this->Init())
         {
-            RK_SIGABRT;
         }
 
-        m_window->SetTitle(_appData.appName);
-    }
-    else
-    {
-        return;
+        m_mainWindow->SetTitle(_appData.appName);
     }
 }
 
@@ -52,14 +46,11 @@ void AppFramework::Update()
     while (m_appState.isRunning)
     {
         while (m_appState.isPaused)
-            this->PumpPlatformMessages();
-
-        this->PumpPlatformMessages();
+            ;
 
         m_timer->Tick();
-        m_window->Refresh();
-
-        std::cout << "Width:" << m_window->GetWidth() << "Height:" << m_window->GetHeight() << '\r';
+        m_mainWindow->Refresh();
+        std::cout << m_mainWindow->GetWidth() << '\n';
 
         this->OnUpdate();
 
@@ -69,29 +60,36 @@ void AppFramework::Update()
 
 void AppFramework::Start()
 {
-    m_window->Show(true);
-    m_window->Maximize(true);
-    m_window->Fullscreen(true);
+    m_mainWindow->Fullscreen(true);
+    m_mainWindow->ConfineCursor(true);
+    m_mainWindow->Highlight();
 
     m_appState.isRunning = true;
 
     this->OnStart();
 }
 
-void AppFramework::Pause(B8 _isPaused)
+void AppFramework::Pause()
 {
-    if (m_appState.isPaused != _isPaused)
+    if (m_appState.isPaused != true)
     {
-        m_appState.isPaused = _isPaused;
+        m_appState.isPaused = true;
+        this->OnPause();
+    }
+}
 
-        if (_isPaused)
-            this->OnPause();
+void AppFramework::Resume()
+{
+    if (m_appState.isPaused != false)
+    {
+        m_appState.isPaused = false;
+        this->OnResume();
     }
 }
 
 void AppFramework::Stop()
 {
-    m_window->Show(false);
+    m_mainWindow->Show(false);
 
     m_appState.isRunning = false;
 
@@ -108,26 +106,23 @@ AppFramework *AppFramework::GetInstance()
 
 B8 AppFramework::Init()
 {
-#if defined(RK_DEBUG)
-    this->AllocateConsole();
-#endif
-
     m_timer = std::make_unique<Core::SyncTimer>();
-    m_window = GUI::Window::CreateWindow();
+    m_mainWindow = GUI::WindowManager::CreateNativeView();
     m_gEngine = Engine::Renderer::CreateRenderer(API_VULKAN);
-
-    GUI::WindowManager::RegisterWindow();
 
     return true;
 }
 
 void AppFramework::Release()
 {
-#if defined(RK_DEBUG)
-    this->ReleaseConsole();
-#endif
+}
 
-    GUI::WindowManager::UnregisterAllWindows();
+void AppFramework::CreateSplash()
+{
+}
+
+void AppFramework::DestroySplash()
+{
 }
 
 } // namespace Rake::Application

@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "Testbed\Testbed.vcxproj", "{70E0D639-DCBF-55D5-E5D7-E0AB5136BC36}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testbed", "..\Testbed\Testbed.vcxproj", "{70E0D639-DCBF-55D5-E5D7-E0AB5136BC36}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RkMaths", "Engine\RkMaths\RkMaths.vcxproj", "{5F9927AB-CB78-A646-D490-311D40EF0CA8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RkMaths", "..\Engine\RkMaths\RkMaths.vcxproj", "{5F9927AB-CB78-A646-D490-311D40EF0CA8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RkPlayer", "Engine\RkPlayer\RkPlayer.vcxproj", "{6F28D717-5BF5-3123-840E-20CB703A67B1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RkPlayer", "..\Engine\RkPlayer\RkPlayer.vcxproj", "{6F28D717-5BF5-3123-840E-20CB703A67B1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "Engine\thirdparties\imgui\imgui.vcxproj", "{0098A80F-6CAC-D0C0-352E-7420A101CDF1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "..\Engine\thirdparties\imgui\imgui.vcxproj", "{0098A80F-6CAC-D0C0-352E-7420A101CDF1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "premake", "thirdparties\premake\premake.vcxproj", "{8A6487C2-F643-065E-FF5B-91346BBA6CBF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "premake", "..\thirdparties\premake\premake.vcxproj", "{8A6487C2-F643-065E-FF5B-91346BBA6CBF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{78756B10-E489-93C1-AD0B-372119DF8FF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "..\tests\tests.vcxproj", "{78756B10-E489-93C1-AD0B-372119DF8FF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,11 +29,8 @@ Global
 		{70E0D639-DCBF-55D5-E5D7-E0AB5136BC36}.Release|x64.ActiveCfg = Release|x64
 		{70E0D639-DCBF-55D5-E5D7-E0AB5136BC36}.Release|x64.Build.0 = Release|x64
 		{5F9927AB-CB78-A646-D490-311D40EF0CA8}.Debug|x64.ActiveCfg = Debug|x64
-		{5F9927AB-CB78-A646-D490-311D40EF0CA8}.Debug|x64.Build.0 = Debug|x64
 		{5F9927AB-CB78-A646-D490-311D40EF0CA8}.Development|x64.ActiveCfg = Development|x64
-		{5F9927AB-CB78-A646-D490-311D40EF0CA8}.Development|x64.Build.0 = Development|x64
 		{5F9927AB-CB78-A646-D490-311D40EF0CA8}.Release|x64.ActiveCfg = Release|x64
-		{5F9927AB-CB78-A646-D490-311D40EF0CA8}.Release|x64.Build.0 = Release|x64
 		{6F28D717-5BF5-3123-840E-20CB703A67B1}.Debug|x64.ActiveCfg = Debug|x64
 		{6F28D717-5BF5-3123-840E-20CB703A67B1}.Debug|x64.Build.0 = Debug|x64
 		{6F28D717-5BF5-3123-840E-20CB703A67B1}.Development|x64.ActiveCfg = Development|x64
@@ -59,5 +58,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {129BED8D-5B15-47ED-ADF8-D08B81AB3EB2}
 	EndGlobalSection
 EndGlobal

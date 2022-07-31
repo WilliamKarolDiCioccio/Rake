@@ -20,7 +20,6 @@ files {
 includedirs {
     "./src",
     "../Engine/RkPlayer/src",
-    "%{IncludeDir.RkSTL}",
     "%{IncludeDir.Boost}",
     "%{IncludeDir.VulkanSDK}",
     "%{IncludeDir.imgui}",

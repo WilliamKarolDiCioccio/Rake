@@ -72,6 +72,7 @@
     <None Include="..\..\dependencies.lua" />
     <None Include="..\..\premake5.lua" />
     <None Include="..\..\tests\premake5.lua" />
+    <None Include="android_studio\example\premake5.lua" />
     <None Include="premake5.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

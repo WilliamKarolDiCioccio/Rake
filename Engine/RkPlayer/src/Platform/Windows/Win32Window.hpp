@@ -8,16 +8,16 @@
 
 #pragma once
 
-#include "Core/Base.hpp"
+#include "Core/Internal/Detection.h"
 
 #if defined(PLATFORM_WINDOWS) == 1
 
-#include <vector>
 #include <ShellScalingApi.h>
 
+#include "Core/Base.hpp"
 #include "GUI/Desktop/Window.hpp"
 
-namespace Rake::Platform
+namespace Rake::Win32
 {
 
 class Win32Window final : public GUI::Window
@@ -52,11 +52,8 @@ class Win32Window final : public GUI::Window
     void ShowCursor(B8 _shouldShow) override;
     void SetCursor(char *_spritePath) override;
     void SetCursorPos(B32 _newX, B32 _newY) override;
-    void ConfineCursor(B8 _isClipped) override;
-
-  private:
-    UINT SetupPixelFormat();
-    UINT GetDPIScale();
+    void ConfineCursor(B8 _clip) override;
+    void Highlight() const override;
 
   public:
     inline U32 GetWidth() const override
@@ -80,6 +77,6 @@ class Win32Window final : public GUI::Window
     }
 };
 
-} // namespace Rake::Platform
+} // namespace Rake::Win32
 
 #endif

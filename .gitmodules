@@ -7,6 +7,7 @@ branch = master
 	path = Engine/thirdparties/imgui
 	url = https://github.com/WilliamKarolDiCioccio/imgui.git
 branch = master
+
 [submodule "thirdparties/premake/android_studio"]
 	path = thirdparties/premake/android_studio
 	url = https://github.com/polymonster/premake-android-studio.git

@@ -8,57 +8,89 @@
 
 #pragma once
 
+#include <unordered_map>
+
 #include "Core/Config.h"
-
-#if defined(LOGGER_ENABLED) == RK_TRUE
-
-#define LevelFatal 1
-#define LevelError 2
-#define LevelWarn  3
-#define LevelInfo  4
-#define LevelDebug 5
-#define LevelTrace 6
+#include "Core/Base.hpp"
 
 namespace Rake::Tools
 {
 
-class Logger
+class Logger;
+
+RAKE_API class LoggersRegistry final
 {
-  private:
-    const char *m_logLevel[6] = {"FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
+  public:
+    static inline void RegisterInstance(const char *_key, Logger *_ptr)
+    {
+        m_instanceRegistry.insert({_key, _ptr});
+    }
+    static inline void UnregisterInstance(const char *_key)
+    {
+        m_instanceRegistry.erase(_key);
+    }
 
   public:
+    static inline const std::unordered_map<const char *, Logger *> &GetRegistry()
+    {
+        return m_instanceRegistry;
+    }
+
+  private:
+    static inline std::unordered_map<const char *, Logger *> &Registry()
+    {
+        return m_instanceRegistry;
+    }
+
+  private:
+    static inline std::unordered_map<const char *, Logger *> m_instanceRegistry = {};
+};
+
+RAKE_API class Logger
+{
+  protected:
+    const char *m_levels[6] = {"FATAL", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"};
+
+  public:
+    Logger()
+    {
+        LoggersRegistry::RegisterInstance("", this);
+    }
     virtual ~Logger() = default;
 
   public:
-    void Fatal(const wchar_t *_msg, ...);
-    void Error(const wchar_t *_msg, ...);
-    void Warn(const wchar_t *_msg, ...);
-    void Info(const wchar_t *_msg, ...);
-    void Debug(const wchar_t *_msg, ...);
-    void Trace(const wchar_t *_msg, ...);
+    virtual inline void Fatal(const char *_msg) = 0;
+    virtual inline void Error(const char *_msg) = 0;
+    virtual inline void Warn(const char *_msg) = 0;
+    virtual inline void Info(const char *_msg) = 0;
+    virtual inline void Debug(const char *_msg) = 0;
+    virtual inline void Trace(const char *_msg) = 0;
 };
 
-class ConsoleLogger final : public Logger
+RAKE_API class ConsoleLogger final : public Logger
 {
   public:
-    ConsoleLogger();
-};
-
-class FileLogger final : public Logger
-{
-  public:
-    FileLogger(const char *_fileName, B32 _fileSize);
-};
-
-class LogManager final
-{
-  private:
-    LogManager() = default;
+    ConsoleLogger(){};
 
   public:
-    void RegisterLogger();
-    std::shared_ptr<Logger> GetLogger(B32 _key);
+    inline void Fatal(const char *_msg) override
+    {
+    }
+    inline void Error(const char *_msg) override
+    {
+    }
+    inline void Warn(const char *_msg) override
+    {
+    }
+    inline void Info(const char *_msg) override
+    {
+    }
+    inline void Debug(const char *_msg) override
+    {
+    }
+    inline void Trace(const char *_msg) override
+    {
+    }
 };
 
 } // namespace Rake::Tools
@@ -68,21 +100,14 @@ class LogManager final
 #define LogWarn(...)
 #define LogInfo(...)
 
-#ifdef RK_DEBUG
+#if DEBUG_ENABLED
 #define LogDebug(...)
-#define LogTrace(...)
 #else
 #define LogDebug(...) ((void)0)
-#define LogTrace(...) ((void)0)
 #endif
 
+#if TRACE_ENABLED
+#define LogTrace(...)
 #else
-
-#define LogFatal(...) ((void)0)
-#define LogError(...) ((void)0)
-#define LogWarn(...)  ((void)0)
-#define LogInfo(...)  ((void)0)
-#define LogDebug(...) ((void)0)
 #define LogTrace(...) ((void)0)
-
 #endif

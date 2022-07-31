@@ -14,14 +14,11 @@ configurations {
     "Release"
 }
 
-flags {
-    "MultiProcessorCompile"
-}
+flags "MultiProcessorCompile"
 
 filter "system:Windows"
     toolset "msc"
     defines "_CRT_SECURE_NO_WARNINGS"
-    
 
 filter "configurations:Debug"
     symbols "on"
@@ -36,9 +33,9 @@ filter "configurations:Release"
     optimize "Speed"
     defines "RK_RELEASE"
 
-include "./Engine/RkPlayer"
 include "./Engine/RkMaths"
+include "./Engine/RkPlayer"
 include "./Testbed"
 include "./tests"
-include "./thirdparties/premake"
 include "./Engine/thirdparties/imgui"
+include "./thirdparties/premake"

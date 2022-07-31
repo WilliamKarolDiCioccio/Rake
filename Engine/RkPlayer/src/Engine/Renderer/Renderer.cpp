@@ -1,4 +1,4 @@
-#include "src/RkPch.h"
+#include "RkPch.h"
 
 #include "Renderer.hpp"
 
@@ -14,12 +14,18 @@ std::unique_ptr<Renderer> Renderer::CreateRenderer(GraphicsAPI _api)
     if (!m_isInitialized)
     {
         if (_api == API_VULKAN)
+        {
             return std::make_unique<Drivers::VulkanRenderer>();
+        }
         else
-            RK_SIGABRT;
+        {
+            return nullptr;
+        }
     }
     else
+    {
         return nullptr;
+    }
 }
 
 } // namespace Rake::Engine

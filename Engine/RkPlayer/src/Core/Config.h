@@ -8,21 +8,21 @@
 
 #pragma once
 
-#define RK_TRUE  (1 == 1)
-#define RK_FALSE !RK_TRUE
+namespace Rake::Core
+{
 
-#define ASSERTIONS_ENABLED         RK_TRUE
-#define LOGGER_ENABLED             RK_TRUE
-#define EXCEPTION_HANDLING_ENABLED RK_TRUE
+struct ConfigPack
+{
+};
 
-#define DEFAULT_WINDOW_WIDTH  1280
-#define DEFAULT_WINDOW_HEIGHT 720
-#define DEFAULT_WINDOW_TITLE  L"Rake"
+class ConfigParser final
+{
+};
 
-#define MINIMUM_WINDOW_WIDTH  1280
-#define MINIMIM_WINDOW_HEIGHT 720
+} // namespace Rake::Core
 
-#define STANDARD_WINDOW_COUNT 1
-#define MAXIMUM_WINDOW_COUNT  2
+#define ASSERTIONS_ENABLED         1
+#define EXCEPTION_HANDLING_ENABLED 1
 
-#define MONITOR_SUITABILITY_PARAMETERS
+#define DEBUG_ENABLED 1
+#define TRACE_ENABLED 1

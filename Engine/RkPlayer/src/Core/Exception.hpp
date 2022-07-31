@@ -19,7 +19,7 @@
 namespace Rake::Core
 {
 
-class RkException final : public std::exception
+class Exception final : public std::exception
 {
   protected:
     const char *m_msg;
@@ -28,10 +28,13 @@ class RkException final : public std::exception
     U32 m_line;
 
   public:
-    RkException(const char *_msg, const U32 _code, const char *_file, const U32 _line) noexcept : m_msg(_msg), m_code(_code), m_file(_file), m_line(_line){};
+    B8 m_forUser;
 
-    const char *what() const noexcept;
-    const char *Code() const;
+  public:
+    Exception(const char *_msg, U32 _code, const char *_file, U32 _line, B8 _forUser) noexcept : m_msg(_msg), m_code(_code), m_file(_file), m_line(_line), m_forUser(_forUser){};
+
+    RAKE_API const char *what() const noexcept;
+    RAKE_API const char *Code() const;
 
   protected:
     inline U32 GetCode() const
@@ -55,12 +58,12 @@ class RkException final : public std::exception
     }
 };
 
-#define RkException Rake::Core::RkException
+#define RkException(msg, code, file, line, forUser) Rake::Core::Exception(msg, code, file, line, forUser)
 
 } // namespace Rake::Core
 
 #else
 
-#define RkException(...) ((void)0)
+#define RkException(msg, code, file, line, forUser) ((void)0)
 
 #endif

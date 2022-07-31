@@ -9,11 +9,10 @@ project "RkPlayer"
 targetdir("%{wks.location}/bin/" .. OutDir .. "")
 objdir("%{wks.location}/obj/" .. IntDir .. "")
 
-pchheader "src/RkPch.h"
-pchsource "src/RkPch.cpp"
+pchheader "RkPch.h"
+pchsource "RkPch.cpp"
 
 files {
-    "./**",
     "./**.h",
     "./**.hpp",
     "./**.c",
@@ -26,8 +25,7 @@ defines {
 }
 
 includedirs {
-    "./src",
-    "%{IncludeDir.RkSTL}",
+    "./src", 
     "%{IncludeDir.Boost}",
     "%{IncludeDir.VulkanSDK}",
     "%{IncludeDir.imgui}",

@@ -47,7 +47,7 @@ class SyncTimer final
         return this->m_startTime.time_since_epoch().count();
     }
 
-    inline F32 GetElapsedTime() const
+    inline long long GetElapsedTime() const
     {
         auto elapsedTime = high_resolution_clock::now() - m_startTime;
         return elapsedTime.count();

@@ -1,4 +1,4 @@
-#include "src/RkPch.h"
+#include "RkPch.h"
 
 #include "SyncTimer.hpp"
 
@@ -20,7 +20,7 @@ SyncTimer::SyncTimer()
     }
     else
     {
-        throw RkException("Application instance already created!", 400, __FILE__, __LINE__);
+        throw RkException("", NULL, __FILE__, __LINE__, true);
     }
 }
 

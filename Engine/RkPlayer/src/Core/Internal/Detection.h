@@ -1,5 +1,5 @@
 /*****************************************************************/ /**
- * \file   Config.h
+ * \file   Detection.h
  * \brief  
  * 
  * \author Di Cioccio William Karol

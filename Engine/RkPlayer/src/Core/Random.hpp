@@ -17,13 +17,11 @@
 namespace Rake::Core
 {
 
-static const char alphaNum[] = "0123456789"
-                               "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                               "abcdefghijklmnopqrstuvwxyz";
-
 static inline std::string RandString(B32 _len)
 {
     INCLUSIVE_CLAMP(_len, 1, 255);
+
+    const char alphaNum[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     std::string temp;
     temp.reserve(_len);

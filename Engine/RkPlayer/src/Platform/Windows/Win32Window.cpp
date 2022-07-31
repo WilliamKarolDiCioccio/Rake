@@ -1,33 +1,23 @@
-#include "src/RkPch.h"
+#include "RkPch.h"
 
 #if defined(PLATFORM_WINDOWS) == 1
 
 #include "Platform/Windows/Win32Window.hpp"
 
-namespace Rake::Platform
+namespace Rake::Win32
 {
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) noexcept
 {
     switch (uMsg)
     {
-    case WM_DPICHANGED: {
-    }
-    case WM_SIZE: {
-    }
-    case WM_SIZING: {
-    }
-    case WM_GETMINMAXINFO: {
-        // LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
-        // lpMMI->ptMinTrackSize.x = 300;
-        // lpMMI->ptMinTrackSize.y = 300;
-    }
     case WM_CLOSE: {
         ::PostQuitMessage(NULL);
+        break;
     }
     }
 
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 Win32Window::Win32Window()
@@ -39,26 +29,25 @@ Win32Window::Win32Window()
         .hInstance = GetModuleHandle(NULL),
         .hbrBackground = (HBRUSH)(COLOR_WINDOW + 1),
         .lpszMenuName = NULL,
-        .lpszClassName = L"RakeWindow",
+        .lpszClassName = L"RkWindowClass",
     };
+    RK_ASSERT(RegisterClassEx(&extendedWindow));
 
-    if (RegisterClassEx(&extendedWindow) == NULL)
-        throw RkException("Unable to register window class", NULL, __FILE__, __LINE__);
-
-    m_handle = CreateWindowEx(NULL, L"RakeWindow", DEFAULT_WINDOW_TITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, NULL, NULL, NULL, NULL);
-
+    m_handle = CreateWindowExW(NULL, L"RkWindowClass", L"RkDefaultWindow", WS_OVERLAPPEDWINDOW & ~WS_SIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, NULL, NULL, NULL, NULL);
     RK_ASSERT(m_handle);
 
-    RECT rect = {0, 0, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT};
-    ::AdjustWindowRectEx(&m_savedProps.rect, WS_OVERLAPPEDWINDOW, FALSE, NULL);
+    ::AdjustWindowRectEx(&m_savedProps.rect, WS_OVERLAPPEDWINDOW & ~WS_SIZEBOX, FALSE, NULL);
+    ::GetWindowRect((HWND)m_handle, &m_savedProps.rect);
 
-    m_savedProps.rect = std::move(rect);
+    m_savedProps.style = GetWindowLong((HWND)m_handle, GWL_STYLE);
+    m_savedProps.extendedStyle = GetWindowLong((HWND)m_handle, GWL_EXSTYLE);
     m_savedProps.deviceContext = ::GetDC((HWND)m_handle);
-    m_savedProps.scalingFactor = this->GetDPIScale();
+    m_savedProps.scalingFactor = ::GetDpiForWindow((HWND)m_handle) / 96;
 
-    SetWindowLong((HWND)m_handle, GWLP_USERDATA, (LONG_PTR)this);
+    SetWindowLong((HWND)m_handle, GWLP_USERDATA, (LONG)this);
 
     ::SetWindowDisplayAffinity((HWND)m_handle, WDA_NONE);
+    ::ShowWindow((HWND)m_handle, SW_SHOW);
 }
 
 Win32Window::~Win32Window()
@@ -71,6 +60,13 @@ Win32Window::~Win32Window()
 
 void Win32Window::Refresh()
 {
+    MSG msg;
+
+    if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
+    {
+        ::TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 }
 
 void Win32Window::Show(B8 _shouldShow)
@@ -120,8 +116,13 @@ void Win32Window::Fullscreen(B8 _fullscreen)
             SetWindowLong((HWND)m_handle, GWL_STYLE, m_savedProps.style & ~(WS_CAPTION | WS_THICKFRAME));
             SetWindowLong((HWND)m_handle, GWL_EXSTYLE, m_savedProps.extendedStyle & ~(WS_EX_DLGMODALFRAME | WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
 
+            int fullClientSizeX = GetSystemMetrics(SM_CXSCREEN), fullClientSizeY = GetSystemMetrics(SM_CYSCREEN);
+
+            this->SetPos(0, 0);
+            this->SetSize(fullClientSizeX, fullClientSizeY);
+
             if (m_savedState.isCursorClipped)
-                ConfineCursor(true);
+                this->ConfineCursor(true);
         }
         else
         {
@@ -129,10 +130,10 @@ void Win32Window::Fullscreen(B8 _fullscreen)
             SetWindowLong((HWND)m_handle, GWL_EXSTYLE, m_savedProps.extendedStyle);
 
             if (m_savedState.isMaximized)
-                Maximize(true);
+                this->Maximize(true);
 
             if (m_savedState.isCursorClipped)
-                ConfineCursor(true);
+                this->ConfineCursor(true);
         }
     }
     else
@@ -141,12 +142,22 @@ void Win32Window::Fullscreen(B8 _fullscreen)
 
 void Win32Window::SetSize(long _newWidth, long _newHeight)
 {
-    ::SetWindowPos((HWND)m_handle, HWND_TOPMOST, NULL, NULL, _newWidth, _newHeight, SWP_NOMOVE);
+    ::SetWindowPos((HWND)m_handle, HWND_TOP, NULL, NULL, _newWidth, _newHeight, SWP_NOMOVE);
+
+    ::GetWindowRect((HWND)m_handle, &m_savedProps.rect);
+
+    if (m_savedState.isCursorClipped)
+        this->ConfineCursor(true);
 }
 
 void Win32Window::SetPos(B32 _newX, B32 _newY)
 {
-    ::SetWindowPos((HWND)m_handle, HWND_TOPMOST, _newX, _newY, NULL, NULL, SWP_NOSIZE);
+    ::SetWindowPos((HWND)m_handle, HWND_TOP, _newX, _newY, NULL, NULL, SWP_NOSIZE);
+
+    ::GetWindowRect((HWND)m_handle, &m_savedProps.rect);
+
+    if (m_savedState.isCursorClipped)
+        this->ConfineCursor(true);
 }
 
 void Win32Window::SetIcon(const char *_iconPath)
@@ -172,43 +183,27 @@ void Win32Window::SetCursorPos(B32 _newX, B32 _newY)
     ::SetCursorPos(_newX, _newY);
 }
 
-void Win32Window::ConfineCursor(B8 _isClipped)
+void Win32Window::ConfineCursor(B8 _clip)
 {
+    if (m_savedState.isCursorClipped != _clip)
+        m_savedState.isCursorClipped = _clip;
+
+    ::ClipCursor(&m_savedProps.rect);
 }
 
-UINT Win32Window::SetupPixelFormat()
+void Win32Window::Highlight() const
 {
-    PIXELFORMATDESCRIPTOR pfd = {
-        .nSize = sizeof(PIXELFORMATDESCRIPTOR),
-        .nVersion = 1,
-        .dwFlags = PFD_DRAW_TO_WINDOW,
-        .iPixelType = PFD_TYPE_RGBA,
-        .cColorBits = 24,
-        .cAlphaBits = 8,
-        .cDepthBits = 24,
-        .cStencilBits = 8,
-        .iLayerType = PFD_MAIN_PLANE,
+    FLASHWINFO flashWndInfo = {
+        .cbSize = sizeof(FLASHWINFO),
+        .hwnd = (HWND)m_handle,
+        .dwFlags = FLASHW_TRAY,
+        .uCount = 3,
+        .dwTimeout = 1500,
     };
 
-    UINT iPixelFormat = ::ChoosePixelFormat(m_savedProps.deviceContext, &pfd);
-
-    if (!iPixelFormat)
-        return NULL;
-
-    if (!::SetPixelFormat(m_savedProps.deviceContext, iPixelFormat, &pfd))
-        return NULL;
-
-    ::DescribePixelFormat(m_savedProps.deviceContext, iPixelFormat, sizeof(iPixelFormat), &pfd);
-
-    return iPixelFormat;
+    FlashWindowEx(&flashWndInfo);
 }
 
-UINT Win32Window::GetDPIScale()
-{
-    F32 DPI = ::GetDpiForWindow((HWND)m_handle);
-    return DPI / 96.0f;
-}
-
-} // namespace Rake::Platform
+} // namespace Rake::Win32
 
 #endif

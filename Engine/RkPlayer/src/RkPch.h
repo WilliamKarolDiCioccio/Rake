@@ -25,6 +25,8 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <set>
+#include <map>
 #include <unordered_set>
 #include <unordered_map>
 #include <iterator>
@@ -38,30 +40,19 @@
 #include <future>
 #include <atomic>
 
-/**********************************************************************/
-
 #include "Core/Config.h"
 #include "Core/Base.hpp"
 
 #include "Tools/Assert.h"
 #include "Tools/Log.hpp"
+#include "Core/Exception.hpp"
 
-#include "Core/RkException.hpp"
-#include "Core/MemoryPool.hpp"
 #include "Core/ThreadPool.hpp"
-
 #include "Core/String.hpp"
 #include "Core/Random.hpp"
 
-/**********************************************************************/
+#include "Core/Internal/Detection.h"
 
-#ifdef PLATFORM_WINDOWS
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <windows.h>
-#include <windowsx.h>
+#if defined(PLATFORM_WINDOWS)
+#include "Platform/Windows/Win32Utils.hpp"
 #endif
