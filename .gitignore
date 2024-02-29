@@ -1,0 +1,85 @@
+# Output directories
+bin/
+int/
+**/logs/**
+**/temp/**
+**/dev/**
+
+# Intermediate files
+*.obj
+*.ilk
+*.pch
+*.tlog
+*.log
+*.idb
+*.recipe
+
+# Binary files
+*.exe
+*.dll
+*.lib
+*.pdb
+*.exp
+**.spv
+
+# Visual Studio
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.filters.txt
+**.vcxproj.user
+**.vcxitems
+**.vcxitems.filters
+**.vcxitems.filters.txt
+**.vcxitems.user
+
+# Gradle
+gradle/**
+gradle.**
+**.gradle
+.gradle/**
+AndroidManifest.xml
+
+# IntelliJ IDEA
+.idea/caches/
+.idea/libraries/
+.idea/shelf/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/datasources.xml
+.idea/dataSources.ids
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/assetWizardSettings.xml
+.idea/gradle.xml
+.idea/jarRepositories.xml
+.idea/navEditor.xml
+
+# NuGet
+**/packages/**
+packages.config
+
+# Documentation (distributed separately with releases)
+docs/**
+
+# Development enviroment setup files
+download/**
+
+# Files for and from debug session
+Testbed/assets
+InputSettings.json
+MenusState.json
+WindowsState.json
+imgui.ini

@@ -1,0 +1,18 @@
+[submodule "thirdparties/imgui"]
+	path = thirdparties/imgui
+	url = https://github.com/WilliamKarolDiCioccio/imgui
+[submodule "thirdparties/tinyobjloader"]
+	path = thirdparties/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader
+[submodule "thirdparties/stb"]
+	path = thirdparties/stb
+	url = https://github.com/nothings/stb
+[submodule "thirdparties/tinygltf"]
+	path = thirdparties/tinygltf
+	url = https://github.com/syoyo/tinygltf
+[submodule "thirdparties/entt"]
+	path = thirdparties/entt
+	url = https://github.com/skypjack/entt
+[submodule "thirdparties/json"]
+	path = thirdparties/json
+	url = https://github.com/nlohmann/json.git

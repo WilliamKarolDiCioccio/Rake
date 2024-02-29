@@ -1,0 +1,10 @@
+# Sources
+*.c     text diff=c
+*.cc    text diff=cpp
+*.cxx   text diff=cpp
+*.cpp   text diff=cpp
+*.c++   text diff=cpp
+*.h     text diff=h
+*.hpp   text diff=hpp
+*.h++   text diff=hpp
+*.hh    text diff=hpp

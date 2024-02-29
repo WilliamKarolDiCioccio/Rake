@@ -1,0 +1,61 @@
+{
+  "tasks": [
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "Generate VS IDE projects",
+      "windows": {
+        "command": "${workspaceFolder}\\scripts\\generate_win32_projects.bat"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "Compile shaders",
+      "windows": {
+        "command": "${workspaceFolder}\\scripts\\compile_shaders.bat"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "Download libraries",
+      "windows": {
+        "command": "python ${workspaceFolder}\\scripts\\download_libraries.py"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "Install tools",
+      "windows": {
+        "command": "${workspaceFolder}\\scripts\\install_tool.ps1"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    }
+  ],
+  "version": "2.0.0"
+}

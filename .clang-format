@@ -1,0 +1,15 @@
+BasedOnStyle: Google
+UseTab: false
+IndentWidth: 4
+ColumnLimit: 120
+SortIncludes: false
+SortUsingDeclarations: false
+ReflowComments: false
+AlignConsecutiveMacros: true
+AlignAfterOpenBracket: AlwaysBreak
+AllowAllArgumentsOnNextLine: false
+AllowShortIfStatementsOnASingleLine: true
+BinPackParameters: false
+BinPackArguments: false
+Cpp11BracedListStyle: true
+Standard: c++20

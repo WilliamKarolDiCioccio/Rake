@@ -1,0 +1,17 @@
+{
+  "editor.fontSize": 20,
+  "editor.fontWeight": "bold",
+  "editor.fontFamily": "Consolas, 'Courier New', monospace",
+  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.iconTheme": "vscode-icons",
+  "explorer.compactFolders": false,
+  "editor.formatOnSave": true,
+  "editor.autoIndent": "brackets",
+  "explorer.confirmDragAndDrop": true,
+  "explorer.confirmDelete": true,
+  "git.ignoreLimitWarning": true,
+  "todo-tree.general.rootFolder": "${workspaceFolder}/Engine/RkPlayer",
+  "files.associations": {
+    "iosfwd": "cpp"
+  }
+}
