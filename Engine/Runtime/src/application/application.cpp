@@ -11,12 +11,10 @@ using namespace std::chrono_literals;
 
 namespace Rake::application {
 
-Application::Application(int _argc, const char* _argv[]) {
+Application::Application() {
     if (m_instance != nullptr) throw std::runtime_error("Application already created!");
 
     m_instance = this;
-
-    std::vector<std::string> args(_argc - 1);
 
     tools::Logger::Initialize(L"DebugSession", L"./logs");
     tools::Profiler::Initialize(L"DebugSession", L"./profiles");
@@ -65,8 +63,6 @@ Application::~Application() {
 }
 
 void Application::Start() noexcept {
-    if (m_config.optionTerminatesPrematurely) return;
-
     if (!m_state.isRunning) {
         std::lock_guard<std::mutex> lock(m_state.mutex);
 

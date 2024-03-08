@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 
 namespace Testbed {
 
-Testbed::Testbed(int _argc, const char* _argv[]) : application::Application(_argc, _argv) {}
+Testbed::Testbed() {}
 
 Testbed::~Testbed() {}
 

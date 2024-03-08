@@ -2,8 +2,8 @@
 
 #include "Testbed.hpp"
 
-std::unique_ptr<Rake::application::Application> RkCreateApplication(int argc, const char *argv[]) noexcept {
-    return std::make_unique<Testbed::Testbed>(argc, argv);
+std::unique_ptr<Rake::application::Application> RkCreateApplication() noexcept {
+    return std::make_unique<Testbed::Testbed>();
 }
 
 int main(int argc, const char *argv[]) {

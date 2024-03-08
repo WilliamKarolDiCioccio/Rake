@@ -43,8 +43,6 @@ class Application : public NonCopyable, NonMovable {
 
    protected:
     core::Timer m_timer;
-    tools::Logger m_logger;
-
     std::unique_ptr<core::CVarSystem> m_cVarSystem = nullptr;
     std::unique_ptr<core::WindowSystem> m_windowSystem = nullptr;
     std::unique_ptr<core::InputSystem> m_inputSystem = nullptr;
@@ -53,7 +51,7 @@ class Application : public NonCopyable, NonMovable {
     std::unique_ptr<engine::scripting::PythonFFISystem> m_pythonFFISystem = nullptr;
 
    public:
-    RK_API Application(int _argc, const char *_argv[]);
+    RK_API Application();
     RK_API virtual ~Application();
 
    public:
