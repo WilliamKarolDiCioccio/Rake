@@ -9,24 +9,38 @@
 
 namespace Rake::platform::Win32 {
 
-void Win32WindowSystem::Update() noexcept {
-    MSG msg;
-
-    if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE)) {
-        ::TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-}
-
 LRESULT CALLBACK
 Win32WindowSystem::WndProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam) noexcept {
     ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 
+    auto &windowName = GetWindowNameByNativeHandle(hWnd);
+    auto &window = GetWindowHandleByName(windowName);
+    auto &windowState = window->GetState();
+
+    if (!window) return DefWindowProc(hWnd, uMsg, wParam, lParam);
+
     switch (uMsg) {
         case WM_CLOSE: {
-            Win32WindowSystem::UnregisterWindow(Win32WindowSystem::m_nativeWindowRegistry[hWnd]);
-
-            PostQuitMessage(NULL);
+            Get()->DestroyWindow(windowName);
+        } break;
+        case WM_ACTIVATE: {
+            window->ToggleCursorVisibility(windowState.isCursorVisible);
+            window->ToggleCursorLock(windowState.isCursorLocked);
+            window->ToggleCursorClipping(windowState.isCursorClipped);
+        } break;
+        case WM_SIZE: {
+            switch (wParam) {
+                case SIZE_MINIMIZED: {
+                    window->ToggleMinimize(true);
+                } break;
+                case SIZE_MAXIMIZED: {
+                    window->ToggleMaximize(true);
+                } break;
+                case SIZE_RESTORED: {
+                    window->ToggleMinimize(false);
+                    window->ToggleMaximize(false);
+                } break;
+            }
         } break;
         case WM_GETMINMAXINFO: {
             LPMINMAXINFO minMaxInfo = (LPMINMAXINFO)lParam;
@@ -39,10 +53,6 @@ Win32WindowSystem::WndProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _
 }
 
 Win32Window::Win32Window() {
-    m_imGuiContext = ImGui::CreateContext();
-
-    ImGui::SetCurrentContext(m_imGuiContext);
-
     WNDCLASSEX extendedWindow = {};
 
     if (!GetClassInfoEx(GetModuleHandle(NULL), L"RkDefaultWindowClass", &extendedWindow)) {
@@ -57,7 +67,7 @@ Win32Window::Win32Window() {
         extendedWindow.lpszClassName = L"RkDefaultWindowClass";
         extendedWindow.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-        RK_ASSERT(RegisterClassEx(&extendedWindow));
+        if (!RegisterClassEx(&extendedWindow)) throw std::runtime_error("Failed to register Win32 window class");
     }
 
     m_handle = CreateWindowExW(
@@ -74,11 +84,9 @@ Win32Window::Win32Window() {
         GetModuleHandle(NULL),
         NULL);
 
-    RK_ASSERT(m_handle);
+    if (!m_handle) throw std::runtime_error("Failed to create Win32 window");
 
     auto handle = reinterpret_cast<HWND>(m_handle);
-
-    ImGui_ImplWin32_Init(handle);
 
     ::AdjustWindowRectEx(&m_styleProps.rect, WS_OVERLAPPEDWINDOW, FALSE, NULL);
     ::GetWindowRect(handle, &m_styleProps.rect);
@@ -90,117 +98,102 @@ Win32Window::Win32Window() {
     SetWindowLong(handle, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 
     ::SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-    ImGui_ImplWin32_EnableDpiAwareness();
 
     ::ShowWindow(handle, SW_HIDE);
 }
 
 Win32Window::~Win32Window() {
-    ImGui::SetCurrentContext(m_imGuiContext);
-
-    ImGui_ImplWin32_Shutdown();
-
-    ImGui::DestroyContext(m_imGuiContext);
-
     ::DestroyWindow(reinterpret_cast<HWND>(m_handle));
 
     m_handle = nullptr;
     delete (m_handle);
 }
 
-void Win32Window::BeginContext() noexcept {
-    ImGui::SetCurrentContext(m_imGuiContext);
+void Win32Window::Update() noexcept {
+    MSG msg = {};
 
-    auto extent = GetFramebufferSize();
-
-    ImGuiIO &io = ImGui::GetIO();
-
-    io.DisplaySize = ImVec2(static_cast<float>(extent.x), static_cast<float>(extent.y));
-
-    ImGui_ImplWin32_NewFrame();
-
-    ImGui::NewFrame();
-}
-
-void Win32Window::EndContext() noexcept {
-    ImGui::SetCurrentContext(m_imGuiContext);
-
-    ImGui::Render();
-}
-
-void Win32Window::Show(bool _show) noexcept {
-    if (m_state.isShowing != _show) {
-        ::ShowWindow(reinterpret_cast<HWND>(m_handle), _show ? SW_SHOW : SW_HIDE);
-
-        m_state.isShowing = _show;
+    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
 }
 
-void Win32Window::HideFromCapture(bool _hide) noexcept {
+void Win32Window::ToggleVisibility(bool _show) noexcept {
+    ::ShowWindow(reinterpret_cast<HWND>(m_handle), _show ? SW_SHOW : SW_HIDE);
+
+    m_state.isVisible = _show;
+}
+
+void Win32Window::DisableWindowCapture(bool _hide) noexcept {
     ::SetWindowDisplayAffinity(reinterpret_cast<HWND>(m_handle), _hide ? WDA_MONITOR : WDA_NONE);
 
-    m_state.isHiddenFromCapture = _hide;
+    m_state.isWindowCaptureDisabled = _hide;
 }
 
-void Win32Window::SetFocus() noexcept {
-    if (reinterpret_cast<HWND>(m_handle) != GetActiveWindow()) {
-        ::SetFocus(reinterpret_cast<HWND>(m_handle));
+void Win32Window::RequestFocus() noexcept { ::SetFocus(reinterpret_cast<HWND>(m_handle)); }
+
+void Win32Window::ToggleMinimize(bool _minimize) noexcept {
+    if (_minimize) {
+        ::ShowWindow(reinterpret_cast<HWND>(m_handle), SW_SHOWMINIMIZED);
+    } else {
+        ::ShowWindow(reinterpret_cast<HWND>(m_handle), SW_SHOWDEFAULT);
+
+        Resize(m_data.size);
+    }
+
+    m_state.isMinimized = _minimize;
+}
+
+void Win32Window::ToggleMaximize(bool _maximize) noexcept {
+    if (_maximize) {
+        ::ShowWindow(reinterpret_cast<HWND>(m_handle), SW_SHOWMAXIMIZED);
+    } else {
+        ::ShowWindow(reinterpret_cast<HWND>(m_handle), SW_SHOWDEFAULT);
+
+        Resize(m_data.size);
+    }
+
+    m_state.isMaximized = _maximize;
+}
+
+void Win32Window::ToggleFullscreen(bool _fullscreen) noexcept {
+    auto handle = reinterpret_cast<HWND>(m_handle);
+
+    if (_fullscreen) {
+        m_styleProps.style = GetWindowLong(handle, GWL_STYLE);
+        m_styleProps.extendedStyle = GetWindowLong(handle, GWL_EXSTYLE);
+
+        ::GetWindowRect(handle, &m_styleProps.rect);
+
+        constexpr LONG mask = ~(WS_CAPTION | WS_THICKFRAME);
+
+        SetWindowLong(handle, GWL_STYLE, m_styleProps.style & mask);
+
+        constexpr LONG exMask = ~(WS_EX_DLGMODALFRAME | WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE);
+
+        SetWindowLong(handle, GWL_EXSTYLE, m_styleProps.extendedStyle & exMask);
+
+        int fullClientSizeX = GetSystemMetrics(SM_CXSCREEN);
+        int fullClientSizeY = GetSystemMetrics(SM_CYSCREEN);
+
+        MoveTo({0, 0});
+        Resize({fullClientSizeX, fullClientSizeY});
+
+        ::ShowWindow(handle, SW_SHOW);
+        ::SetWindowPos(handle, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+    } else {
+        SetWindowLong(handle, GWL_STYLE, m_styleProps.style);
+        SetWindowLong(handle, GWL_EXSTYLE, m_styleProps.extendedStyle);
+
+        ::ShowWindow(handle, SW_SHOW);
+        ::SetWindowPos(handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+        ToggleMinimize(m_state.isMinimized);
+        ToggleMaximize(m_state.isMaximized);
     }
 }
 
-void Win32Window::Maximize(bool _maximize) noexcept {
-    if (m_state.isMaximized != _maximize) {
-        ::ShowWindow(reinterpret_cast<HWND>(m_handle), _maximize ? SW_SHOWMAXIMIZED : SW_SHOWMINIMIZED);
-
-        m_state.isMaximized = _maximize;
-    }
-}
-
-void Win32Window::Fullscreen(bool _fullscreen) noexcept {
-    if (m_state.isFullscreen != _fullscreen) {
-        auto handle = reinterpret_cast<HWND>(m_handle);
-
-        if (_fullscreen) {
-            m_styleProps.style = GetWindowLong(handle, GWL_STYLE);
-            m_styleProps.extendedStyle = GetWindowLong(handle, GWL_EXSTYLE);
-
-            ::GetWindowRect(handle, &m_styleProps.rect);
-
-            constexpr LONG mask = ~(WS_CAPTION | WS_THICKFRAME);
-
-            SetWindowLong(handle, GWL_STYLE, m_styleProps.style & mask);
-
-            constexpr LONG exMask = ~(WS_EX_DLGMODALFRAME | WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE);
-
-            SetWindowLong(handle, GWL_EXSTYLE, m_styleProps.extendedStyle & exMask);
-
-            int fullClientSizeX = GetSystemMetrics(SM_CXSCREEN);
-            int fullClientSizeY = GetSystemMetrics(SM_CYSCREEN);
-
-            SetPosition({0, 0});
-            SetSize({fullClientSizeX, fullClientSizeY});
-
-            ::ShowWindow(handle, SW_SHOW);
-
-            ::SetWindowPos(handle, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-        } else {
-            SetWindowLong(handle, GWL_STYLE, m_styleProps.style);
-            SetWindowLong(handle, GWL_EXSTYLE, m_styleProps.extendedStyle);
-
-            if (m_state.isMaximized) {
-                Maximize(true);
-            }
-
-            ::ShowWindow(handle, SW_SHOW);
-
-            ::SetWindowPos(handle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-        }
-
-        m_state.isFullscreen = _fullscreen;
-    }
-}
-
-void Win32Window::Highlight() noexcept {
+void Win32Window::BlinkTaskbarIcon() noexcept {
     FLASHWINFO flashWndInfo = {
         .cbSize = sizeof(FLASHWINFO),
         .hwnd = reinterpret_cast<HWND>(m_handle),
@@ -212,67 +205,64 @@ void Win32Window::Highlight() noexcept {
     ::FlashWindowEx(&flashWndInfo);
 }
 
-void Win32Window::SetResizeable(bool _resizeable) noexcept {
-    if (m_state.isResizeable != _resizeable && !m_state.isMaximized) {
-        if (_resizeable) {
-            SetWindowLong(reinterpret_cast<HWND>(m_handle), GWL_EXSTYLE, m_styleProps.extendedStyle);
-        } else {
-            SetWindowLong(reinterpret_cast<HWND>(m_handle), GWL_EXSTYLE, m_styleProps.extendedStyle ^ WS_SIZEBOX);
-        }
-
-        m_state.isResizeable = _resizeable;
+void Win32Window::ToggleResizeability(bool _resizeable) noexcept {
+    if (_resizeable) {
+        SetWindowLong(reinterpret_cast<HWND>(m_handle), GWL_EXSTYLE, m_styleProps.extendedStyle);
+    } else {
+        SetWindowLong(reinterpret_cast<HWND>(m_handle), GWL_EXSTYLE, m_styleProps.extendedStyle ^ WS_SIZEBOX);
     }
+
+    m_state.isResizeable = _resizeable;
 }
 
-void Win32Window::SetSize(glm::ivec2 _size) noexcept {
+void Win32Window::Resize(const glm::ivec2 &_size) noexcept {
+    if (m_state.isFullscreen) ToggleFullscreen(false);
+
     ::SetWindowPos(reinterpret_cast<HWND>(m_handle), HWND_TOP, NULL, NULL, _size.x, _size.y, SWP_NOMOVE);
 
     ::GetWindowRect(reinterpret_cast<HWND>(m_handle), &m_styleProps.rect);
 
-    if (m_state.isFullscreen) Fullscreen(false);
+    m_data.size = _size;
 }
 
-void Win32Window::SetPosition(glm::ivec2 _position) noexcept {
+void Win32Window::MoveTo(const glm::ivec2 &_position) noexcept {
     ::SetWindowPos(reinterpret_cast<HWND>(m_handle), HWND_TOP, _position.x, _position.y, NULL, NULL, SWP_NOSIZE);
+
+    m_data.position = _position;
 }
 
 void Win32Window::SetTitle(const std::wstring &_title) noexcept {
     ::SetWindowTextW(static_cast<HWND>(m_handle), (LPCWSTR)_title.c_str());
+
+    m_data.title = _title;
 }
 
-void Win32Window::SetIcon(const std::string &_path) noexcept {
+void Win32Window::SetIcon(const std::wstring &_path) noexcept {
     HICON hIcon = (HICON)LoadImage(NULL, (LPCWSTR)_path.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
 
-    if (hIcon != NULL) {
-        SendMessage(reinterpret_cast<HWND>(m_handle), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-        SendMessage(reinterpret_cast<HWND>(m_handle), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-    }
+    // TODO: Implementing this need manifest tool
+
+    m_data.iconRes = _path;
 }
 
-void Win32Window::ShowCursor(bool _show) noexcept {
+void Win32Window::ToggleCursorVisibility(bool _show) noexcept {
     ::ShowCursor(_show);
 
-    m_state.isCursorShowing = _show;
+    m_state.isCursorVisible = _show;
 }
 
-void Win32Window::SetCursor(const std::string &_path) noexcept {
+void Win32Window::SetCursorIcon(const std::wstring &_path) noexcept {
     HCURSOR hCursor = (HCURSOR)LoadImage(NULL, (LPWSTR)_path.c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
 
-    if (hCursor != NULL) {
-        SetCursor(_path);
-    }
+    // TODO: Implementing this need manifest tool
+
+    m_data.cursorRes = _path;
 }
 
-void Win32Window::SetCursorPosition(glm::ivec2 _position) noexcept { ::SetCursorPos(_position.x, _position.y); }
+void Win32Window::MoveCursorTo(glm::ivec2 _position) noexcept { ::SetCursorPos(_position.x, _position.y); }
 
-void Win32Window::LockCursor(bool _lock) noexcept {
-    if (!_lock) {
-        m_state.isCursorLocked = false;
-
-        ClipCursorInside(m_state.isCursorClipped);
-    } else {
-        m_state.isCursorLocked = true;
-
+void Win32Window::ToggleCursorLock(bool _lock) noexcept {
+    if (_lock) {
         RECT clipRect;
 
         clipRect.left = 0;
@@ -281,46 +271,51 @@ void Win32Window::LockCursor(bool _lock) noexcept {
         clipRect.bottom = 0;
 
         ::ClipCursor(&clipRect);
+    } else {
+        ToggleCursorClipping(m_state.isCursorClipped);
     }
+
+    m_state.isCursorLocked = _lock;
 }
 
-void Win32Window::ClipCursorInside(bool _clip) noexcept {
+void Win32Window::ToggleCursorClipping(bool _clip) noexcept {
     if (m_state.isCursorLocked) return;
 
     HWND handle = reinterpret_cast<HWND>(m_handle);
 
-    if (!_clip) {
-        ::ClipCursor(NULL);
-    } else {
+    if (_clip) {
         RECT rect;
 
-        if (::GetClientRect(handle, &rect)) {
-            POINT topLeft;
-            POINT bottomRight;
+        ::GetClientRect(handle, &rect);
 
-            topLeft.x = rect.left;
-            topLeft.y = rect.top;
-            bottomRight.x = rect.right;
-            bottomRight.y = rect.bottom;
+        POINT topLeft;
+        POINT bottomRight;
 
-            ::ClientToScreen(handle, &topLeft);
-            ::ClientToScreen(handle, &bottomRight);
+        topLeft.x = rect.left;
+        topLeft.y = rect.top;
+        bottomRight.x = rect.right;
+        bottomRight.y = rect.bottom;
 
-            RECT clipRect;
+        ::ClientToScreen(handle, &topLeft);
+        ::ClientToScreen(handle, &bottomRight);
 
-            clipRect.left = topLeft.x;
-            clipRect.top = topLeft.y;
-            clipRect.right = bottomRight.x;
-            clipRect.bottom = bottomRight.y;
+        RECT clipRect;
 
-            ::ClipCursor(&clipRect);
-        }
+        clipRect.left = topLeft.x;
+        clipRect.top = topLeft.y;
+        clipRect.right = bottomRight.x;
+        clipRect.bottom = bottomRight.y;
+
+        ::ClipCursor(&clipRect);
+
+    } else {
+        ::ClipCursor(NULL);
     }
 
     m_state.isCursorClipped = _clip;
 }
 
-const glm::uvec2 Win32Window::GetFramebufferSize() const noexcept {
+const glm::uvec2 Win32Window::GetRenderTargetSize() const noexcept {
     RECT rect;
 
     ::GetClientRect(reinterpret_cast<HWND>(m_handle), &rect);

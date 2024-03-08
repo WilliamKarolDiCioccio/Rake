@@ -17,14 +17,14 @@ Testbed::Testbed(int _argc, const char* _argv[]) : application::Application(_arg
 Testbed::~Testbed() {}
 
 void Testbed::OnStart() noexcept {
-    auto window = m_windowSystem->RegisterWindow("MainWindow");
+    auto& primaryWindow = m_windowSystem->CreateWindow("PrimaryWindow");
+    auto& secondaryWindow = m_windowSystem->CreateWindow("SecondaryWindow");
 
-    window->SetSize({1280, 720});
-    window->SetResizeable(false);
-    window->SetTitle(L"WIN32 - Rake Engine - main window");
+    m_windowSystem->LoadWindowState("PrimaryWindow");
+    m_windowSystem->LoadWindowState("SecondaryWindow");
 
-    window->Show(true);
-    window->Highlight();
+    primaryWindow->SetTitle(L"Rake Engine - Multicontext Primary - x86_64 - WIN32 - Vulkan");
+    secondaryWindow->SetTitle(L"Rake Engine - Multicontext Secondary - x86_64 - WIN32 - Vulkan");
 
     m_windowSystem->LoadState("MainWindow");
 
