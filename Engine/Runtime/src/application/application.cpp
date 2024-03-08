@@ -18,9 +18,8 @@ Application::Application(int _argc, const char* _argv[]) {
 
     std::vector<std::string> args(_argc - 1);
 
-    for (int i = 1; i < _argc; ++i) {
-        args.push_back(std::string(_argv[i]));
-    }
+    tools::Logger::Initialize(L"DebugSession", L"./logs");
+    tools::Profiler::Initialize(L"DebugSession", L"./profiles");
 
     if (args.size() > 1 && args.size() < 32) {
         if (args[1] == "--LICENSE") {
@@ -57,6 +56,9 @@ Application::Application(int _argc, const char* _argv[]) {
 }
 
 Application::~Application() {
+    tools::Profiler::Shutdown();
+    tools::Logger::Shutdown();
+
     m_instance = nullptr;
     delete (m_instance);
 }
