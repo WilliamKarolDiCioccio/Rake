@@ -155,31 +155,7 @@ void InputSystem::LoadSettings() noexcept {
             m_controller.sticksInputMap[k] = v;
         }
     } catch (const std::exception &) {
-        nlohmann::json data;
-
-        data["Keyboard"] = nlohmann::json::object();
-        data["Mouse"] = nlohmann::json::object();
-        data["Controller"] = nlohmann::json::object();
-        data["Keyboard"]["InputMap"] = nlohmann::json::object();
-        data["Mouse"]["InputMap"] = nlohmann::json::object();
-        data["Controller"]["InputMap"] = nlohmann::json::object();
-
-        data["Mouse"]["FlipAxisX"] = m_mouse.flipAxis[0];
-        data["Mouse"]["FlipAxisY"] = m_mouse.flipAxis[1];
-        data["Controller"]["FlipAxisXL"] = m_controller.flipAxis[0];
-        data["Controller"]["FlipAxisYL"] = m_controller.flipAxis[1];
-        data["Controller"]["FlipAxisXR"] = m_controller.flipAxis[2];
-        data["Controller"]["FlipAxisYR"] = m_controller.flipAxis[3];
-
-        for (const auto &[k, v] : m_keyboard.inputMap) data["Keyboard"]["InputMap"][k] = v;
-        for (const auto &[k, v] : m_mouse.inputMap) data["Mouse"]["InputMap"][k] = v;
-        for (const auto &[k, v] : m_controller.buttonsInputMap) data["Controller"]["ButtonsInputMap"][k] = v;
-        for (const auto &[k, v] : m_controller.sticksInputMap) data["Controller"]["SticksInputMap"][k] = v;
-        for (const auto &[k, v] : m_controller.triggersInputMap) data["Controller"]["TriggersInputMap"][k] = v;
-
-        if (!core::FileExists(L"InputSettings.json")) core::CreateFile(L"InputSettings.json");
-
-        core::WriteJSON(L"InputSettings.json", data);
+        SaveSettings();
     }
 }
 
@@ -208,14 +184,15 @@ void InputSystem::SaveSettings() noexcept {
     for (const auto &[k, v] : m_controller.sticksInputMap) data["Controller"]["SticksInputMap"][k] = v;
     for (const auto &[k, v] : m_controller.triggersInputMap) data["Controller"]["TriggersInputMap"][k] = v;
 
+    core::CreateFile(L"InputSettings.json");
     core::WriteJSON(L"InputSettings.json", data);
 }
 
-const InputSystem *InputSystem::Get() noexcept { return m_instance; }
+InputSystem *InputSystem::Get() noexcept { return m_instance; }
 
 std::unique_ptr<InputSystem> InputSystem::CreateNative() noexcept {
 #ifdef PLATFORM_WINDOWS
-    return std::make_unique<platform::Win32InputSystem>();
+    return std::make_unique<platform::Win32::Win32InputSystem>();
 #endif
 }
 

@@ -11,18 +11,18 @@ namespace Rake::core {
 using Action = std::string;
 
 struct Keyboard {
-    struct KeyboardInputState {
+    struct InputState {
         bool keyDown[256];
     };
 
     bool connected = false;
     std::unordered_map<Action, KeyboardKeys> inputMap = {};
-    KeyboardInputState inputState = {};
-    KeyboardInputState lastInputState = {};
+    InputState inputState = {};
+    InputState lastInputState = {};
 };
 
 struct Mouse {
-    struct MouseInputState {
+    struct InputState {
         glm::vec2 cursorPosition;
         float wheelDelta;
         bool buttons[5];
@@ -33,12 +33,12 @@ struct Mouse {
     std::unordered_map<Action, MouseButtons> inputMap = {};
     int8_t flipAxis[2] = {1, 1};
     int8_t flipWheel = 1;
-    MouseInputState inputState = {};
-    MouseInputState lastInputState = {};
+    InputState inputState = {};
+    InputState lastInputState = {};
 };
 
 struct Controller {
-    struct ControllerInputState {
+    struct InputState {
         glm::vec2 sticks[2];
         float triggers[2];
         bool buttons[12];
@@ -50,8 +50,8 @@ struct Controller {
     std::unordered_map<Action, ControllerTriggers> triggersInputMap = {};
     std::unordered_map<Action, ControllerSticks> sticksInputMap = {};
     int8_t flipAxis[4] = {1, 1, 1, 1};
-    ControllerInputState inputState = {};
-    ControllerInputState lastInputState = {};
+    InputState inputState = {};
+    InputState lastInputState = {};
 };
 
 class InputSystem : public NonCopyable, NonMovable {
@@ -98,7 +98,7 @@ class InputSystem : public NonCopyable, NonMovable {
     void SaveSettings() noexcept;
 
    public:
-    RK_API NODISCARD static const InputSystem *Get() noexcept;
+    RK_API NODISCARD static  InputSystem *Get() noexcept;
 
     inline const std::unordered_map<Action, KeyboardKeys> &GetKeyboardInputMap() const noexcept {
         return m_keyboard.inputMap;
