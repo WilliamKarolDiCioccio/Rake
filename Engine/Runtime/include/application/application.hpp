@@ -1,14 +1,15 @@
 #pragma once
 
 #include "tools/logger.hpp"
+#include "tools/profiler.hpp"
 #include "core/timer.hpp"
 #include "core/file_system.hpp"
 #include "core/input_system.hpp"
 #include "core/task_manager.hpp"
 #include "core/console_system.hpp"
 #include "engine/entity/scene.hpp"
-#include "engine/graphics/renderer.hpp"
-#include "engine/scripting/Python/PythonFFI.hpp"
+#include "engine/graphics/renderer_system.hpp"
+#include "engine/scripting/Python/PythonFFI_system.hpp"
 
 namespace Rake::application {
 
@@ -18,28 +19,16 @@ class Application : public NonCopyable, NonMovable {
    private:
     static inline Application *m_instance = nullptr;
 
-    enum class Mode {
-        none = 0,
-        gameMode = 1,
-        cheatMode = 2,
-        editorMode = 3,
-    };
-
-    struct ApplicationConfig {
-        bool disablePythonInterpreter;
-        bool optionTerminatesPrematurely;
-    };
-
-    ApplicationConfig m_config = {};
-
-    struct ApplicationState {
-        std::atomic<bool> isRunning;
-        std::atomic<bool> isPaused;
-        std::atomic<bool> isBackground;
+    struct State {
+        bool isRunning;
+        bool isPaused;
+        bool isBackground;
         std::mutex mutex;
+
+        State() : isRunning(false), isPaused(false), isBackground(false) {}
     };
 
-    ApplicationState m_state = {};
+    State m_state;
 
    protected:
     core::Timer m_timer;
@@ -67,11 +56,10 @@ class Application : public NonCopyable, NonMovable {
     virtual void OnUpdate() noexcept = 0;
     virtual void OnPause() noexcept = 0;
     virtual void OnStop() noexcept = 0;
-    virtual void OnImGuiRender(core::Window *window_handle) noexcept = 0;
+    virtual void OnImGuiRender() noexcept = 0;
 
    public:
-    NODISCARD inline const ApplicationConfig &GetConfig() const noexcept { return m_config; }
-    NODISCARD inline const ApplicationState &GetState() const noexcept { return m_state; }
+    NODISCARD inline const State &GetState() const noexcept { return m_state; }
 };
 
 }  // namespace Rake::application

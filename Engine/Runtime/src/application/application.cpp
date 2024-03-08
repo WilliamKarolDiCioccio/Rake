@@ -19,27 +19,7 @@ Application::Application() {
     tools::Logger::Initialize(L"DebugSession", L"./logs");
     tools::Profiler::Initialize(L"DebugSession", L"./profiles");
 
-    if (args.size() > 1 && args.size() < 32) {
-        if (args[1] == "--LICENSE") {
-            std::wcout << core::ReadFile(L"LICENSE.md") << '\n';
-            m_config.optionTerminatesPrematurely = true;
-        } else if (args[1] == "--README") {
-            std::wcout << core::ReadFile(L"README.md") << '\n';
-            m_config.optionTerminatesPrematurely = true;
-        } else {
-            for (const auto& arg : args) {
-                if (arg == "--disable-python-interpreter") {
-                    m_config.disablePythonInterpreter = false;
-                    RK_LOG_INFO(L"Python interpreter disabled!");
-                }
-            }
-        }
-    }
-
-    if (!m_config.optionTerminatesPrematurely) {
-        StopCallback::callback = [this]() { Stop(); };
-        PauseCallback::callback = [this]() { Pause(); };
-        ResumeCallback::callback = [this]() { Resume(); };
+    Rake::tools::Profiler::BeginProfile(L"Initialization - Global", Rake::tools::ProfileCategory::function);
 
         m_cVarSystem = std::make_unique<core::CVarSystem>();
         m_windowSystem = core::WindowSystem::CreateNative();
@@ -48,10 +28,7 @@ Application::Application() {
         m_renderer = std::make_unique<engine::graphics::Renderer>();
     m_pythonFFISystem = std::make_unique<engine::scripting::PythonFFISystem>();
 
-        if (!m_config.disablePythonInterpreter) {
-            m_pythonFFISystem = std::make_unique<engine::scripting::PythonFFISystem>(m_config.disablePythonInterpreter);
-        }
-    }
+    tools::Profiler::EndProfile();
 }
 
 Application::~Application() {
