@@ -6,7 +6,7 @@
 
 #include "win32_common.hpp"
 
-namespace Rake::platform {
+namespace Rake::platform::Win32 {
 
 struct MemoryDeviceInfo {
     ULONGLONG totalPhysicalMemory;
@@ -208,6 +208,6 @@ RK_API bool UnloadDynamicLibrary(const std::wstring &_path);
  */
 RK_API void *LoadFunction(const std::wstring &_path, const std::string &_funcName);
 
-}  // namespace Rake::platform
+}  // namespace Rake::platform::Win32
 
 #endif

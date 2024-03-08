@@ -6,7 +6,7 @@
 
 #ifdef PLATFORM_WINDOWS
 
-namespace Rake::platform {
+namespace Rake::platform::Win32 {
 
 void CALLBACK Win32InputSystem::DeviceCallback(
     _In_ GameInputCallbackToken callbackToken,
@@ -129,6 +129,6 @@ void Win32InputSystem::Poll() noexcept {
     }
 }
 
-}  // namespace Rake::platform
+}  // namespace Rake::platform::Win32
 
 #endif

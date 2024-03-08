@@ -6,7 +6,7 @@
 
 #pragma warning(disable : 6387)
 
-namespace Rake::platform {
+namespace Rake::platform::Win32 {
 
 std::vector<MemoryDeviceInfo> ListMemoryDevices() {
     MEMORYSTATUSEX memoryStatus;
@@ -303,6 +303,6 @@ void *LoadFunction(const std::wstring &_path, const std::string &_funcName) {
     return funcHandle;
 }
 
-}  // namespace Rake::platform
+}  // namespace Rake::platform::Win32
 
 #endif

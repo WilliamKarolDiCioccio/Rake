@@ -55,7 +55,7 @@ void WindowSystem::SaveState(const std::string &_name) noexcept {
 
 Window *WindowSystem::RegisterWindow(const std::string &_name) noexcept {
 #ifdef PLATFORM_WINDOWS
-    auto window = std::make_unique<platform::Win32Window>();
+    auto window = std::make_shared<platform::Win32::Win32Window>();
 #endif
 
     auto ptr = window.get();
@@ -87,7 +87,7 @@ const std::unordered_map<std::string, std::unique_ptr<Window>> &WindowSystem::Ge
 
 std::unique_ptr<WindowSystem> WindowSystem::CreateNative() noexcept {
 #ifdef PLATFORM_WINDOWS
-    return std::make_unique<platform::Win32WindowSystem>();
+    return std::make_unique<platform::Win32::Win32WindowSystem>();
 #endif
 }
 

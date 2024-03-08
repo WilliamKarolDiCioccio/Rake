@@ -7,7 +7,7 @@
 #include <backends/imgui_impl_win32.h>
 #include <backends/imgui_impl_win32.cpp>
 
-namespace Rake::platform {
+namespace Rake::platform::Win32 {
 
 void Win32WindowSystem::Update() noexcept {
     MSG msg;
@@ -331,6 +331,6 @@ const glm::uvec2 Win32Window::GetFramebufferSize() const noexcept {
     return glm::uvec2(static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 }
 
-}  // namespace Rake::platform
+}  // namespace Rake::platform::Win32
 
 #endif

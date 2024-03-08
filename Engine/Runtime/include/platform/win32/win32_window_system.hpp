@@ -8,7 +8,7 @@
 
 #include "win32_common.hpp"
 
-namespace Rake::platform {
+namespace Rake::platform::Win32 {
 
 class Win32Window final : public core::Window {
    private:
@@ -63,6 +63,6 @@ class Win32WindowSystem final : public core::WindowSystem {
     static LRESULT CALLBACK WndProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam) noexcept;
 };
 
-}  // namespace Rake::platform
+}  // namespace Rake::platform::Win32
 
 #endif
