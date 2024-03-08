@@ -45,7 +45,8 @@ libdirs {
     "%{LibraryDir.GameDK}",
     "%{LibraryDir.imgui}",
     "%{LibraryDir.KtxSoftware}",
-    "%{LibraryDir.PythonSDK}"
+    "%{LibraryDir.PythonSDK}",
+    "%{Library.VulkanSDK}"
 }
 
 links {
