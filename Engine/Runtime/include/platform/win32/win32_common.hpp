@@ -15,6 +15,8 @@ RK_DISABLE_WARNINGS
 #include <shellapi.h>
 RK_RESTORE_WARNINGS
 
+#undef min
+#undef max
 #undef SetIcon
 #undef SetCursor
 #undef CreateWindow
