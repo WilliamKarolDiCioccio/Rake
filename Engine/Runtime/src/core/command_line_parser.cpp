@@ -59,4 +59,8 @@ void CommandLineParser::RegisterOption(
     m_options[_optionName] = Option(_expectsValueList, _requestsTermination, _handler);
 }
 
+void CommandLineParser::UnregisterOption(const std::string& _optionName) { m_options.erase(_optionName); }
+
+void CommandLineParser::UnregisterAllOptions() { m_options.clear(); }
+
 }  // namespace Rake::core

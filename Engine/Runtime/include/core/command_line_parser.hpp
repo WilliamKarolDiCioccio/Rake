@@ -33,6 +33,8 @@ class RK_API CommandLineParser {
         bool _expectsValueList,
         bool _requestsTermination,
         std::function<bool(const char*)> _handler);
+    static void UnregisterOption(const std::string& optionName);
+    static void UnregisterAllOptions();
 };
 
 }  // namespace Rake::core
