@@ -5,6 +5,14 @@ cppdialect "C++20"
 staticruntime "Off"
 warnings "High"
 
+prebuildcommands {
+    "python ../../scripts/generate_metadata.py"
+}
+
+filter {"action:vs*", "configurations:Debug or Release"}
+buildmessage "Generating metadata.hpp"
+buildcommands {""}
+
 targetdir(OutDir)
 objdir(IntDir)
 
