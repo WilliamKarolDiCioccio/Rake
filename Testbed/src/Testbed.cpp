@@ -5,8 +5,6 @@
 
 #include <core/file_system.hpp>
 #include <core/input_system.hpp>
-#include <engine/entity/scene.hpp>
-#include <platform/win32/win32_process.hpp>
 
 using namespace std::chrono_literals;
 
@@ -26,9 +24,8 @@ void Testbed::OnStart() noexcept {
     primaryWindow->SetTitle(L"Rake Engine - Multicontext Primary - x86_64 - WIN32 - Vulkan");
     secondaryWindow->SetTitle(L"Rake Engine - Multicontext Secondary - x86_64 - WIN32 - Vulkan");
 
-    m_windowSystem->LoadState("MainWindow");
-
-    m_pythonFFISystem->ExecuteFromFile("test.py", L"");
+    m_rendererSystem->CreateContext("PrimaryContext", primaryWindow);
+    m_rendererSystem->CreateContext("SecondaryContext", secondaryWindow);
 }
 
 void Testbed::OnUpdate() noexcept {
@@ -38,10 +35,12 @@ void Testbed::OnUpdate() noexcept {
 }
 
 void Testbed::OnStop() noexcept {
-    m_windowSystem->SaveState("MainWindow");
-    m_windowSystem->UnregisterWindow("MainWindow");
+    m_windowSystem->SaveWindowState("SecondaryWindow");
+    m_windowSystem->DestroyWindow("SecondaryWindow");
+    m_windowSystem->SaveWindowState("PrimaryWindow");
+    m_windowSystem->DestroyWindow("PrimaryWindow");
 }
 
-void Testbed::OnImGuiRender(core::Window* _windowHandle) noexcept {}
+void Testbed::OnImGuiRender() noexcept {}
 
 }  // namespace Testbed

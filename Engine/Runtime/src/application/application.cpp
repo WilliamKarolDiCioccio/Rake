@@ -1,10 +1,8 @@
-﻿#pragma(suppress : 4189)
-
-#include "pch.hpp"
+﻿#include "pch.hpp"
 
 #include "application/application.hpp"
-#include "application/app_callbacks.hpp"
 
+#include "core/event_system.hpp"
 #include "Core/ImGUI_manager.hpp"
 
 using namespace std::chrono_literals;
@@ -21,11 +19,11 @@ Application::Application() {
 
     Rake::tools::Profiler::BeginProfile(L"Initialization - Global", Rake::tools::ProfileCategory::function);
 
-        m_cVarSystem = std::make_unique<core::CVarSystem>();
-        m_windowSystem = core::WindowSystem::CreateNative();
-        m_inputSystem = core::InputSystem::CreateNative();
-        m_scene = std::make_unique<engine::entity::Scene>();
-        m_renderer = std::make_unique<engine::graphics::Renderer>();
+    m_cVarSystem = std::make_unique<core::CVarSystem>();
+    m_windowSystem = core::WindowSystem::CreateNative();
+    m_inputSystem = core::InputSystem::CreateNative();
+    m_scene = std::make_unique<engine::entity::Scene>();
+    m_rendererSystem = engine::graphics::RendererSystem::CreateWithBackend();
     m_pythonFFISystem = std::make_unique<engine::scripting::PythonFFISystem>();
 
     tools::Profiler::EndProfile();
@@ -78,7 +76,7 @@ void Application::Update() noexcept {
         OnUpdate();
 
         m_windowSystem->Update();
-
+        m_rendererSystem->Render();
         m_inputSystem->Poll();
     }
 }

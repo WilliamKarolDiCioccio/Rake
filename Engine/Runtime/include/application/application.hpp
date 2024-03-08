@@ -36,7 +36,7 @@ class Application : public NonCopyable, NonMovable {
     std::unique_ptr<core::WindowSystem> m_windowSystem = nullptr;
     std::unique_ptr<core::InputSystem> m_inputSystem = nullptr;
     std::unique_ptr<engine::entity::Scene> m_scene = nullptr;
-    std::unique_ptr<engine::graphics::Renderer> m_renderer = nullptr;
+    std::unique_ptr<engine::graphics::RendererSystem> m_rendererSystem = nullptr;
     std::unique_ptr<engine::scripting::PythonFFISystem> m_pythonFFISystem = nullptr;
 
    public:
@@ -63,8 +63,3 @@ class Application : public NonCopyable, NonMovable {
 };
 
 }  // namespace Rake::application
-
-#define RK_NONE_MODE   Rake::application::Application::Mode::none
-#define RK_GAME_MODE   Rake::application::Application::Mode::gameMode
-#define RK_CHEAT_MODE  Rake::application::Application::Mode::cheatMode
-#define RK_EDITOR_MODE Rake::application::Application::Mode::editorMode
