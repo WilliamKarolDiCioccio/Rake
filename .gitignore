@@ -2,6 +2,7 @@
 bin/
 int/
 **/logs/**
+**/profiles/**
 **/temp/**
 **/dev/**
 
@@ -80,6 +81,6 @@ download/**
 # Files for and from debug session
 Testbed/assets
 InputSettings.json
-MenusState.json
-WindowsState.json
+MenuStates.json
+WindowStates.json
 imgui.ini
