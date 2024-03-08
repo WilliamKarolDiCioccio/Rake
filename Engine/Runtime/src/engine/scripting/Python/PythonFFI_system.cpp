@@ -1,6 +1,6 @@
 #include "pch.hpp"
 
-#include "engine/scripting/Python/PythonFFI.hpp"
+#include "engine/scripting/Python/PythonFFI_system.hpp"
 
 #include "platform/win32/win32_process.hpp"
 
@@ -11,24 +11,28 @@ RK_RESTORE_WARNINGS
 
 namespace Rake::engine::scripting {
 
-PythonFFISystem::PythonFFISystem(bool _enabled) : m_enabled(_enabled) {
+PythonFFISystem::Config PythonFFISystem::m_config;
+
+PythonFFISystem::PythonFFISystem() {
     if (m_instance != nullptr) throw std::runtime_error("Python FFI system already created!");
 
     m_instance = this;
 
-    if (m_enabled) {
-        Setup();
+    if (m_config.enabled) {
+        InitializePython();
     }
 }
 
 PythonFFISystem::~PythonFFISystem() {
-    if (m_enabled) {
-        Teardown();
+    if (m_config.enabled) {
+        FinalizePython();
     }
 }
 
-void PythonFFISystem::Setup() const {
-    platform::CreateConsole(L"PythonScript");
+void PythonFFISystem::InitializePython() const {
+#ifdef PLATFORM_WINDOWS
+    platform::Win32::CreateConsole(L"PythonScript");
+#endif
 
     PyConfig config = {};
     PyConfig_InitPythonConfig(&config);
@@ -42,10 +46,24 @@ void PythonFFISystem::Setup() const {
     PyConfig_Clear(&config);
 }
 
-void PythonFFISystem::Teardown() const {
+void PythonFFISystem::FinalizePython() const {
     Py_Finalize();
 
-    platform::DestroyConsole();
+#ifdef PLATFORM_WINDOWS
+    platform::Win32::DestroyConsole();
+#endif
+}
+
+bool PythonFFISystem::ParseOptionArguments(const char* _arg) noexcept {
+    if (strncmp(_arg, "enable", 7) == NULL) {
+        m_config.enabled = true;
+    } else if (strncmp(_arg, "disable", 8) == NULL) {
+        m_config.enabled = false;
+    } else {
+        return false;
+    }
+
+    return true;
 }
 
 bool PythonFFISystem::ExecuteFromFile(const std::string& _path, const std::wstring& _args) {
@@ -89,16 +107,16 @@ bool PythonFFISystem::ExecuteFromString(const std::string& _script, const std::w
 
 std::future<bool> PythonFFISystem::ExecuteFromFileAsync(const std::string& _path, const std::wstring& _args) {
     auto runScript = [=]() {
-        if (!m_enabled) return false;
+        if (!m_config.enabled) return false;
 
-        Setup();
+        InitializePython();
 
         if (!ExecuteFromFile(_path, _args)) {
-            Teardown();
+            FinalizePython();
             return false;
         }
 
-        Teardown();
+        FinalizePython();
         return true;
     };
 
@@ -107,16 +125,16 @@ std::future<bool> PythonFFISystem::ExecuteFromFileAsync(const std::string& _path
 
 std::future<bool> PythonFFISystem::ExecuteFromStringAsync(const std::string& _script, const std::wstring& _args) {
     auto runScript = [=]() {
-        if (!m_enabled) return false;
+        if (!m_config.enabled) return false;
 
-        Setup();
+        InitializePython();
 
         if (!ExecuteFromString(_script, _args)) {
-            Teardown();
+            FinalizePython();
             return false;
         }
 
-        Teardown();
+        FinalizePython();
         return true;
     };
 

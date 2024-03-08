@@ -48,6 +48,7 @@ Application::Application(int _argc, const char* _argv[]) {
         m_inputSystem = core::InputSystem::CreateNative();
         m_scene = std::make_unique<engine::entity::Scene>();
         m_renderer = std::make_unique<engine::graphics::Renderer>();
+    m_pythonFFISystem = std::make_unique<engine::scripting::PythonFFISystem>();
 
         if (!m_config.disablePythonInterpreter) {
             m_pythonFFISystem = std::make_unique<engine::scripting::PythonFFISystem>(m_config.disablePythonInterpreter);

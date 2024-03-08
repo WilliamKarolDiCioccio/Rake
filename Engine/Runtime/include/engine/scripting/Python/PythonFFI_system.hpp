@@ -10,15 +10,21 @@ class PythonFFISystem final {
    private:
     static inline PythonFFISystem* m_instance = nullptr;
 
-    bool m_enabled;
+    struct Config {
+        bool enabled;
+
+        Config() : enabled(true) {}
+    };
+
+    static Config m_config;
 
    public:
-    RK_API PythonFFISystem(bool _enabled);
+    RK_API PythonFFISystem();
     RK_API ~PythonFFISystem();
 
    private:
-    void Setup() const;
-    void Teardown() const;
+    void InitializePython() const;
+    void FinalizePython() const;
 
    public:
     RK_API bool ExecuteFromFile(const std::string& _path, const std::wstring& _args);
@@ -27,6 +33,10 @@ class PythonFFISystem final {
     RK_API std::future<bool> ExecuteFromStringAsync(const std::string& _script, const std::wstring& _args);
 
    public:
+    RK_API static bool ParseOptionArguments(const char* _arg) noexcept;
+
+    NODISCARD static const Config& GetConfig() noexcept { return m_config; }
+
     RK_API NODISCARD static const PythonFFISystem* Get() noexcept;
 };
 
