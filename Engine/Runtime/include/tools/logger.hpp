@@ -63,7 +63,7 @@ void Logger::Fatal(const std::wstring &_format, _Args &&..._args) noexcept {
     const auto msg = libraries::FormatWideString(_format, std::make_wformat_args(_args...)) + L'\n';
 
 #ifdef RK_DEBUG
-    std::wcout << MAGENTA << msg << RESET;
+    std::wcerr << MAGENTA << msg << RESET;
 #endif
 
     m_msgPool << msg;
@@ -77,7 +77,7 @@ void Logger::Error(const std::wstring &_format, _Args &&..._args) noexcept {
     const auto msg = libraries::FormatWideString(_format, std::make_wformat_args(_args...)) + L'\n';
 
 #ifdef RK_DEBUG
-    std::wcout << RED << msg << RESET;
+    std::wcerr << RED << msg << RESET;
 #endif
 
     m_msgPool << msg;
@@ -91,7 +91,7 @@ void Logger::Warn(const std::wstring &_format, _Args &&..._args) noexcept {
     const auto msg = libraries::FormatWideString(_format, std::make_wformat_args(_args...)) + L'\n';
 
 #ifdef RK_DEBUG
-    std::wcout << YELLOW << msg << RESET;
+    std::wcerr << YELLOW << msg << RESET;
 #endif
 
     m_msgPool << msg;
