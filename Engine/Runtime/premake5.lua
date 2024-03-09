@@ -53,8 +53,7 @@ libdirs {
     "%{LibraryDir.GameDK}",
     "%{LibraryDir.imgui}",
     "%{LibraryDir.KtxSoftware}",
-    "%{LibraryDir.PythonSDK}",
-    "%{Library.VulkanSDK}"
+    "%{LibraryDir.PythonSDK}"
 }
 
 links {
@@ -64,7 +63,6 @@ links {
     "%{Library.KtxSoftware}",
     "%{Library.libsodium}",
     "%{Library.Python}",
-    "%{Library.Vulkan}",
     "%{Library.XGameRuntime}"
 }
 

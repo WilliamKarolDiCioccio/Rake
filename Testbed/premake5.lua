@@ -23,8 +23,7 @@ includedirs {
     "%{IncludeDir.entt}",
     "%{IncludeDir.imgui}",
     "%{IncludeDir.json}",
-    "%{IncludeDir.libsodium}",
-    "%{IncludeDir.VulkanSDK}"
+    "%{IncludeDir.libsodium}"
 }
 
 libdirs {
