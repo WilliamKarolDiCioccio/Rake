@@ -5,30 +5,27 @@
 
 #include <core/file_system.hpp>
 #include <core/input_system.hpp>
-#include <engine/entity/scene.hpp>
-#include <platform/win32/win32_process.hpp>
 
 using namespace std::chrono_literals;
 
 namespace Testbed {
 
-Testbed::Testbed(int _argc, const char* _argv[]) : application::Application(_argc, _argv) {}
+Testbed::Testbed() {}
 
 Testbed::~Testbed() {}
 
 void Testbed::OnStart() noexcept {
-    auto window = m_windowSystem->RegisterWindow("MainWindow");
+    auto& primaryWindow = m_windowSystem->CreateWindow("PrimaryWindow");
+    auto& secondaryWindow = m_windowSystem->CreateWindow("SecondaryWindow");
 
-    window->SetSize({1280, 720});
-    window->SetResizeable(false);
-    window->SetTitle(L"WIN32 - Rake Engine - main window");
+    m_windowSystem->LoadWindowState("PrimaryWindow");
+    m_windowSystem->LoadWindowState("SecondaryWindow");
 
-    window->Show(true);
-    window->Highlight();
+    primaryWindow->SetTitle(L"Rake Engine - Multicontext Primary - x86_64 - WIN32 - Vulkan");
+    secondaryWindow->SetTitle(L"Rake Engine - Multicontext Secondary - x86_64 - WIN32 - Vulkan");
 
-    m_windowSystem->LoadState("MainWindow");
-
-    m_pythonFFISystem->ExecuteFromFile("test.py", L"");
+    m_rendererSystem->CreateContext("PrimaryContext", primaryWindow);
+    m_rendererSystem->CreateContext("SecondaryContext", secondaryWindow);
 }
 
 void Testbed::OnUpdate() noexcept {
@@ -38,10 +35,12 @@ void Testbed::OnUpdate() noexcept {
 }
 
 void Testbed::OnStop() noexcept {
-    m_windowSystem->SaveState("MainWindow");
-    m_windowSystem->UnregisterWindow("MainWindow");
+    m_windowSystem->SaveWindowState("SecondaryWindow");
+    m_windowSystem->DestroyWindow("SecondaryWindow");
+    m_windowSystem->SaveWindowState("PrimaryWindow");
+    m_windowSystem->DestroyWindow("PrimaryWindow");
 }
 
-void Testbed::OnImGuiRender(core::Window* _windowHandle) noexcept {}
+void Testbed::OnImGuiRender() noexcept {}
 
 }  // namespace Testbed

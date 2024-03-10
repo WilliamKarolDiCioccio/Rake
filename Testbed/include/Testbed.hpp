@@ -13,7 +13,7 @@ class Testbed final : public application::Application {
     MenusState m_menusState = {};
 
    public:
-    Testbed(int _argc, const char *_argv[]);
+    Testbed();
     ~Testbed() override;
 
    private:
@@ -22,7 +22,7 @@ class Testbed final : public application::Application {
     void OnUpdate() noexcept override;
     void OnPause() noexcept override{};
     void OnStop() noexcept override;
-    void OnImGuiRender(core::Window *_windowHandle) noexcept override;
+    void OnImGuiRender() noexcept override;
 };
 
 }  // namespace Testbed

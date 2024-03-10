@@ -64,18 +64,10 @@ class CVarSystem final : public NonCopyable, NonMovable {
     RK_API void SetIntCVar(const std::string &_name, int32_t _data);
     RK_API void SetFloatCVar(const std::string &_name, float _data);
     RK_API void SetStringCVar(const std::string &_name, const std::string &_data);
-
-    RK_API void EditBoolCVar(const std::string &_name);
-    RK_API void EditIntCVar(const std::string &_name);
-    RK_API void EditFloatCVar(const std::string &_name);
-    RK_API void EditStringCVar(const std::string &_name);
-
     RK_API const bool GetBoolCVar(const std::string &_name) const;
     RK_API const int32_t GetIntCVar(const std::string &_name) const;
     RK_API const float GetFloatCVar(const std::string &_name) const;
     RK_API const std::string &GetStringCVar(const std::string &_name) const;
-
-    RK_API void ShowCVarMenu(bool &_status) noexcept;
 
    public:
     RK_API NODISCARD static CVarSystem *Get() noexcept;

@@ -48,11 +48,15 @@ void RenameFile(const std::wstring &_oldFilename, const std::wstring &_newFilena
 }
 
 void CreateFile(const std::wstring &_path) {
-    std::wofstream file(_path);
+    std::wofstream file(_path, FileOpenMode::write);
 
-    file << '\0';
-
-    if (!file || !fs::exists(_path)) throw RkException(L"Failed to create or open file '{}'!", _path);
+    if (!file.is_open()) {
+        throw RkException(L"Failed to create or open file '{}'!", _path);
+    } else {
+        if (!fs::exists(_path)) {
+            throw RkException(L"Failed to create file '{}'!", _path);
+        }
+    }
 }
 
 void RemoveFile(const std::wstring &_path) {

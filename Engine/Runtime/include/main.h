@@ -3,13 +3,38 @@
 #include <signal.h>
 
 #include "application/application.hpp"
+#include "core/command_line_parser.hpp"
 
-extern std::unique_ptr<Rake::application::Application> RkCreateApplication(int argc, const char *argv[]) noexcept;
+extern std::unique_ptr<Rake::application::Application> RkCreateApplication() noexcept;
 
-static inline std::unique_ptr<Rake::application::Application> g_app = nullptr;
+std::unique_ptr<Rake::application::Application> g_app = nullptr;
 
-bool RkMain(int _argc = 1, const char *_argv[] = nullptr) {
-    g_app = RkCreateApplication(_argc, _argv);
+void RegisterOptions() {
+    Rake::core::CommandLineParser::RegisterOption("--license", false, true, [](const char* _arg) {
+        std::wcout << Rake::core::ReadFile(L"LICENSE.txt") << std::endl;
+        return true;
+    });
+
+    Rake::core::CommandLineParser::RegisterOption("--readme", false, true, [](const char* _arg) {
+        std::wcout << Rake::core::ReadFile(L"README.txt") << std::endl;
+        return true;
+    });
+
+    Rake::core::CommandLineParser::RegisterOption("--python-ffi", true, false, [](const char* _arg) {
+        return Rake::engine::scripting::PythonFFISystem::ParseOptionArguments(_arg);
+    });
+
+    Rake::core::CommandLineParser::RegisterOption("--renderer", true, false, [](const char* _arg) {
+        return Rake::engine::graphics::RendererSystem::ParseOptionArguments(_arg);
+    });
+}
+
+bool RkMain(int _argc = 1, const char* _argv[] = nullptr) {
+    RegisterOptions();
+
+    Rake::core::CommandLineParser::ParseOptions(_argc, _argv);
+
+    g_app = RkCreateApplication();
 
     const auto singalHandler = [](int _signal) {
         g_app->Stop();

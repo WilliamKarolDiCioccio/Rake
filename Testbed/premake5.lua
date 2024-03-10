@@ -21,17 +21,9 @@ includedirs {
     "../Engine/STL/include",
     "../Engine/Runtime/include",
     "%{IncludeDir.entt}",
-    "%{IncludeDir.imgui}",
-    "%{IncludeDir.json}",
-    "%{IncludeDir.libsodium}",
-    "%{IncludeDir.VulkanSDK}"
-}
-
-libdirs {
-    "%{LibraryDir.imgui}"
+    "%{IncludeDir.json}"
 }
 
 links {
-    "Runtime",
-    "%{Library.imgui}"
+    "Runtime"
 }

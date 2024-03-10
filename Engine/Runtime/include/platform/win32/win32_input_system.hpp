@@ -10,7 +10,7 @@
 
 #include <GameInput.h>
 
-namespace Rake::platform {
+namespace Rake::platform::Win32 {
 
 class Win32InputSystem final : public core::InputSystem {
    private:
@@ -41,6 +41,6 @@ class Win32InputSystem final : public core::InputSystem {
         _In_ GameInputDeviceStatus previousStatus) noexcept;
 };
 
-}  // namespace Rake::platform
+}  // namespace Rake::platform::Win32
 
 #endif

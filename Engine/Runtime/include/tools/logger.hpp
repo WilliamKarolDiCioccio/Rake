@@ -1,14 +1,12 @@
 #pragma once
 
-#include <fstream>
 #include <iostream>
 
 #include "base.hpp"
 
 #include "core/timer.hpp"
-#include "core/exception.hpp"
 #include "core/file_system.hpp"
-#include "RKSTL/string.hpp"
+#include <RKSTL/string.hpp>
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -21,39 +19,22 @@
 
 namespace Rake::tools {
 
-class Logger final : public NonCopyable, public NonMovable {
+class RK_API Logger final {
    private:
-    static inline Logger *m_instance = nullptr;
+    static std::wstring m_sessionName;
+    static std::wstring m_logsPath;
+    static std::wstringstream m_msgPool;
+    static size_t m_msgPoolSize;
+    static bool m_initialized;
+
+   private:
+    Logger() = delete;
 
    public:
-    Logger() {
-        if (m_instance != nullptr) throw std::runtime_error("Logger already created!");
+    static void Initialize(const std::wstring &_sessionName, const std::wstring &_logsDir) noexcept;
+    static void Shutdown() noexcept;
+    static void Flush() noexcept;
 
-        m_instance = this;
-
-        if (!core::FileExists(L"Session.log")) core::CreateFile(L"Session.log");
-
-        const auto dateAndTime = core::Timer::GetTimestamp("date: %d-%B-%Y time: %H:%M:%S ");
-
-        const auto header =
-            L"<<<<<<<<<< Beginning session at " + libraries::ByteToWideString(dateAndTime) + L" >>>>>>>>>>\n";
-
-        core::WriteFile(L"Session.log", header, core::FileOpenMode::truncate);
-    }
-
-    ~Logger() {
-        const auto dateAndTime = core::Timer::GetTimestamp("date: %d-%B-%Y time: %H:%M:%S ");
-
-        const auto footer =
-            L"<<<<<<<<<< Ending session at " + libraries::ByteToWideString(dateAndTime) + L" >>>>>>>>>>\n";
-
-        core::WriteFile(L"Session.log", footer, core::FileOpenMode::append);
-
-        m_instance = nullptr;
-        delete (m_instance);
-    }
-
-   public:
     template <typename... _Args>
     static void Fatal(const std::wstring &_format, _Args &&..._args) noexcept;
 
@@ -82,10 +63,13 @@ void Logger::Fatal(const std::wstring &_format, _Args &&..._args) noexcept {
     const auto msg = libraries::FormatWideString(_format, std::make_wformat_args(_args...)) + L'\n';
 
 #ifdef RK_DEBUG
-    std::wcout << MAGENTA << msg << RESET;
+    std::wcerr << MAGENTA << msg << RESET;
 #endif
 
-    core::WriteFile(L"Session.log", msg, core::FileOpenMode::append);
+    m_msgPool << msg;
+    m_msgPoolSize += msg.size();
+
+    Flush();
 }
 
 template <typename... _Args>
@@ -93,10 +77,13 @@ void Logger::Error(const std::wstring &_format, _Args &&..._args) noexcept {
     const auto msg = libraries::FormatWideString(_format, std::make_wformat_args(_args...)) + L'\n';
 
 #ifdef RK_DEBUG
-    std::wcout << RED << msg << RESET;
+    std::wcerr << RED << msg << RESET;
 #endif
 
-    core::WriteFile(L"Session.log", msg, core::FileOpenMode::append);
+    m_msgPool << msg;
+    m_msgPoolSize += msg.size();
+
+    Flush();
 }
 
 template <typename... _Args>
@@ -104,10 +91,13 @@ void Logger::Warn(const std::wstring &_format, _Args &&..._args) noexcept {
     const auto msg = libraries::FormatWideString(_format, std::make_wformat_args(_args...)) + L'\n';
 
 #ifdef RK_DEBUG
-    std::wcout << YELLOW << msg << RESET;
+    std::wcerr << YELLOW << msg << RESET;
 #endif
 
-    core::WriteFile(L"Session.log", msg, core::FileOpenMode::append);
+    m_msgPool << msg;
+    m_msgPoolSize += msg.size();
+
+    Flush();
 }
 
 template <typename... _Args>
@@ -118,7 +108,10 @@ void Logger::Info(const std::wstring &_format, _Args &&..._args) noexcept {
     std::wcout << BLUE << msg << RESET;
 #endif
 
-    core::WriteFile(L"Session.log", msg, core::FileOpenMode::append);
+    m_msgPool << msg;
+    m_msgPoolSize += msg.size();
+
+    Flush();
 }
 
 #ifdef RK_LOG_DEBUG_ENABLED
@@ -131,7 +124,10 @@ void Logger::Debug(const std::wstring &_format, _Args &&..._args) noexcept {
     std::wcout << GREEN << msg << RESET;
 #endif
 
-    core::WriteFile(L"Session.log", msg, core::FileOpenMode::append);
+    m_msgPool << msg;
+    m_msgPoolSize += msg.size();
+
+    Flush();
 }
 
 #endif
@@ -146,7 +142,10 @@ void Logger::Trace(const std::wstring &_format, _Args &&..._args) noexcept {
     std::wcout << msg;
 #endif
 
-    core::WriteFile(L"Session.log", msg, core::FileOpenMode::append);
+    m_msgPool << msg;
+    m_msgPoolSize += msg.size();
+
+    Flush();
 }
 
 #endif

@@ -5,6 +5,14 @@ cppdialect "C++20"
 staticruntime "Off"
 warnings "High"
 
+prebuildcommands {
+    "python ../../scripts/generate_metadata.py"
+}
+
+filter {"action:vs*", "configurations:Debug or Release"}
+buildmessage "Generating metadata.hpp"
+buildcommands {""}
+
 targetdir(OutDir)
 objdir(IntDir)
 
@@ -30,10 +38,7 @@ includedirs {
     "../STL/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.GameDK}",
-    "%{IncludeDir.imgui}",
     "%{IncludeDir.json}",
-    "%{IncludeDir.KtxSoftware}",
-    "%{IncludeDir.libsodium}",
     "%{IncludeDir.PythonSDK}",
     "%{IncludeDir.stb}",
     "%{IncludeDir.tinygltf}",
@@ -43,19 +48,13 @@ includedirs {
 
 libdirs {
     "%{LibraryDir.GameDK}",
-    "%{LibraryDir.imgui}",
-    "%{LibraryDir.KtxSoftware}",
     "%{LibraryDir.PythonSDK}"
 }
 
 links {
     "STL",
     "%{Library.GameInput}",
-    "%{Library.imgui}",
-    "%{Library.KtxSoftware}",
-    "%{Library.libsodium}",
     "%{Library.Python}",
-    "%{Library.Vulkan}",
     "%{Library.XGameRuntime}"
 }
 
