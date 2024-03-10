@@ -22,8 +22,7 @@ includedirs {
     "../Engine/Runtime/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.imgui}",
-    "%{IncludeDir.json}",
-    "%{IncludeDir.libsodium}"
+    "%{IncludeDir.json}"
 }
 
 libdirs {

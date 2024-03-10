@@ -40,8 +40,6 @@ includedirs {
     "%{IncludeDir.GameDK}",
     "%{IncludeDir.imgui}",
     "%{IncludeDir.json}",
-    "%{IncludeDir.KtxSoftware}",
-    "%{IncludeDir.libsodium}",
     "%{IncludeDir.PythonSDK}",
     "%{IncludeDir.stb}",
     "%{IncludeDir.tinygltf}",
@@ -52,7 +50,6 @@ includedirs {
 libdirs {
     "%{LibraryDir.GameDK}",
     "%{LibraryDir.imgui}",
-    "%{LibraryDir.KtxSoftware}",
     "%{LibraryDir.PythonSDK}"
 }
 
@@ -60,8 +57,6 @@ links {
     "STL",
     "%{Library.GameInput}",
     "%{Library.imgui}",
-    "%{Library.KtxSoftware}",
-    "%{Library.libsodium}",
     "%{Library.Python}",
     "%{Library.XGameRuntime}"
 }

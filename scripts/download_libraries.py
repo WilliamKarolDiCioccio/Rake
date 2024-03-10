@@ -4,8 +4,6 @@ from tqdm import tqdm
 
 urls = [
     "https://sdk.lunarg.com/sdk/download/1.3.261.1/windows/VulkanSDK-1.3.261.1-Installer.exe",
-    "https://github.com/KhronosGroup/KTX-Software/releases/download/v4.2.1/KTX-Software-4.2.1-Windows-arm64.exe",
-    "https://github.com/jedisct1/libsodium/releases/download/1.0.19-RELEASE/libsodium-1.0.19-msvc.zip",
     "https://github.com/microsoft/GDK/archive/refs/tags/June_2023_Update_3.zip",
     "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-windows-x86_64-2.10.0.zip"
 ]
