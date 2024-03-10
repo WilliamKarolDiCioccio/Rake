@@ -35,6 +35,22 @@ int/
 **.vcxitems.filters.txt
 **.vcxitems.user
 
+# GNU Make
+Makefile
+Makefile.in
+Makefile.am
+Makefile.in~
+config.h
+config.h.in
+aclocal.m4
+autom4te.cache/
+config.guess
+config.sub
+configure
+install-sh
+missing
+mkinstalldirs
+
 # Gradle
 gradle/**
 gradle.**
