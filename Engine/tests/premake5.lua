@@ -16,7 +16,6 @@ includedirs {
     "./include",
     "../STL/include",
     "../Runtime/include",
-    "%{IncludeDir.ImGui}",
     "%{IncludeDir.json}",
     "%{IncludeDir.VulkanSDK}"
 }

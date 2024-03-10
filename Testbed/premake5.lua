@@ -21,16 +21,9 @@ includedirs {
     "../Engine/STL/include",
     "../Engine/Runtime/include",
     "%{IncludeDir.entt}",
-    "%{IncludeDir.imgui}",
-    "%{IncludeDir.json}",
-    "%{IncludeDir.libsodium}"
-}
-
-libdirs {
-    "%{LibraryDir.imgui}"
+    "%{IncludeDir.json}"
 }
 
 links {
-    "Runtime",
-    "%{Library.imgui}"
+    "Runtime"
 }

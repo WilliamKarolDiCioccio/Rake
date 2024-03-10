@@ -1,11 +1,8 @@
 #pragma once
 
-RK_DISABLE_WARNINGS
-#include <imgui.h>
-#include <glm/vec2.hpp>
-RK_RESTORE_WARNINGS
-
 #include "base.hpp"
+
+#include <glm/vec2.hpp>
 
 namespace Rake::core {
 
