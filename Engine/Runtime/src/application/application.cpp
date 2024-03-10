@@ -3,7 +3,6 @@
 #include "application/application.hpp"
 
 #include "core/event_system.hpp"
-#include "Core/ImGUI_manager.hpp"
 
 using namespace std::chrono_literals;
 

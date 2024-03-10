@@ -38,10 +38,7 @@ includedirs {
     "../STL/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.GameDK}",
-    "%{IncludeDir.imgui}",
     "%{IncludeDir.json}",
-    "%{IncludeDir.KtxSoftware}",
-    "%{IncludeDir.libsodium}",
     "%{IncludeDir.PythonSDK}",
     "%{IncludeDir.stb}",
     "%{IncludeDir.tinygltf}",
@@ -51,20 +48,13 @@ includedirs {
 
 libdirs {
     "%{LibraryDir.GameDK}",
-    "%{LibraryDir.imgui}",
-    "%{LibraryDir.KtxSoftware}",
-    "%{LibraryDir.PythonSDK}",
-    "%{Library.VulkanSDK}"
+    "%{LibraryDir.PythonSDK}"
 }
 
 links {
     "STL",
     "%{Library.GameInput}",
-    "%{Library.imgui}",
-    "%{Library.KtxSoftware}",
-    "%{Library.libsodium}",
     "%{Library.Python}",
-    "%{Library.Vulkan}",
     "%{Library.XGameRuntime}"
 }
 
