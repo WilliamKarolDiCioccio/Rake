@@ -11,7 +11,6 @@ Rake is a game engine project aimed at creating an easy-to-use game development 
 ### Third-party Libraries
 
 - [entt (By skypjack)](https://github.com/skypjack/entt)
-- [ImGui (By ocornut, forked by TheCherno)](https://github.com/TheCherno/imgui)
 - [json (By nlohmann)](https://github.com/nlohmann/json)
 - [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader)
 - [NativeFileDialog (By mlabbe)](https://github.com/mlabbe/nativefiledialog)
