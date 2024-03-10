@@ -3,9 +3,9 @@
     {
       "type": "shell",
       "group": "build",
-      "label": "Generate VS IDE projects",
+      "label": "Generate project files",
       "windows": {
-        "command": "${workspaceFolder}\\scripts\\generate_win32_projects.bat"
+        "command": "${workspaceFolder}\\scripts\\generate_projects_win32.bat"
       },
       "presentation": {
         "echo": false,
@@ -19,7 +19,21 @@
       "group": "build",
       "label": "Compile shaders",
       "windows": {
-        "command": "${workspaceFolder}\\scripts\\compile_shaders.bat"
+        "command": "${workspaceFolder}\\scripts\\compile_shaders_win32.bat"
+      },
+      "presentation": {
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "group": "build",
+      "label": "Install tools",
+      "windows": {
+        "command": "${workspaceFolder}\\scripts\\install_tools_win32.ps1"
       },
       "presentation": {
         "echo": false,
@@ -34,20 +48,6 @@
       "label": "Download libraries",
       "windows": {
         "command": "python ${workspaceFolder}\\scripts\\download_libraries.py"
-      },
-      "presentation": {
-        "echo": false,
-        "focus": false,
-        "panel": "shared",
-        "clear": true
-      }
-    },
-    {
-      "type": "shell",
-      "group": "build",
-      "label": "Install tools",
-      "windows": {
-        "command": "${workspaceFolder}\\scripts\\install_tools.ps1"
       },
       "linux": {
         "command": "sudo ${workspaceFolder}/scripts/install_tools.sh"
