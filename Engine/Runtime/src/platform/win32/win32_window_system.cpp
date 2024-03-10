@@ -4,15 +4,10 @@
 
 #include "platform/win32/win32_window_system.hpp"
 
-#include <backends/imgui_impl_win32.h>
-#include <backends/imgui_impl_win32.cpp>
-
 namespace Rake::platform::Win32 {
 
 LRESULT CALLBACK
 Win32WindowSystem::WndProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam) noexcept {
-    ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-
     auto &windowName = GetWindowNameByNativeHandle(hWnd);
     auto &window = GetWindowHandleByName(windowName);
     auto &windowState = window->GetState();

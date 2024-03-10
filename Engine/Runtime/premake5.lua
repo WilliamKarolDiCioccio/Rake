@@ -38,7 +38,6 @@ includedirs {
     "../STL/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.GameDK}",
-    "%{IncludeDir.imgui}",
     "%{IncludeDir.json}",
     "%{IncludeDir.PythonSDK}",
     "%{IncludeDir.stb}",
@@ -49,14 +48,12 @@ includedirs {
 
 libdirs {
     "%{LibraryDir.GameDK}",
-    "%{LibraryDir.imgui}",
     "%{LibraryDir.PythonSDK}"
 }
 
 links {
     "STL",
     "%{Library.GameInput}",
-    "%{Library.imgui}",
     "%{Library.Python}",
     "%{Library.XGameRuntime}"
 }
