@@ -7,6 +7,9 @@
       "windows": {
         "command": "${workspaceFolder}\\scripts\\generate_projects_win32.bat"
       },
+      "linux": {
+        "command": "${workspaceFolder}/scripts/generate_projects_linux.sh"
+      },
       "presentation": {
         "echo": false,
         "focus": false,
@@ -21,6 +24,9 @@
       "windows": {
         "command": "${workspaceFolder}\\scripts\\compile_shaders_win32.bat"
       },
+      "linux": {
+        "command": "${workspaceFolder}/scripts/compile_shaders_linux.sh"
+      },
       "presentation": {
         "echo": false,
         "focus": false,
@@ -34,6 +40,9 @@
       "label": "Install tools",
       "windows": {
         "command": "${workspaceFolder}\\scripts\\install_tools_win32.ps1"
+      },
+      "linux": {
+        "command": "sudo ${workspaceFolder}/scripts/install_tools_linux.sh"
       },
       "presentation": {
         "echo": false,
@@ -50,7 +59,7 @@
         "command": "python ${workspaceFolder}\\scripts\\download_libraries.py"
       },
       "linux": {
-        "command": "sudo ${workspaceFolder}/scripts/install_tools.sh"
+        "command": "echo \"Not needed on Linux\""
       },
       "presentation": {
         "echo": false,
