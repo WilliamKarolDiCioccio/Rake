@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 // core
-#include <memory>
+#include <memory.h>
 #include <math.h>
 #include <chrono>
 #include <iostream>

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/Internal/Config.h"
-#include "core/Internal/Assert.h"
-#include "core/Internal/Warnings.h"
+#include "core/internal/config.h"
+#include "core/internal/assert.h"
+#include "core/internal/warnings.h"
 
-#ifdef COMPILER_MSVC
+#if defined(COMPILER_MSVC)
 #define DLL_EXPORT       __declspec(dllexport)
 #define DLL_IMPORT       __declspec(dllimport)
 #define FORCE_INLINE     __forceinline
@@ -13,6 +13,15 @@
 #define CURRENT_FUNCTION __func__
 #define RESTRICT         __restrict
 #define INTERFACE        __interface
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
+#define DLL_EXPORT       __attribute__((visibility("default")))
+#define DLL_IMPORT       __attribute__((visibility("default")))
+#define FORCE_INLINE     inline __attribute__((always_inline))
+#define PROHIBIT_INLINE  __attribute__((noinline))
+#define VECTORCALL       __attribute__((vectorcall))
+#define CURRENT_FUNCTION __PRETTY_FUNCTION__
+#define RESTRICT         __restrict__
+#define INTERFACE        struct
 #else
 #error "Unknown or not supported compiler toolchain!"
 #endif
@@ -23,12 +32,21 @@
 #define RK_API DLL_IMPORT
 #endif
 
+#if defined(COMPILER_MSVC)
 #define NODISCARD    [[nodiscard("")]]
 #define MAYBE_UNUSED [[maybe_unused]]
 #define NORETURN     [[noreturn]]
 #define FALLTHROUGH  [[fallthrough]]
 #define LIKELY       [[likely]]
 #define UNLIKELY     [[unlikely]]
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
+#define NODISCARD
+#define MAYBE_UNUSED
+#define NORETURN
+#define FALLTHROUGH
+#define LIKELY
+#define UNLIKELY
+#endif
 
 #define RK_GIBIBYTES(amount) amount * 1024 * 1024 * 1024
 #define RK_MEBIBYTES(amount) amount * 1024 * 1024

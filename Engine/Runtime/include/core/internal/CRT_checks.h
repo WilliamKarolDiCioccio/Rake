@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Config.h"
+#include "config.h"
 
 #if RK_CRT_CHECKS_ENABLED
 
@@ -19,6 +19,10 @@
     }
 
 #define RK_DUMP_MEMORY_LEAKS _CrtDumpMemoryLeaks();
+#elif defined(COMPILER_CLANG) || defined(COMPILER_GCC)
+#define RK_MEMORY_INTEGRITY_NOTIFY
+#define RK_MEMORY_INTEGRITY_CHECK
+#define RK_DUMP_MEMORY_LEAKS
 #else
 #error "Unknown or not supported compiler toolchain!"
 #endif
@@ -27,5 +31,6 @@
 
 #define RK_MEMORY_INTEGRITY_NOTIFY
 #define RK_MEMORY_INTEGRITY_CHECK
+#define RK_DUMP_MEMORY_LEAKS
 
 #endif
