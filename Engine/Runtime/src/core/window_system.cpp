@@ -4,7 +4,7 @@
 
 #include "core/file_system.hpp"
 #ifdef PLATFORM_WINDOWS
-#include "platform/win32/win32_window_system.hpp"
+#include "platform/windows/win32_window_system.hpp"
 #endif
 
 namespace Rake::core {

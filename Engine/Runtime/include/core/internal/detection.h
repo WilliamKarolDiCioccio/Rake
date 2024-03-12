@@ -52,10 +52,15 @@
 #if defined(__clang__)
 #define COMPILER_CLANG 1
 #define COMPILER_NAME  "Clang"
+#elif defined(__GNUC__)
+#define COMPILER_GCC 1
+#define COMPILER_NAME  "GCC"
 #elif defined(_MSC_VER)
 #include <intrin.h>
 #define COMPILER_MSVC 1
 #define COMPILER_NAME "MSVC"
+#else
+#error "Unknown or not supported compiler toolchain!"
 #endif
 
 #if defined(_WIN64) || defined(_WIN32)

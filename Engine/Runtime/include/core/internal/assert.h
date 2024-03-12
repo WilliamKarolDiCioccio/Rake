@@ -1,14 +1,18 @@
 #pragma once
 
-#include "Config.h"
+#include "config.h"
 
 #if RK_ASSERTIONS_ENABLED
 
-#include "Detection.h"
+#include "detection.h"
 
-#ifdef COMPILER_MSVC
+#if defined(COMPILER_MSVC)
 #include <intrin.h>
 #define RK_DEBUG_BREAK __debugbreak()
+#elif defined(COMPILER_CLANG)
+#define RK_DEBUG_BREAK __builtin_trap()
+#elif defined(COMPILER_GCC)
+#define DEBUG_BREAK __builtin_debugtrap()
 #else
 #error "Unknown or not supported compiler toolchain!"
 #endif

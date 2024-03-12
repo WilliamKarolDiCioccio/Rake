@@ -35,6 +35,21 @@ int/
 **.vcxitems.filters.txt
 **.vcxitems.user
 
+# Codelite
+.project
+workspace.**
+codelite.**
+**.workspace
+**.project
+**.ghc
+.codelite/**
+.build-**/**
+compile_commands.json
+
+# GNU Make
+**.mk
+Makefile
+
 # IntelliJ IDEA
 .idea/caches/
 .idea/libraries/
@@ -76,4 +91,3 @@ Testbed/assets
 InputSettings.json
 MenuStates.json
 WindowStates.json
-imgui.ini
