@@ -20,7 +20,7 @@ class RK_API CommandLineParser {
             : expectsValueList(_expectsValueList), requestsTermination(_requestsTermination), handler(_handler) {}
     };
 
-    static std::unordered_map<std::string, Option> options;
+    static std::unordered_map<std::string, Option> m_options;
 
    private:
     CommandLineParser() = delete;
