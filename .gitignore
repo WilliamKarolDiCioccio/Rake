@@ -50,13 +50,6 @@ compile_commands.json
 **.mk
 Makefile
 
-# Gradle
-gradle/**
-gradle.**
-**.gradle
-.gradle/**
-AndroidManifest.xml
-
 # IntelliJ IDEA
 .idea/caches/
 .idea/libraries/
@@ -98,4 +91,3 @@ Testbed/assets
 InputSettings.json
 MenuStates.json
 WindowStates.json
-imgui.ini

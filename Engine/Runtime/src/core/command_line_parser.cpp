@@ -4,9 +4,9 @@
 
 namespace Rake::core {
 
-std::unordered_map<std::string, CommandLineParser::Option> CommandLineParser::options;
+std::unordered_map<std::string, CommandLineParser::Option> CommandLineParser::m_options;
 
-bool CommandLineParser::IsOption(const char* _option) { return options.find(_option) != options.end(); }
+bool CommandLineParser::IsOption(const char* _option) { return m_options.find(_option) != m_options.end(); }
 
 void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
     if (_argc <= 1) {
@@ -26,18 +26,18 @@ void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
             int val = opt + 1;
             while (val < _argc && !IsOption(_argv[val])) {
                 if (m_options.at(_argv[opt]).handler(_argv[val])) {
-                        RK_LOG_DEBUG(
+                    RK_LOG_DEBUG(
                         L"Set value '{}' for option '{}!'",
                         libraries::ByteToWideString(_argv[val]),
                         libraries::ByteToWideString(_argv[opt]));
-                    } else {
-                        RK_LOG_ERROR(
+                } else {
+                    RK_LOG_ERROR(
                         L"Failed to set value '{}' for option '{}'!",
                         libraries::ByteToWideString(_argv[val]),
                         libraries::ByteToWideString(_argv[opt]));
-                    }
-                ++val;
                 }
+                ++val;
+            }
             opt = val - 1;
         } else {
             if (m_options.at(_argv[opt]).handler("")) {
@@ -45,7 +45,8 @@ void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
             } else {
                 RK_LOG_ERROR(L"Failed to set option '{}'!", libraries::ByteToWideString(_argv[opt]));
             }
-        } else {
+        }
+        else {
             RK_LOG_ERROR(L"Unknown command line option '{}', skipping!", libraries::ByteToWideString(_argv[i]));
         }
     }
