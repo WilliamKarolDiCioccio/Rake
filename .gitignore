@@ -35,13 +35,6 @@ int/
 **.vcxitems.filters.txt
 **.vcxitems.user
 
-# Gradle
-gradle/**
-gradle.**
-**.gradle
-.gradle/**
-AndroidManifest.xml
-
 # IntelliJ IDEA
 .idea/caches/
 .idea/libraries/
