@@ -12,13 +12,13 @@ void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
     if (_argc <= 1) {
         return;
     } else if (_argc >= 32) {
-        RK_LOG_ERROR(L"Too many command line options/values, skipping!");
+        std::cerr << "Too many command line options/values, skipping!\n";
         return;
     }
 
     for (int opt = 1; opt < _argc; ++opt) {
         if (!IsOption(_argv[opt])) {
-            RK_LOG_ERROR(L"Unknown option/value '{}', skipping!", libraries::ByteToWideString(_argv[opt]));
+            std::cerr << "Unknown option/value '" << _argv[opt] << "', skipping!\n";
             continue;
         }
 
@@ -26,28 +26,19 @@ void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
             int val = opt + 1;
             while (val < _argc && !IsOption(_argv[val])) {
                 if (m_options.at(_argv[opt]).handler(_argv[val])) {
-                    RK_LOG_DEBUG(
-                        L"Set value '{}' for option '{}!'",
-                        libraries::ByteToWideString(_argv[val]),
-                        libraries::ByteToWideString(_argv[opt]));
+                    std::cout << "Set value '" << _argv[val] << "' for option '" << _argv[opt] << "'\n";
                 } else {
-                    RK_LOG_ERROR(
-                        L"Failed to set value '{}' for option '{}'!",
-                        libraries::ByteToWideString(_argv[val]),
-                        libraries::ByteToWideString(_argv[opt]));
+                    std::cerr << "Failed to set value '" << _argv[val] << "' for option '" << _argv[opt] << "'!\n";
                 }
                 ++val;
             }
             opt = val - 1;
         } else {
             if (m_options.at(_argv[opt]).handler("")) {
-                RK_LOG_DEBUG(L"Set option '{}'!", libraries::ByteToWideString(_argv[opt]));
+                std::cout << "Set option '" << _argv[opt] << "'!\n";
             } else {
-                RK_LOG_ERROR(L"Failed to set option '{}'!", libraries::ByteToWideString(_argv[opt]));
-            }
+                std::cerr << "Failed to set option '" << _argv[opt] << "'!\n";
         }
-        else {
-            RK_LOG_ERROR(L"Unknown command line option '{}', skipping!", libraries::ByteToWideString(_argv[i]));
         }
     }
 }
