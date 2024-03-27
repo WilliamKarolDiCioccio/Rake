@@ -27,6 +27,7 @@ class RK_API CommandLineParser {
 
    public:
     static bool IsOption(const char* _option);
+    static uint8_t OptionSpellCheck(const std::string& _mispelledOption, const std::string& _correctOption);
     static void ParseOptions(int argc, const char* argv[]);
     static void RegisterOption(
         const std::string& optionName,

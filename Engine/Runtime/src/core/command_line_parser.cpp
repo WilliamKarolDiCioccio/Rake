@@ -8,6 +8,30 @@ std::unordered_map<std::string, CommandLineParser::Option> CommandLineParser::m_
 
 bool CommandLineParser::IsOption(const char* _option) { return m_options.find(_option) != m_options.end(); }
 
+uint8_t Rake::core::CommandLineParser::OptionSpellCheck(
+    const std::string& _mispelledOption, const std::string& _correctOption) {
+    std::vector<std::vector<int>> dp(_mispelledOption.size() + 1, std::vector<int>(_correctOption.size() + 1, 0));
+
+    for (int i = 0; i <= _mispelledOption.size(); ++i) {
+        dp[i][0] = i;
+    }
+    for (int j = 0; j <= _correctOption.size(); ++j) {
+        dp[0][j] = j;
+    }
+
+    for (int i = 1; i <= _mispelledOption.size(); ++i) {
+        for (int j = 1; j <= _correctOption.size(); ++j) {
+            if (_mispelledOption[i - 1] == _correctOption[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = std::min({dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]}) + 1;
+            }
+        }
+    }
+
+    return dp[_mispelledOption.size()][_correctOption.size()];
+}
+
 void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
     if (_argc <= 1) {
         return;
@@ -18,7 +42,25 @@ void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
 
     for (int opt = 1; opt < _argc; ++opt) {
         if (!IsOption(_argv[opt])) {
-            std::cerr << "Unknown option/value '" << _argv[opt] << "', skipping!\n";
+            uint8_t minDistance = 3;
+            std::string correctOption = _argv[opt];
+
+            for (const auto& [k, v] : m_options) {
+                uint8_t distance = OptionSpellCheck(_argv[opt], k);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    correctOption = k;
+                }
+            }
+
+            if (correctOption != _argv[opt]) {
+                std::cerr << "Mispelled option '" << _argv[opt] << "'!"
+                          << " Did you mean '" << correctOption << "'\n";
+            } else {
+                std::cerr << "Unknown option '" << _argv[opt] << "'!\n";
+            }
+
             continue;
         }
 
@@ -38,7 +80,7 @@ void CommandLineParser::ParseOptions(int _argc, const char* _argv[]) {
                 std::cout << "Set option '" << _argv[opt] << "'!\n";
             } else {
                 std::cerr << "Failed to set option '" << _argv[opt] << "'!\n";
-        }
+            }
         }
     }
 }
