@@ -23,6 +23,16 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
     choco install python --version 3.12 -y
 }
 
+# Install Miniconda3 using Chocolatey and create a new environment called RkEnv
+if (-not (Get-Command conda -ErrorAction SilentlyContinue)) {
+    choco install miniconda3
+
+    conda create --name RkEnv --yes --quiet
+    conda activate RkEnv
+    conda config --set auto_activate_base false
+    conda deactivate
+}
+
 # Add Python and Chocolatey bin directories to PATH
 $pythonPath = (Get-Command python).Path
 $chocoBinPath = [System.Environment]::GetEnvironmentVariable("ChocolateyInstall", [System.EnvironmentVariableTarget]::Machine) + "\bin"
