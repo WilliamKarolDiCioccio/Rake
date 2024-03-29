@@ -47,7 +47,7 @@
       "group": "build",
       "label": "Install tools",
       "windows": {
-        "command": "${workspaceFolder}\\scripts\\install_tool.ps1"
+        "command": "${workspaceFolder}\\scripts\\install_tools.ps1"
       },
       "presentation": {
         "echo": false,
