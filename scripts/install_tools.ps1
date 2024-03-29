@@ -32,10 +32,11 @@ if (-not (Get-Command conda -ErrorAction SilentlyContinue)) {
 $pythonPath = (Get-Command python).Path
 $minicondaPath = "$env:ChocolateyToolsLocation\miniconda3\condabin"
 [Environment]::SetEnvironmentVariable("PATH", "$pythonPath;$minicondaPath;$env:PATH", [EnvironmentVariableTarget]::Machine)
+Write-Host $PWD
 
 # Install Python dependencies using pip
 Write-Host "Installing Python dependencies using pip..."
-pip install -r ./scripts/requirements.txt
+pip install -r https://raw.githubusercontent.com/WilliamKarolDiCioccio/Rake/main/scripts/requirements.txt
 
 # Check if the environment RkEnv already exists
 if (-not (Get-Command conda -ErrorAction SilentlyContinue) -or -not (conda info --envs | Select-String -Pattern "RkEnv")) {
