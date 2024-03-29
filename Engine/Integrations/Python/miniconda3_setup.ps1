@@ -25,3 +25,5 @@ if (-not (Get-Command conda -ErrorAction SilentlyContinue) -or -not (conda info 
     # Create a hidden environment called RkEnv
     conda create --name RkEnv --yes --quiet
 }
+
+Pause

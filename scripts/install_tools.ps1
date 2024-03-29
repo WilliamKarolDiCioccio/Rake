@@ -45,3 +45,5 @@ if (-not (Get-Command conda -ErrorAction SilentlyContinue) -or -not (conda info 
 }
 
 Write-Host "Installation completed successfully."
+
+Pause
