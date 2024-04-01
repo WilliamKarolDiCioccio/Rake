@@ -21,7 +21,8 @@ includedirs {
     "../Engine/STL/include",
     "../Engine/Runtime/include",
     "%{IncludeDir.entt}",
-    "%{IncludeDir.json}"
+    "%{IncludeDir.json}",
+    "%{IncludeDir.VulkanSDK}"
 }
 
 links {
