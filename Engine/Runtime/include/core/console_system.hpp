@@ -2,8 +2,8 @@
 
 #include "base.hpp"
 
-#include "RKSTL/string.hpp"
-#include "RKSTL/enum.hpp"
+#include <RKSTL/string.hpp>
+#include <RKSTL/enum.hpp>
 
 #define MAX_CVAR_REGISTRY_SIZE 1024
 

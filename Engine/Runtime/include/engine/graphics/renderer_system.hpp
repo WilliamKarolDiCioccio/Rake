@@ -46,7 +46,7 @@ class RendererSystem {
     RK_API virtual void DestroyContext(const std::string& _name) noexcept = 0;
 
    public:
-    RK_API static bool ParseOptionArguments(const char* _arg) noexcept;
+    RK_API static bool ParseOptionArguments(const std::string& _arg) noexcept;
 
     NODISCARD static const Config& GetConfig() noexcept { return m_config; }
 

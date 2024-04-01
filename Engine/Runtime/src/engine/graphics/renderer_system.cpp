@@ -21,10 +21,10 @@ RendererSystem::~RendererSystem() {
     delete (m_instance);
 }
 
-bool RendererSystem::ParseOptionArguments(const char *_arg) noexcept {
-    if (strncmp(_arg, "vulkan", 6) == NULL) {
+bool RendererSystem::ParseOptionArguments(const std::string &_arg) noexcept {
+    if (_arg == "vulkan") {
         m_config.backend = engine::graphics::RendererBackend::vulkan;
-    } else if (strncmp(_arg, "directx", 7) == NULL) {
+    } else if (_arg == "directx") {
         m_config.backend = engine::graphics::RendererBackend::directx;
     } else {
         return false;

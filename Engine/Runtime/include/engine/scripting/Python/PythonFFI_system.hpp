@@ -33,7 +33,7 @@ class PythonFFISystem final {
     RK_API std::future<bool> ExecuteFromStringAsync(const std::string& _script, const std::wstring& _args);
 
    public:
-    RK_API static bool ParseOptionArguments(const char* _arg) noexcept;
+    RK_API static bool ParseOptionArguments(const std::string& _arg) noexcept;
 
     NODISCARD static const Config& GetConfig() noexcept { return m_config; }
 

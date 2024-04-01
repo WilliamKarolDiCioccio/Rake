@@ -54,10 +54,10 @@ void PythonFFISystem::FinalizePython() const {
 #endif
 }
 
-bool PythonFFISystem::ParseOptionArguments(const char* _arg) noexcept {
-    if (strncmp(_arg, "enable", 7) == NULL) {
+bool PythonFFISystem::ParseOptionArguments(const std::string& _arg) noexcept {
+    if (_arg == "enable") {
         m_config.enabled = true;
-    } else if (strncmp(_arg, "disable", 8) == NULL) {
+    } else if (_arg == "disable") {
         m_config.enabled = false;
     } else {
         return false;
