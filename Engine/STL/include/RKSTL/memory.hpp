@@ -2,16 +2,15 @@
 
 #include <memory>
 
-namespace Rake::libraries
-{
+namespace Rake::libraries {
 
-    template <typename T>
-    concept Pointer = std::is_pointer_v<T>;
+template <typename T>
+concept Pointer = std::is_pointer_v<T>;
 
-    template <typename T>
-    concept NonPointer = !std::is_pointer_v<T>;
+template <typename T>
+concept NonPointer = !std::is_pointer_v<T>;
 
-    /**
+/**
      * @brief Swaps the values of two variables without using additional memory.
      *
      * This function swaps the values of two variables of the same type `T` without
@@ -25,12 +24,11 @@ namespace Rake::libraries
      *
      * @see std::swap
      */
-    template <typename T, typename U>
-    constexpr void Swap(T &_left, T &_right) noexcept
-    {
-        _left ^= _right;
-        _right ^= _left;
-        _left ^= _right;
-    }
+template <typename T, typename U>
+constexpr void Swap(T &_left, T &_right) noexcept {
+    _left ^= _right;
+    _right ^= _left;
+    _left ^= _right;
+}
 
-} // namespace Rake::libraries
+}  // namespace Rake::libraries

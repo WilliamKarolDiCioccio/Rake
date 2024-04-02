@@ -6,10 +6,9 @@
 #include "number.hpp"
 #include "string.hpp"
 
-namespace Rake::libraries
-{
+namespace Rake::libraries {
 
-    /**
+/**
      * @brief Generates a random number within a given range using the Mersenne Twister 19937 algorithm.
      *
      * This function generates a random number of type `T` within the specified range
@@ -23,18 +22,18 @@ namespace Rake::libraries
      * @note This function requires a valid random device for seeding, so ensure that
      *       a suitable device is available before calling this function.
      */
-    template <typename T>
-    inline T mt19937(T _min, T _max) noexcept
-        requires Arithmetic<T>
-    {
-        std::random_device device;
-        std::mt19937 generator(device());
-        std::uniform_int_distribution<T> distribution(_min, _max);
+template <typename T>
+inline T mt19937(T _min, T _max) noexcept
+    requires Arithmetic<T>
+{
+    std::random_device device;
+    std::mt19937 generator(device());
+    std::uniform_int_distribution<T> distribution(_min, _max);
 
-        return distribution(generator);
-    }
+    return distribution(generator);
+}
 
-    /**
+/**
      * @brief Generates a pseudo-random number using the XOR-Shift algorithm.
      *
      * This function generates a pseudo-random number of type `T` using the XOR-Shift algorithm.
@@ -45,18 +44,18 @@ namespace Rake::libraries
      * @param _seed The initial seed value for the XOR-Shift algorithm.
      * @return A pseudo-random number generated using the XOR-Shift algorithm.
      */
-    template <typename T>
-    inline T XORShift(T _seed) noexcept
-        requires Arithmetic<T>
-    {
-        _seed ^= _seed << 13;
-        _seed ^= _seed >> 17;
-        _seed ^= _seed << 5;
+template <typename T>
+inline T XORShift(T _seed) noexcept
+    requires Arithmetic<T>
+{
+    _seed ^= _seed << 13;
+    _seed ^= _seed >> 17;
+    _seed ^= _seed << 5;
 
-        return _seed;
-    }
+    return _seed;
+}
 
-    /**
+/**
      * @brief Generates a random string of a specified length using a character set.
      *
      * This function generates a random string of the specified `_length` using characters
@@ -68,17 +67,16 @@ namespace Rake::libraries
      * @param _charset The character set from which to randomly select characters for the string.
      * @return A random string of length `_length` composed of characters from `_charset`.
      */
-    template <typename StringType>
-    StringType RandomString(uint32_t _length, const StringType &_charset) noexcept
-        requires StandardString<StringType>
-    {
-        StringType result;
-        result.reserve(_length);
+template <typename StringType>
+StringType RandomString(uint32_t _length, const StringType &_charset) noexcept
+    requires StandardString<StringType>
+{
+    StringType result;
+    result.reserve(_length);
 
-        for (int i = 0; i < _length; i++)
-            result += _charset[rand() % _charset.length()];
+    for (int i = 0; i < _length; i++) result += _charset[rand() % _charset.length()];
 
-        return result;
-    }
+    return result;
+}
 
-} // namespace Rake::libraries
+}  // namespace Rake::libraries
