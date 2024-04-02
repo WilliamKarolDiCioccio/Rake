@@ -2,3 +2,4 @@ requests==2.26.0
 tqdm==4.62.2
 pytz==2024.1
 tzlocal==5.2
+html5lib-to-markdown==0.0.6
