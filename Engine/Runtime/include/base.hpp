@@ -50,10 +50,35 @@ RK_STATIC_ASSERT(sizeof(double) == 8);
 RK_STATIC_ASSERT(sizeof(int) == 4);
 RK_STATIC_ASSERT(sizeof(bool) == 1);
 
+#define RK_EXPAND(x) x
+
 #define RK_SET_BIT(byte, bitPos)   (byte |= (1 << bitPos))
 #define RK_CLEAR_BIT(byte, bitPos) (byte &= ~(1 << bitPos))
 #define RK_FLIP_BIT(byte, bitPos)  (byte ^= (1 << bitPos))
 #define RK_CHECK_BIT(byte, bitPos) (byte & (1 << bitPos))
+
+#define _RK_STRINGIFY_L2(arg) #arg
+#define _RK_STRINGIFY_L1(arg) _RK_STRINGIFY_L2(arg)
+#define RK_STRINGIFY(arg)     _RK_STRINGIFY_L1(arg)
+
+#define _RK_CONCAT_L2(arg1, arg2) arg1##arg2
+#define _RK_CONCAT_L1(arg1, arg2) _RK_CONCAT_L2(arg1, arg2)
+#define RK_CONCAT(arg1, arg2)     _RK_CONCAT_L1(arg1, arg2)
+
+#define _RK_FIRST_ARG(firstArg, ...) firstArg
+#define RK_FIRST_ARG(...)            RK_EXPAND(_RK_FIRST_ARG(__VA_ARGS__))
+
+#define _RK_RSEQ_N() 5, 4, 3, 2, 1, 0
+
+#define _RK_VA_ARG_COUNT_IMPL(_1, _2, _3, _4, _5, N, ...) N
+
+#define _RK_VA_ARG_COUNT(...) RK_EXPAND(_RK_VA_ARG_COUNT_IMPL(__VA_ARGS__)))
+
+#define RK_VA_ARG_COUNT(...) RK_EXPAND(_RK_VA_ARG_COUNT(__VA_ARGS__, _RK_RSEQ_N()))
+
+#define _RK_FOREACH(n, macro, ...) RK_EXPAND(_RK_CONCAT(_RK_FOREACH_, n)(macro, __VA_ARGS__))
+
+#define RK_FOREACH(macro, ...) RK_EXPAND(_RK_FOREACH(RK_VA_ARG_COUNT(__VA_ARGS__), macro, __VA_ARGS__)))
 
 namespace Rake {
 
