@@ -1,17 +1,20 @@
 #pragma once
 
+#include "defines.hpp"
+
 #include "string.hpp"
+
+namespace Rake::libraries {
 
 constexpr auto fnvOffset32 = 0x811c9dc5;
 constexpr auto fnvPrime32 = 0x01000193;
 constexpr auto fnvOffset64 = 0xcbf29ce484222325;
 constexpr auto fnvPrime64 = 0x100000001b3;
 
-namespace Rake::libraries {
 /**
-     * @see [How do I combine hash values in C++0x](https://stackoverflow.com/a/57595105/17345580)
-     * @see [hash_combine() Again](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0814r0.pdf)
-     */
+ * @see [How do I combine hash values in C++0x](https://stackoverflow.com/a/57595105/17345580)
+ * @see [hash_combine() Again](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0814r0.pdf)
+ */
 template <typename T, typename... R>
 void HashCombine(std::size_t &_seed, const T &_value, const R &..._rest) {
     _seed ^= std::hash<T>{}(_value) + 0x9e3779b9 + (_seed << 6) + (_seed >> 2);
@@ -19,36 +22,16 @@ void HashCombine(std::size_t &_seed, const T &_value, const R &..._rest) {
 };
 
 /**
-     * @brief Computes the SHA-256 hash of a given string.
-     *
-     * This function computes and returns the SHA-256 hash of the input string `_string`.
-     *
-     * @param _string The string for which to compute the SHA-256 hash.
-     * @return The SHA-256 hash as a hexadecimal string.
-     */
-const std::string sha256(const std::string &_string) noexcept;
-
-/**
-     * @brief Computes the SHA-512 hash of a given string.
-     *
-     * This function computes and returns the SHA-512 hash of the input string `_string`.
-     *
-     * @param _string The string for which to compute the SHA-512 hash.
-     * @return The SHA-512 hash as a hexadecimal string.
-     */
-const std::string sha512(const std::string &_string) noexcept {}
-
-/**
-     * @brief Computes the MurmurHash3 hash of a given data array with a seed value.
-     *
-     * This function computes and returns the MurmurHash3 hash of the input data array `_data`
-     * of length `_length` with the specified `_seed`.
-     *
-     * @param _data The data array to hash.
-     * @param _length The length of the data array.
-     * @param _seed The seed value for the MurmurHash3 algorithm.
-     * @return The MurmurHash3 hash value.
-     */
+ * @brief Computes the MurmurHash3 hash of a given data array with a seed value.
+ *
+ * This function computes and returns the MurmurHash3 hash of the input data array `_data`
+ * of length `_length` with the specified `_seed`.
+ *
+ * @param _data The data array to hash.
+ * @param _length The length of the data array.
+ * @param _seed The seed value for the MurmurHash3 algorithm.
+ * @return The MurmurHash3 hash value.
+ */
 const uint32_t MurmurHash3(const unsigned char *_data, uint64_t _lenght, uint64_t _seed) noexcept {
     const uint32_t m = 0x5bd1e995;
     const int r = 24;

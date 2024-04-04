@@ -1,7 +1,5 @@
 #pragma once
 
-#include "base.hpp"
-
-#include <atomic>
+#include "defines.hpp"
 
 namespace Rake::libraries {}  // namespace Rake::libraries

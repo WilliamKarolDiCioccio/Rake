@@ -3,6 +3,9 @@
 #include <limits>
 #include <cstdint>
 #include <numeric>
+#include <string>
+
+#include "defines.hpp"
 
 namespace Rake::libraries {
 
@@ -22,16 +25,16 @@ template <typename T>
 concept FloatingArithmetic = Arithmetic<T> && std::is_floating_point_v<T>;
 
 /**
-     * @brief Checks the sign of an integer value.
-     *
-     * Given an integral value, this function determines whether it's positive or negative.
-     *
-     * @tparam T The type of the value.
-     * @param _value The input value.
-     * @return true if the value is negative, false if it's non-negative.
-     *
-     * @note Branchless variant
-     */
+ * @brief Checks the sign of an integer value.
+ *
+ * Given an integral value, this function determines whether it's positive or negative.
+ *
+ * @tparam T The type of the value.
+ * @param _value The input value.
+ * @return true if the value is negative, false if it's non-negative.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr bool BitSign(const T &_value) noexcept
     requires IntegralArithmetic<T>
@@ -41,16 +44,16 @@ template <typename T>
 }
 
 /**
-     * @brief Computes the absolute value of an integral number.
-     *
-     * This function calculates the absolute value of an integral number, effectively removing its sign.
-     *
-     * @tparam T The type of the value.
-     * @param _value The input value.
-     * @return The absolute value of the input.
-     *
-     * @note Branchless variant
-     */
+ * @brief Computes the absolute value of an integral number.
+ *
+ * This function calculates the absolute value of an integral number, effectively removing its sign.
+ *
+ * @tparam T The type of the value.
+ * @param _value The input value.
+ * @return The absolute value of the input.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr auto BitAbsolute(const T &_value) noexcept
     requires IntegralArithmetic<T>
@@ -60,17 +63,17 @@ template <typename T>
 }
 
 /**
-     * @brief Finds the minimum of two values.
-     *
-     * Given two comparable values, this function returns the smaller of the two.
-     *
-     * @tparam T The type of the values.
-     * @param _left The first value.
-     * @param _right The second value.
-     * @return The minimum of the two input values.
-     *
-     * @note Branchless variant
-     */
+ * @brief Finds the minimum of two values.
+ *
+ * Given two comparable values, this function returns the smaller of the two.
+ *
+ * @tparam T The type of the values.
+ * @param _left The first value.
+ * @param _right The second value.
+ * @return The minimum of the two input values.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr auto BitMinimum(const T &_left, const T &_right) noexcept
     requires Arithmetic<T>
@@ -79,17 +82,17 @@ template <typename T>
 }
 
 /**
-     * @brief Finds the maximum of two values.
-     *
-     * Given two comparable values '_left' and '_right', this function returns the larger of the two.
-     *
-     * @tparam T The type of the values.
-     * @param _left The first value.
-     * @param _right The second value.
-     * @return The maximum of the two input values.
-     *
-     * @note Branchless variant
-     */
+ * @brief Finds the maximum of two values.
+ *
+ * Given two comparable values '_left' and '_right', this function returns the larger of the two.
+ *
+ * @tparam T The type of the values.
+ * @param _left The first value.
+ * @param _right The second value.
+ * @return The maximum of the two input values.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr auto BitMaximum(const T &_left, const T &_right) noexcept
     requires Arithmetic<T>
@@ -98,16 +101,16 @@ template <typename T>
 }
 
 /**
-     * @brief Checks if an integer value is odd.
-     *
-     * Given an integral value, this function determines whether it's an odd number.
-     *
-     * @tparam T The type of the value.
-     * @param _value The input value.
-     * @return true if the value is odd, false if it's even.
-     *
-     * @note Branchless variant
-     */
+ * @brief Checks if an integer value is odd.
+ *
+ * Given an integral value, this function determines whether it's an odd number.
+ *
+ * @tparam T The type of the value.
+ * @param _value The input value.
+ * @return true if the value is odd, false if it's even.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr bool BitOdd(const T &_value) noexcept
     requires Arithmetic<T>
@@ -116,16 +119,16 @@ template <typename T>
 }
 
 /**
-     * @brief Checks if an integer value is even.
-     *
-     * Given an integral value, this function determines whether it's an even number.
-     *
-     * @tparam T The type of the value.
-     * @param _value The input value.
-     * @return true if the value is even, false if it's odd.
-     *
-     * @note Branchless variant
-     */
+ * @brief Checks if an integer value is even.
+ *
+ * Given an integral value, this function determines whether it's an even number.
+ *
+ * @tparam T The type of the value.
+ * @param _value The input value.
+ * @return true if the value is even, false if it's odd.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr bool BitEven(const T &_value) noexcept
     requires Arithmetic<T>
@@ -134,16 +137,16 @@ template <typename T>
 }
 
 /**
-     * @brief Checks if an integer value is a power of two.
-     *
-     * Given an integral value, this function determines whether it's a power of two.
-     *
-     * @tparam T The type of the value.
-     * @param _value The input value.
-     * @return true if the value is a power of two, false otherwise.
-     *
-     * @note Branchless variant
-     */
+ * @brief Checks if an integer value is a power of two.
+ *
+ * Given an integral value, this function determines whether it's a power of two.
+ *
+ * @tparam T The type of the value.
+ * @param _value The input value.
+ * @return true if the value is a power of two, false otherwise.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr bool BitTwoPow(const T &_value) noexcept
     requires Arithmetic<T>
@@ -152,20 +155,20 @@ template <typename T>
 }
 
 /**
-     * @brief Merges bits from two values using a mask.
-     *
-     * This function takes two values, `_left` and `_right`, and a mask `_mask`, and
-     * merges them by flipping the bits of `_left` that are set in `_mask` to match the
-     * corresponding bits in `_right`, while leaving other bits unchanged.
-     *
-     * @tparam T The type of values.
-     * @param _left The first value.
-     * @param _right The second value.
-     * @param _mask The mask indicating which bits to merge.
-     * @return The result of merging using the specified mask.
-     *
-     * @note Branchless variant
-     */
+ * @brief Merges bits from two values using a mask.
+ *
+ * This function takes two values, `_left` and `_right`, and a mask `_mask`, and
+ * merges them by flipping the bits of `_left` that are set in `_mask` to match the
+ * corresponding bits in `_right`, while leaving other bits unchanged.
+ *
+ * @tparam T The type of values.
+ * @param _left The first value.
+ * @param _right The second value.
+ * @param _mask The mask indicating which bits to merge.
+ * @return The result of merging using the specified mask.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr T BitMerge(const T &_left, const T &_right, const T &_mask) noexcept
     requires Arithmetic<T>
@@ -174,18 +177,18 @@ template <typename T>
 }
 
 /**
-     * @brief Clamps an integral value inclusively within a range.
-     *
-     * This function clamps an integral value inclusively within a specified range defined by '_minValue' and '_maxValue'.
-     *
-     * @tparam T The type of the values.
-     * @param _value The input value.
-     * @param _minValue The minimum value of the range.
-     * @param _maxValue The maximum value of the range.
-     * @return The clamped value within the specified range.
-     *
-     * @note Branchless variant
-     */
+ * @brief Clamps an integral value inclusively within a range.
+ *
+ * This function clamps an integral value inclusively within a specified range defined by '_minValue' and '_maxValue'.
+ *
+ * @tparam T The type of the values.
+ * @param _value The input value.
+ * @param _minValue The minimum value of the range.
+ * @param _maxValue The maximum value of the range.
+ * @return The clamped value within the specified range.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr auto InclusiveBitClamp(const T &_value, const T &_minValue, const T &_maxValue) noexcept
     requires IntegralArithmetic<T>
@@ -200,18 +203,18 @@ template <typename T>
 }
 
 /**
-     * @brief Clamps an integral value exclusively within a range.
-     *
-     * This function clamps an integral value exclusively within a specified range defined by '_minValue' and '_maxValue'.
-     *
-     * @tparam T The type of the values.
-     * @param _value The input value.
-     * @param _minValue The minimum value of the range.
-     * @param _maxValue The maximum value of the range.
-     * @return The clamped value within the specified range.
-     *
-     * @note Branchless variant
-     */
+ * @brief Clamps an integral value exclusively within a range.
+ *
+ * This function clamps an integral value exclusively within a specified range defined by '_minValue' and '_maxValue'.
+ *
+ * @tparam T The type of the values.
+ * @param _value The input value.
+ * @param _minValue The minimum value of the range.
+ * @param _maxValue The maximum value of the range.
+ * @return The clamped value within the specified range.
+ *
+ * @note Branchless variant
+ */
 template <typename T>
 [[nodiscard("")]] constexpr auto ExclusiveBitClamp(const T &_value, const T &_minValue, const T &_maxValue) noexcept
     requires IntegralArithmetic<T>
@@ -226,14 +229,14 @@ template <typename T>
 }
 
 /**
-     * @brief Reverses the digits of an integer number.
-     *
-     * Given an integer number, this function reverses the order of its digits.
-     *
-     * @tparam T The type of the value.
-     * @param _value The input value to reverse.
-     * @return The reversed value.
-     */
+ * @brief Reverses the digits of an integer number.
+ *
+ * Given an integer number, this function reverses the order of its digits.
+ *
+ * @tparam T The type of the value.
+ * @param _value The input value to reverse.
+ * @return The reversed value.
+ */
 template <typename T>
 [[nodiscard("")]] inline auto ReverseNumber(T _value) noexcept
     requires Arithmetic<T>

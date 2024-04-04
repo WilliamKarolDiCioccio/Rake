@@ -1,12 +1,10 @@
 #pragma once
 
-#include "Config.h"
-
-#if RK_CRT_CHECKS_ENABLED
+#if RKSTL_CRT_CHECKS_ENABLED
 
 #include <crtdbg.h>
 
-#include "Assert.h"
+#include "assert.h"
 
 #if defined(COMPILER_MSVC)
 #define RK_MEMORY_INTEGRITY_NOTIFY _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF)

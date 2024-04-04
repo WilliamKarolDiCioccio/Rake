@@ -2,6 +2,8 @@
 
 #include <type_traits>
 
+#include "defines.hpp"
+
 namespace Rake::libraries {
 
 /**
@@ -37,28 +39,28 @@ class EnumFlags final {
     *
     * @param _enum The enum value to set the flags to.
     */
-    [[nodiscard("")]] constexpr void operator=(_Enum _enum) noexcept { m_flags = (UnderlyingType)_enum; }
+    NODISCARD constexpr void operator=(_Enum _enum) noexcept { m_flags = (UnderlyingType)_enum; }
 
     /**
     * @brief Bitwise AND assignment operator to perform AND operation with an enum value.
     *
     * @param _enum The enum value to AND with the existing flags.
     */
-    [[nodiscard("")]] constexpr void operator&=(_Enum _enum) noexcept { m_flags &= (UnderlyingType)_enum; }
+    NODISCARD constexpr void operator&=(_Enum _enum) noexcept { m_flags &= (UnderlyingType)_enum; }
 
     /**
     * @brief Bitwise OR assignment operator to perform OR operation with an enum value.
     *
     * @param _enum The enum value to OR with the existing flags.
     */
-    [[nodiscard("")]] constexpr void operator|=(_Enum _enum) noexcept { m_flags |= (UnderlyingType)_enum; }
+    NODISCARD constexpr void operator|=(_Enum _enum) noexcept { m_flags |= (UnderlyingType)_enum; }
 
     /**
     * @brief Bitwise XOR assignment operator to perform XOR operation with an enum value.
     *
     * @param _enum The enum value to XOR with the existing flags.
     */
-    [[nodiscard("")]] constexpr void operator^=(_Enum _enum) noexcept { m_flags ^= (UnderlyingType)_enum; }
+    NODISCARD constexpr void operator^=(_Enum _enum) noexcept { m_flags ^= (UnderlyingType)_enum; }
 
     /**
     * @brief Bitwise AND operator to check if a specific flag is set.
@@ -66,7 +68,7 @@ class EnumFlags final {
     * @param _enum The enum value to check.
     * @return bool True if the specified flag is set; otherwise, false.
     */
-    [[nodiscard("")]] constexpr bool operator&(_Enum _enum) noexcept { return m_flags & (UnderlyingType)_enum; }
+    NODISCARD constexpr bool operator&(_Enum _enum) noexcept { return m_flags & (UnderlyingType)_enum; }
 
     /**
     * @brief Bitwise OR operator to check if a specific flag is set.
@@ -74,7 +76,7 @@ class EnumFlags final {
     * @param _enum The enum value to check.
     * @return bool True if the specified flag is set; otherwise, false.
     */
-    [[nodiscard("")]] constexpr bool operator|(_Enum _enum) const noexcept { return m_flags & (UnderlyingType)_enum; }
+    NODISCARD constexpr bool operator|(_Enum _enum) const noexcept { return m_flags & (UnderlyingType)_enum; }
 
     /**
     * @brief Bitwise XOR operator to check if a specific flag is set.
@@ -82,7 +84,7 @@ class EnumFlags final {
     * @param _enum The enum value to check.
     * @return bool True if the specified flag is set; otherwise, false.
 	*/
-    [[nodiscard("")]] constexpr bool operator^(_Enum _enum) const noexcept { return m_flags & (UnderlyingType)_enum; }
+    NODISCARD constexpr bool operator^(_Enum _enum) const noexcept { return m_flags & (UnderlyingType)_enum; }
 
     /**
     * @bried Comparison operator to check if the flags are equal to a specific enum value.
@@ -90,7 +92,7 @@ class EnumFlags final {
     * @param _enum The enum value to compare with.
     * @ return bool True if the flags are equal to the specified enum value; otherwise, false.
     */
-    [[nodiscard("")]] constexpr bool operator==(_Enum _enum) const noexcept { return m_flags == (UnderlyingType)_enum; }
+    NODISCARD constexpr bool operator==(_Enum _enum) const noexcept { return m_flags == (UnderlyingType)_enum; }
 
     /**
     * @bried Comparison operator to check if the flags are not equal to a specific enum value.
@@ -98,7 +100,7 @@ class EnumFlags final {
     * @param _enum The enum value to compare with.
     * @ return bool True if the flags are not equal to the specified enum value; otherwise, false.
     */
-    [[nodiscard("")]] constexpr bool operator!=(_Enum _enum) const noexcept { return m_flags != (UnderlyingType)_enum; }
+    NODISCARD constexpr bool operator!=(_Enum _enum) const noexcept { return m_flags != (UnderlyingType)_enum; }
 
    public:
     /**
@@ -106,7 +108,7 @@ class EnumFlags final {
     *
     * @return UnderlyingType The combined bit flags as an integral type.
     */
-    [[nodiscard("")]] UnderlyingType GetFlags() const noexcept { return (UnderlyingType)m_flags; }
+    NODISCARD UnderlyingType GetFlags() const noexcept { return (UnderlyingType)m_flags; }
 };
 
 }  // namespace Rake::libraries

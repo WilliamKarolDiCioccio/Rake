@@ -7,21 +7,23 @@
 #include <execution>
 #include <iterator>
 
+#include "defines.hpp"
+
 namespace Rake::libraries {
 
 template <typename T>
 concept DefaultConstructible = std::is_default_constructible_v<T>;
 
 /**
-     * @brief A memory pool template class for managing memory allocation and deallocation.
-     *
-     * This container provides iterators pointing to the first and last elements of the MemoryPool,
-     * making it compatible with standard library algorithms that operate on iterators.
-     *
-     * @tparam T The type of elements to be stored in the memory pool.
-     *
-     * @multithreading Inheritly thread-safe.
-     */
+ * @brief A memory pool template class for managing memory allocation and deallocation.
+ *
+ * This container provides iterators pointing to the first and last elements of the MemoryPool,
+ * making it compatible with standard library algorithms that operate on iterators.
+ *
+ * @tparam T The type of elements to be stored in the memory pool.
+ *
+ * @multithreading Inheritly thread-safe.
+ */
 template <DefaultConstructible T>
 class MemoryPool final : public NonCopyable {
    private:
@@ -32,138 +34,138 @@ class MemoryPool final : public NonCopyable {
 
    public:
     /**
-         * @brief Constructs a MemoryPool with the specified capacity.
-         *
-         * @param _capacity The initial capacity of the memory pool.
-         */
+     * @brief Constructs a MemoryPool with the specified capacity.
+     *
+     * @param _capacity The initial capacity of the memory pool.
+     */
     MemoryPool(size_t _capacity);
 
     /**
-         * @brief Destructor for cleaning up memory pool resources.
-         */
+     * @brief Destructor for cleaning up memory pool resources.
+     */
     ~MemoryPool();
 
     /**
-         * @brief Move assigment for transferring memory pool resources.
-         */
+     * @brief Move assigment for transferring memory pool resources.
+     */
     MemoryPool &operator=(MemoryPool &&_other) noexcept;
 
     /**
-         * @brief Move constructor for transferring memory pool resources.
-         */
+     * @brief Move constructor for transferring memory pool resources.
+     */
     MemoryPool(MemoryPool<T> &&_other) noexcept;
 
     /**
-         * @brief Copy assignment for copying memory pool resources.
-         */
+     * @brief Copy assignment for copying memory pool resources.
+     */
     MemoryPool &operator=(const MemoryPool &_other) noexcept;
 
     /**
-         * @brief Copy constructor for copying memory pool resources.
-         */
+     * @brief Copy constructor for copying memory pool resources.
+     */
     MemoryPool(const MemoryPool<T> &_other) noexcept;
 
    public:
     /**
-         * @brief Copies an object of type T to the memory pool to the first available free offset.
-         *
-         * @param _data The data to be stored in the allocated memory.
-         * @return T* A pointer to the copied object.
-         * @throws std::runtime_error if no free offsets are available.
-         */
+     * @brief Copies an object of type T to the memory pool to the first available free offset.
+     *
+     * @param _data The data to be stored in the allocated memory.
+     * @return T* A pointer to the copied object.
+     * @throws std::runtime_error if no free offsets are available.
+     */
     T *Allocate(const T &_data);
 
     /**
-         * @brief Copies an object of type T to the memory pool to the specified offset.
-         *
-         * @param _data The data to be stored in the allocated memory.
-         * @param _offset The offset at which the object should be copied.
-         * @return T* A pointer to the copied object.
-         * @throws std::runtime_error if no free offset are available.
-         */
+     * @brief Copies an object of type T to the memory pool to the specified offset.
+     *
+     * @param _data The data to be stored in the allocated memory.
+     * @param _offset The offset at which the object should be copied.
+     * @return T* A pointer to the copied object.
+     * @throws std::runtime_error if no free offset are available.
+     */
     T *AllocateAt(const T &_data, size_t _offset);
 
     /**
-         * @brief Constructs an object of type T using the provided arguments at the first available free offset.
-         *
-         * @tparam Args The types of the arguments to be forwarded to the constructor.
-         * @param _args The arguments to be forwarded to the constructor of type T.
-         * @return A pointer to the newly constructed object in the memory pool.
-         * @throws std::runtime_error if no free offset are available.
-         */
+     * @brief Constructs an object of type T using the provided arguments at the first available free offset.
+     *
+     * @tparam Args The types of the arguments to be forwarded to the constructor.
+     * @param _args The arguments to be forwarded to the constructor of type T.
+     * @return A pointer to the newly constructed object in the memory pool.
+     * @throws std::runtime_error if no free offset are available.
+     */
     template <typename... Args>
     T *Construct(Args &&..._args);
 
     /**
-         * @brief Constructs an object of type T using the provided arguments at the specified offset.
-         *
-         * @tparam Args The types of the arguments to be forwarded to the constructor.
-         * @param _offset The offset at which the object should be constructed.
-         * @param _args The arguments to be forwarded to the constructor of type T.
-         * @return T* A pointer to the newly constructed object at the specified offset.
-         * @throws std::runtime_error if no free offset are available.
-         */
+     * @brief Constructs an object of type T using the provided arguments at the specified offset.
+     *
+     * @tparam Args The types of the arguments to be forwarded to the constructor.
+     * @param _offset The offset at which the object should be constructed.
+     * @param _args The arguments to be forwarded to the constructor of type T.
+     * @return T* A pointer to the newly constructed object at the specified offset.
+     * @throws std::runtime_error if no free offset are available.
+     */
     template <typename... Args>
     T *ConstructAt(size_t _offset, Args &&..._args);
 
     /**
-         * @brief Deallocates memory for an element in the memory pool.
-         *
-         * @param _ptr A pointer to the memory to deallocate.
-         */
+     * @brief Deallocates memory for an element in the memory pool.
+     *
+     * @param _ptr A pointer to the memory to deallocate.
+     */
     void Deallocate(T *_ptr) noexcept;
 
     /**
-         * @brief Reallocates data from one offset to another within the memory pool.
-         *
-         * @param _srcOffset The source offset from which to move data.
-         * @param _dstOffset The destination offset to which to move data.
-         * @return T* A pointer to the reallocated memory.
-         */
+     * @brief Reallocates data from one offset to another within the memory pool.
+     *
+     * @param _srcOffset The source offset from which to move data.
+     * @param _dstOffset The destination offset to which to move data.
+     * @return T* A pointer to the reallocated memory.
+     */
     T *Reallocate(size_t _srcOffset, size_t _dstOffset) noexcept;
 
     /**
-         * @brief Shrinks or enlarges the memory pool buffer by hot swapping it with a new one.
-         * @param _capacity The new capacity of the buffer.
-         *
-         * @throw std::bad_alloc if the capacity exceeds size_t numeric limits.
-         */
+     * @brief Shrinks or enlarges the memory pool buffer by hot swapping it with a new one.
+     * @param _capacity The new capacity of the buffer.
+     *
+     * @throw std::bad_alloc if the capacity exceeds size_t numeric limits.
+     */
     void Reserve(size_t _capacity);
 
     /**
-         * @brief Compacts the memory pool by moving allocated data to contiguous positions.
-         */
+     * @brief Compacts the memory pool by moving allocated data to contiguous positions.
+     */
     void Compact() noexcept;
 
     /**
-         * @brief Clears the memory pool by zeroing the entre memory block but keeps capacity the same.
-         */
+     * @brief Clears the memory pool by zeroing the entre memory block but keeps capacity the same.
+     */
     void Clear() noexcept;
 
     /**
-         * @brief Apply a given function to each element in the MemoryPool using the specified execution policy.
-         *
-         * This function applies a given function to each element in the MemoryPool using the provided execution policy.
-         * The function must take a reference to an element of type T as its argument.
-         *
-         * @note The function should not modify the size or capacity of the MemoryPool or change the elements offsets.
-         * @note This function is the only thread-safe way to iterate over and modify the values in the MemoryPool container.
-         *
-         * @tparam ExPo The execution policy to control how the function is parallelized.
-         * @param _policy An execution policy object that specifies the parallelism strategy.
-         * @param _function A callable object that represents the function to be applied to each element.
-         */
+     * @brief Apply a given function to each element in the MemoryPool using the specified execution policy.
+     *
+     * This function applies a given function to each element in the MemoryPool using the provided execution policy.
+     * The function must take a reference to an element of type T as its argument.
+     *
+     * @note The function should not modify the size or capacity of the MemoryPool or change the elements offsets.
+     * @note This function is the only thread-safe way to iterate over and modify the values in the MemoryPool container.
+     *
+     * @tparam ExPo The execution policy to control how the function is parallelized.
+     * @param _policy An execution policy object that specifies the parallelism strategy.
+     * @param _function A callable object that represents the function to be applied to each element.
+     */
     template <class ExPo>
     void Map(ExPo &&_policy, std::function<void(T &)> &&_function);
 
    public:
     /**
-         * @brief Accesses an element in the memory pool by its offset.
-         *
-         * @param _offset The offset of the element to access.
-         * @return T& A reference to the accessed element.
-         * @throw std::out_of_range if the index is out of range.
-         */
+     * @brief Accesses an element in the memory pool by its offset.
+     *
+     * @param _offset The offset of the element to access.
+     * @return T& A reference to the accessed element.
+     * @throw std::out_of_range if the index is out of range.
+     */
     NODISCARD inline T &operator[](size_t _offset) {
         std::shared_lock<std::shared_mutex> readLock(m_mutex);
 
@@ -174,31 +176,31 @@ class MemoryPool final : public NonCopyable {
     };
 
     /**
-         * @brief Gets the total size of the memory pool in bytes.
-         *
-         * @return size_t The total size of the memory pool.
-         */
+     * @brief Gets the total size of the memory pool in bytes.
+     *
+     * @return size_t The total size of the memory pool.
+     */
     NODISCARD inline size_t GetPoolSize() const noexcept { return m_capacity * sizeof(T); };
 
     /**
-         * @brief Gets the amount of free memory in the memory pool in bytes.
-         *
-         * @return size_t The amount of free memory.
-         */
+     * @brief Gets the amount of free memory in the memory pool in bytes.
+     *
+     * @return size_t The amount of free memory.
+     */
     NODISCARD inline size_t GetFreeMemory() const noexcept { return GetPoolSize() - (m_size * sizeof(T)); };
 
     /**
-         * @brief Gets the current number of allocated offsets in the memory pool.
-         *
-         * @return size_t The number of allocated offsets.
-         */
+     * @brief Gets the current number of allocated offsets in the memory pool.
+     *
+     * @return size_t The number of allocated offsets.
+     */
     NODISCARD inline size_t size() const noexcept { return m_size; };
 
     /**
-         * @brief Gets the number of available offsets in the memory pool.
-         *
-         * @return size_t The number of available offsets.
-         */
+     * @brief Gets the number of available offsets in the memory pool.
+     *
+     * @return size_t The number of available offsets.
+     */
     NODISCARD inline size_t capacity() const noexcept { return m_capacity; };
 };
 

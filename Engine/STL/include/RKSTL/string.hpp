@@ -5,6 +5,8 @@
 #include <format>
 #include <codecvt>
 
+#include "defines.hpp"
+
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 #define SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 

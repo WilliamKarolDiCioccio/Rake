@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "defines.hpp"
+
 #include "pool.hpp"
 
 namespace Rake::libraries {

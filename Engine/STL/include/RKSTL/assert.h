@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Config.h"
+#ifdef RKSTL_ASSERTIONS_ENABLED
 
-#if RK_ASSERTIONS_ENABLED
-
-#include "Detection.h"
+#include "detection.h"
 
 #ifdef COMPILER_MSVC
 #include <intrin.h>
