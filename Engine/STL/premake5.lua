@@ -1,12 +1,21 @@
 project "STL"
-kind "SharedItems"
+kind "StaticLib"
 language "C++"
 cppdialect "C++20"
 staticruntime "Off"
+warnings "High"
 
 targetdir(OutDir)
 objdir(IntDir)
 
 files {
-    "./**.hpp"
+    "./**.h",
+    "./**.hpp",
+    "./**.c",
+    "./**.cpp",
+    "./**.inl"
+}
+
+includedirs {
+    "./include"
 }
