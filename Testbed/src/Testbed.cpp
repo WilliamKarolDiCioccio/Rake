@@ -3,8 +3,8 @@
 #include <thread>
 #include <chrono>
 
-#include <core/file_system.hpp>
-#include <core/input_system.hpp>
+#include <RKRuntime/core/file_system.hpp>
+#include <RKRuntime/core/input_system.hpp>
 
 using namespace std::chrono_literals;
 

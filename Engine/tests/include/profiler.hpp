@@ -5,7 +5,7 @@
 #include <thread>
 #include <vector>
 
-#include <tools/profiler.hpp>
+#include <RKRuntime/tools/profiler.hpp>
 
 TEST(ProfilerTest, NestedFunctionTest) {
     Rake::tools::Profiler::Initialize(L"NestedFunctionTestSession", L"./profiles");
