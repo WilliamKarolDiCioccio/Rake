@@ -17,5 +17,6 @@ files {
 }
 
 includedirs {
-    "./include"
+    "./include",
+    "./include/RKSTL"
 }

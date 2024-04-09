@@ -35,6 +35,7 @@ defines {
 
 includedirs {
     "./include",
+    "./include/RKRuntime",
     "../STL/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.GameDK}",
