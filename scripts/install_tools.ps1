@@ -23,13 +23,27 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
     choco install python --version 3.12 -y
 }
 
-# Add Python and Chocolatey bin directories to PATH
+# Install Miniconda3 using Chocolatey
+if (-not (Get-Command conda -ErrorAction SilentlyContinue)) {
+    choco install miniconda3 -y
+}
+
+# Add Python and Miniconda3 bin directories to PATH
 $pythonPath = (Get-Command python).Path
-$chocoBinPath = [System.Environment]::GetEnvironmentVariable("ChocolateyInstall", [System.EnvironmentVariableTarget]::Machine) + "\bin"
-[Environment]::SetEnvironmentVariable("PATH", "$pythonPath;$chocoBinPath;$env:PATH", [EnvironmentVariableTarget]::Machine)
+$minicondaPath = "$env:ChocolateyToolsLocation\miniconda3\condabin"
+[Environment]::SetEnvironmentVariable("PATH", "$pythonPath;$minicondaPath;$env:PATH", [EnvironmentVariableTarget]::Machine)
+Write-Host $PWD
 
 # Install Python dependencies using pip
 Write-Host "Installing Python dependencies using pip..."
-pip install -r ./scripts/requirements.txt
+pip install -r https://raw.githubusercontent.com/WilliamKarolDiCioccio/Rake/main/scripts/requirements.txt
+
+# Check if the environment RkEnv already exists
+if (-not (Get-Command conda -ErrorAction SilentlyContinue) -or -not (conda info --envs | Select-String -Pattern "RkEnv")) {
+    # Create a hidden environment called RkEnv
+    conda create --name RkEnv --yes --quiet
+}
 
 Write-Host "Installation completed successfully."
+
+Pause

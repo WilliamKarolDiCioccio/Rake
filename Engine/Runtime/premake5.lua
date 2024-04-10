@@ -17,7 +17,7 @@ targetdir(OutDir)
 objdir(IntDir)
 
 pchheader "pch.hpp"
-pchsource "pch.cpp"
+pchsource "src/pch.cpp"
 
 files {
     "./**.h",
@@ -35,6 +35,7 @@ defines {
 
 includedirs {
     "./include",
+    "./include/RKRuntime",
     "../STL/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.GameDK}",
