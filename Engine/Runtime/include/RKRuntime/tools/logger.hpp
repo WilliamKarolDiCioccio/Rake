@@ -20,6 +20,17 @@
 
 namespace Rake::tools {
 
+/**
+ * @brief The Logger class is responsible for logging messages to a file and to stderr, the latter only in debug builds. 
+ * 
+ * @details
+ * The Logger class is responsible for providing logging for the application. It can log messages of different levels of severity, such as fatal, error, warning, info, debug, and trace and output them to a file and to stderr.
+ * The file name is the session name followed by the date and time of the session with the .log extension (e.g. "sessionName_2021-01-01_00;00;00.log").
+ * The file is saved in the directory specified by the _logsDir parameter of the Initialize function.
+ * Different levels of severity have different colors in the console output for better readability.
+ * 
+ * @see The Logger class is a static class, so it doesn't need to be instantiated.
+ */
 class RK_API Logger final {
    private:
     static std::wstring m_sessionName;
@@ -32,10 +43,32 @@ class RK_API Logger final {
     Logger() = delete;
 
    public:
+    /**
+	 * @brief Initializes the Logger class.
+	 * 
+	 * @param _sessionName The name of the session.
+	 * @param _logsDir The directory where the log files will be saved.
+     * 
+     * @note This function must be called before any other function of the logger. The Application class is responsible for calling this function.
+	 */
     static void Initialize(const std::wstring &_sessionName, const std::wstring &_logsDir) noexcept;
+
+    /**
+     * @brief Shuts down the logger.
+     * 
+     * @note This function should be called after all the other functions of the logger. The Application class is responsible for calling this function.
+	 */
     static void Shutdown() noexcept;
+
+   private:
+    /**
+	 * @brief Flushes the message pool to the log file.
+	 * 
+	 * @note This function is called automatically by the logging functions when the message pool reaches a certain size to avoid continuous writing to the file.
+	 */
     static void Flush() noexcept;
 
+   public:
     template <typename... _Args>
     static void Fatal(const std::wstring &_format, _Args &&..._args) noexcept;
 

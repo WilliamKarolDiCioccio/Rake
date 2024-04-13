@@ -1,0 +1,21 @@
+{
+  "Controller": {
+    "ButtonsInputMap": {},
+    "FlipAxisXL": 1,
+    "FlipAxisXR": 1,
+    "FlipAxisYL": 1,
+    "FlipAxisYR": 1,
+    "SticksInputMap": {},
+    "TriggersInputMap": {}
+  },
+  "Keyboard": {
+    "InputMap": {
+      "EscapeApp": 27
+    }
+  },
+  "Mouse": {
+    "FlipAxisX": 1,
+    "FlipAxisY": 1,
+    "InputMap": {}
+  }
+}

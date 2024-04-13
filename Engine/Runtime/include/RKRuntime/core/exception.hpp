@@ -10,6 +10,11 @@
 
 namespace Rake::core {
 
+/**
+ * @brief Exception class for the engine.
+ * @details 
+ * This class is used to throw exceptions in the with special formatting needs.
+ */
 class Exception final : public std::exception {
    private:
     std::wstring m_msg;
@@ -26,7 +31,11 @@ class Exception final : public std::exception {
     };
 
    public:
-    const wchar_t *WideWhat() const noexcept { return m_msg.c_str(); }
+    /**
+	 * @brief UNICODE version of the what() function.
+	 * @return The message of the exception.
+	 */
+    const wchar_t *WWhat() const noexcept { return m_msg.c_str(); }
 };
 
 }  // namespace Rake::core

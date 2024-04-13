@@ -30,7 +30,7 @@ void TaskManager::AddTask(Func &&_job, Func &&_callback, float _priority) {
     m_condition.notify_one();
 }
 
-void TaskManager::Start(int32_t _numThreads) {
+void TaskManager::Start(uint32_t _numThreads) {
     for (int i = 0; i < _numThreads; ++i) {
         m_threads.emplace_back([this] {
             m_envSetup();
