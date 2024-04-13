@@ -11,17 +11,12 @@
 namespace Rake::core {
 
 /**
- * @class TaskManager
  * @brief Manages and executes tasks with priorities in a multi-threaded environment.
  */
 class TaskManager final {
     using Func = std::function<void()>;
 
    private:
-    /**
-     * @struct Task
-     * @brief Represents a task with an associated callback function and priority.
-     */
     struct Task {
         float priority = 0.f;
         Func setup, job, callback;
@@ -47,9 +42,6 @@ class TaskManager final {
      */
     RK_API TaskManager(Func &&_envSetup);
 
-    /**
-     * @brief Destroys the TaskManager instance.
-     */
     RK_API ~TaskManager();
 
    public:
@@ -65,7 +57,7 @@ class TaskManager final {
      * @brief Starts the TaskManager with a specified number of threads.
      * @param _numThreads The number of worker threads to start.
      */
-    RK_API void Start(int32_t _numThreads = std::thread::hardware_concurrency());
+    RK_API void Start(uint32_t _numThreads = std::thread::hardware_concurrency());
 
     /**
      * @brief Pauses the execution of tasks by the TaskManager.

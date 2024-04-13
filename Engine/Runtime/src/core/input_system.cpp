@@ -14,11 +14,11 @@ InputSystem::InputSystem() {
 
     m_instance = this;
 
-    LoadSettings();
+    LoadInputMappings();
 }
 
 InputSystem::~InputSystem() {
-    SaveSettings();
+    SaveInputMappings();
 
     m_instance = nullptr;
     delete (m_instance);
@@ -118,11 +118,11 @@ glm::vec2 InputSystem::GetControllerSticksDelta(Action _action) noexcept {
            glm::vec2{m_controller.flipAxis[0], m_controller.flipAxis[1]};
 }
 
-void InputSystem::LoadSettings() noexcept {
+void InputSystem::LoadInputMappings() noexcept {
     try {
-        if (!core::FileExists(L"InputSettings.json")) core::CreateFile(L"InputSettings.json");
+        if (!core::FileExists(L"InputMappings.json")) core::CreateFile(L"InputMappings.json");
 
-        auto data = ReadJSON(L"InputSettings.json");
+        auto data = ReadJSON(L"InputMappings.json");
 
         m_mouse.flipAxis[0] = data["Mouse"]["FlipAxisX"] == 1 ? 1 : -1;
         m_mouse.flipAxis[1] = data["Mouse"]["FlipAxisY"] == 1 ? 1 : -1;
@@ -155,11 +155,11 @@ void InputSystem::LoadSettings() noexcept {
             m_controller.sticksInputMap[k] = v;
         }
     } catch (const std::exception &) {
-        SaveSettings();
+        SaveInputMappings();
     }
 }
 
-void InputSystem::SaveSettings() noexcept {
+void InputSystem::SaveInputMappings() noexcept {
     nlohmann::json data;
 
     data["Keyboard"] = nlohmann::json::object();
@@ -184,8 +184,8 @@ void InputSystem::SaveSettings() noexcept {
     for (const auto &[k, v] : m_controller.sticksInputMap) data["Controller"]["SticksInputMap"][k] = v;
     for (const auto &[k, v] : m_controller.triggersInputMap) data["Controller"]["TriggersInputMap"][k] = v;
 
-    core::CreateFile(L"InputSettings.json");
-    core::WriteJSON(L"InputSettings.json", data);
+    core::CreateFile(L"InputMappings.json");
+    core::WriteJSON(L"InputMappings.json", data);
 }
 
 InputSystem *InputSystem::Get() noexcept { return m_instance; }

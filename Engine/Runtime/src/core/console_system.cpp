@@ -37,7 +37,7 @@ void CVarSystem::CreateBoolCVar(
 }
 
 void CVarSystem::CreateIntCVar(
-    const std::string &_name, const std::string &_description, CVarPermissionFlags _flags, int32_t _data) {
+    const std::string &_name, const std::string &_description, CVarPermissionFlags _flags, int _data) {
     if (m_intCVarReg.size() >= MAX_CVAR_REGISTRY_SIZE) throw RkException(L"Int CVar registry is full!");
 
     auto cVar = std::make_shared<IntCVar>(_data, _flags, _description);
@@ -74,7 +74,7 @@ void CVarSystem::SetBoolCVar(const std::string &_name, bool _data) {
     }
 }
 
-void CVarSystem::SetIntCVar(const std::string &_name, int32_t _data) {
+void CVarSystem::SetIntCVar(const std::string &_name, int _data) {
     if (m_intCVarReg.find(_name) == m_intCVarReg.end()) throw RkException("CVar '{}' does not exist!", _name);
 
     auto cVar = m_boolCVarReg.at(_name);
@@ -117,7 +117,7 @@ const bool CVarSystem::GetBoolCVar(const std::string &_name) const {
     return cVar->data;
 }
 
-const int32_t CVarSystem::GetIntCVar(const std::string &_name) const {
+const int CVarSystem::GetIntCVar(const std::string &_name) const {
     if (m_intCVarReg.find(_name) == m_intCVarReg.end()) throw RkException("CVar '{}' does not exist!", _name);
 
     auto cVar = m_intCVarReg.at(_name);

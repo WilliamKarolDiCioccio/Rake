@@ -13,9 +13,17 @@
 
 namespace Rake::application {
 
-using namespace std::chrono;
-
-class Application : public NonCopyable, NonMovable {
+/**
+ * @brief The Application class is the main class of the engine.
+ * 
+ * @details
+ * The Application class is a singleton class that is responsible for managing the application's lifecycle.
+ * It is responsible for initializing and shutting down the application, as well as updating the application's systems.
+ * 
+ * @note The Application class is automatically created in the main function of the application. The user should only inherit from the Application class to implement the virtual functions and provide a template speecialization for the RkCreateApplication() function.
+ * @see RkCreateApplication
+ */
+class RK_API Application : public NonCopyable, NonMovable {
    private:
     static inline Application *m_instance = nullptr;
 
@@ -40,25 +48,103 @@ class Application : public NonCopyable, NonMovable {
     std::unique_ptr<engine::scripting::PythonFFISystem> m_pythonFFISystem = nullptr;
 
    public:
-    RK_API Application();
-    RK_API virtual ~Application();
+    Application();
+    virtual ~Application();
 
    public:
-    RK_API void Start() noexcept;
-    RK_API void Pause() noexcept;
-    RK_API void Resume() noexcept;
-    RK_API void Update() noexcept;
-    RK_API void Stop() noexcept;
+    /**
+     * @brief Start the application. Sets the application state to running.
+     *
+     * @note The function is called by the main function of the application to start the application.
+     * @see OnStart
+     * @see State
+	 */
+    void Start() noexcept;
+
+    /**
+     * @brief Pause the application. Sets the application state to paused.
+     * 
+     * @see OnPause
+     * @see State
+	 */
+    void Pause() noexcept;
+
+    /**
+     * @brief Resume the application. Sets the application state to not paused.
+     * 
+     * @see OnResume
+     * @see State
+     */
+    void Resume() noexcept;
+
+    /**
+     * @brief Update the application. Calls the OnUpdate function of the application.
+     * 
+     * @note The function is called by the main function of the application to update the application.
+	 * @see OnUpdate
+     * @see State
+     */
+    void Update() noexcept;
+
+    /**
+     * @brief Stop the application. Sets the application state to not running.
+     * 
+     * @note The function is called by the main function of the application to stop the application.
+     * @see OnStop
+     * @see State
+     */
+    void Stop() noexcept;
 
    protected:
+    /**
+     * @brief The function is called when the application is started.
+     * 
+     * @note The implementation should override this function to implement the application's startup logic.
+     * @see Start
+	 */
     virtual void OnStart() noexcept = 0;
+
+    /**
+     * @brief The function is called when the application is resumed.
+     * 
+     * @note The implementation should override this function to implement the application's resume logic.
+     * @see Resume
+     */
     virtual void OnResume() noexcept = 0;
+
+    /**
+     * @brief The function is called when the application is updated.
+     * 
+     * @note The implementation should override this function to implement the application's update logic.
+     * @see Update
+	 */
     virtual void OnUpdate() noexcept = 0;
+
+    /**
+     * @brief The function is called when the application is paused.
+     * 
+     * @note The user should override this function to implement the application's pause logic.
+     * @see Pause
+     */
     virtual void OnPause() noexcept = 0;
+
+    /**
+     * @brief The function is called when the application is stopped.
+     * 
+     * @note The user should override this function to implement the application's shutdown logic.
+     * @see Stop
+     */
     virtual void OnStop() noexcept = 0;
+
     virtual void OnImGuiRender() noexcept = 0;
 
    public:
+    /**
+     * @brief Get the state of the application.
+     * 
+     * @return The state of the application.
+     * @see State
+	 */
     NODISCARD inline const State &GetState() const noexcept { return m_state; }
 };
 
