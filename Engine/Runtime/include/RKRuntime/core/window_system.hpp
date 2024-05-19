@@ -236,10 +236,10 @@ class Window {
  * @see Window
  */
 class WindowSystem : public NonCopyable, NonMovable {
-   private:
+   protected:
     static inline WindowSystem *m_instance = nullptr;
 
-   protected:
+    std::vector<std::string> m_windowsToDestroy;
     std::unordered_map<std::string, std::shared_ptr<Window>> m_windowRegistry;
     std::unordered_map<void *, std::string> m_nativeWindowRegistry;
 
@@ -257,6 +257,10 @@ class WindowSystem : public NonCopyable, NonMovable {
     void Update() noexcept;
 
    public:
+    RK_API virtual const std::shared_ptr<Window> &CreateWindow(const std::string &_name) noexcept;
+    RK_API virtual void DestroyWindow(const std::string &_name) noexcept;
+
+   private:
     /**
      * @brief Load the window state from WindowStates.json file.
      * 
@@ -272,9 +276,6 @@ class WindowSystem : public NonCopyable, NonMovable {
      * @see LoadWindowState
 	 */
     RK_API void SaveWindowState(const std::string &_name) noexcept;
-
-    RK_API virtual const std::shared_ptr<Window> &CreateWindow(const std::string &_name) noexcept;
-    RK_API virtual void DestroyWindow(const std::string &_name) noexcept;
 
    public:
     /**

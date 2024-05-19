@@ -24,6 +24,14 @@ WindowSystem::~WindowSystem() {
 }
 
 void WindowSystem::Update() noexcept {
+    for (const auto &windowName : m_windowsToDestroy) {
+        const auto &windowHandle = m_windowRegistry[windowName]->GetNativeHandle();
+        m_windowRegistry.erase(windowName);
+        m_nativeWindowRegistry.erase(windowHandle);
+    }
+
+    m_windowsToDestroy.clear();
+
     for (auto &[name, window] : m_windowRegistry) {
         window->Update();
     }
@@ -90,14 +98,15 @@ const std::shared_ptr<Window> &WindowSystem::CreateWindow(const std::string &_na
     m_nativeWindowRegistry[window->GetNativeHandle()] = _name;
     m_windowRegistry[_name] = std::move(window);
 
+    LoadWindowState(_name);
+
     return m_windowRegistry[_name];
 }
 
 void WindowSystem::DestroyWindow(const std::string &_name) noexcept {
-    const auto &windowHandle = m_windowRegistry[_name]->GetNativeHandle();
+    SaveWindowState(_name);
 
-    m_windowRegistry.erase(_name);
-    m_nativeWindowRegistry.erase(windowHandle);
+    m_windowsToDestroy.push_back(_name);
 }
 
 WindowSystem *WindowSystem::Get() noexcept { return m_instance; }

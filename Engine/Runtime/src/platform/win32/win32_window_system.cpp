@@ -8,6 +8,8 @@ namespace Rake::platform::Win32 {
 
 LRESULT CALLBACK
 Win32WindowSystem::WndProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam) noexcept {
+    if (!Get()) return DefWindowProc(hWnd, uMsg, wParam, lParam);
+
     auto &windowName = GetWindowNameByNativeHandle(hWnd);
     auto &window = GetWindowHandleByName(windowName);
     auto &windowState = window->GetState();
@@ -36,11 +38,6 @@ Win32WindowSystem::WndProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _
                     window->ToggleMaximize(false);
                 } break;
             }
-        } break;
-        case WM_GETMINMAXINFO: {
-            LPMINMAXINFO minMaxInfo = (LPMINMAXINFO)lParam;
-            minMaxInfo->ptMinTrackSize.x = 1280;
-            minMaxInfo->ptMinTrackSize.y = 720;
         } break;
     }
 
