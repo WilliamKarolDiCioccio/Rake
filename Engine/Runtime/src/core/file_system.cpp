@@ -210,7 +210,7 @@ std::vector<std::wstring> ReadByLine(const std::wstring &_path) {
     return lines;
 }
 
-void WriteBinary(const std::wstring &_path, const std::vector<char> &_data, uint32_t _count) {
+void WriteBinary(const std::wstring &_path, const std::vector<char> &_data) {
     if (!fs::exists(_path)) throw RkException(L"File '{}' does not exist!", _path);
 
     std::wofstream file;
@@ -219,10 +219,12 @@ void WriteBinary(const std::wstring &_path, const std::vector<char> &_data, uint
 
     if (!file.is_open()) throw RkException(L"Failed to open file '{}'!", _path);
 
-    file.write(reinterpret_cast<const wchar_t *>(_data.data()), _count);
+    size_t fileSize = (std::streampos)_data.size();
+
+    file.write(reinterpret_cast<const wchar_t *>(_data.data()), fileSize);
 }
 
-std::vector<uint8_t> ReadBinary(const std::wstring &_path, size_t _count) {
+std::vector<uint8_t> ReadBinary(const std::wstring &_path) {
     if (!fs::exists(_path)) throw RkException(L"File '{}' does not exist!", _path);
 
     std::wifstream file;
@@ -231,9 +233,11 @@ std::vector<uint8_t> ReadBinary(const std::wstring &_path, size_t _count) {
 
     if (!file.is_open()) throw RkException(L"Failed to open file '{}'!", _path);
 
-    std::vector<uint8_t> data(_count);
+    size_t fileSize = (size_t)file.tellg();
+    std::vector<uint8_t> data(fileSize);
 
-    file.read(reinterpret_cast<wchar_t *>(data.data()), _count);
+    file.seekg(NULL);
+    file.read(reinterpret_cast<wchar_t *>(data.data()), fileSize);
 
     return data;
 }

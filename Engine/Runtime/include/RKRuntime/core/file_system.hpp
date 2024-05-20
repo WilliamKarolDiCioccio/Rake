@@ -160,7 +160,7 @@ RK_API std::vector<std::wstring> ReadByLine(const std::wstring &_path);
  * @param _data The binary data to write.
  * @param _count The number of bytes to write.
  */
-RK_API void WriteBinary(const std::wstring &_path, const std::vector<char> &_data, uint32_t _count);
+RK_API void WriteBinary(const std::wstring &_path, const std::vector<char> &_data);
 
 /**
  * @brief Read binary data from a file at the given path.
@@ -169,7 +169,7 @@ RK_API void WriteBinary(const std::wstring &_path, const std::vector<char> &_dat
  * @param _count The number of bytes to read.
  * @return A vector of uint8_t containing the read binary data.
  */
-RK_API std::vector<uint8_t> ReadBinary(const std::wstring &_path, size_t _count);
+RK_API std::vector<uint8_t> ReadBinary(const std::wstring &_path);
 
 /**
  * @brief Write a JSON object to a file at the given path.
