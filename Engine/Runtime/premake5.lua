@@ -5,7 +5,7 @@ cppdialect "C++20"
 staticruntime "Off"
 warnings "High"
 
-prebuildcommands {
+postbuildcommands {
     "python ../../scripts/generate_metadata.py"
 }
 
@@ -30,7 +30,17 @@ files {
 defines {
     "PLAYER_EXPORT",
     "_CRT_SECURE_NO_WARNINGS",
-    "_SILENCE_CXX_17_CODECVT_HEADER_DEPRECATION_WARNING"
+    "_SILENCE_CXX_17_CODECVT_HEADER_DEPRECATION_WARNING",
+    "VK_NO_PROTOTYPES"
+}
+
+filter "system:Windows"
+defines {
+    "WIN32_LEAN_AND_MEAN",
+    "NOMINMAX",
+    "VK_USE_PLATFORM_WIN32_KHR",
+    "_GAMING_DESKTOP",
+    "WINAPI_FAMILY=WINAPI_FAMILY_DESKTOP_APP"
 }
 
 includedirs {
@@ -39,6 +49,7 @@ includedirs {
     "../STL/include",
     "%{IncludeDir.entt}",
     "%{IncludeDir.GameDK}",
+    "%{IncludeDir.GameDKExtensions}",
     "%{IncludeDir.json}",
     "%{IncludeDir.PythonSDK}",
     "%{IncludeDir.stb}",
@@ -49,14 +60,16 @@ includedirs {
 
 libdirs {
     "%{LibraryDir.GameDK}",
+    "%{LibraryDir.GameDKExtensions}",
     "%{LibraryDir.PythonSDK}"
 }
 
 links {
     "STL",
-    "%{Library.GameInput}",
-    "%{Library.Python}",
-    "%{Library.XGameRuntime}"
+    "%{Library.GameDK}",
+    "%{Library.GameDKInput}",
+    "%{Library.GameDKExtensions}",
+    "%{Library.Python}"
 }
 
 filter "system:windows"

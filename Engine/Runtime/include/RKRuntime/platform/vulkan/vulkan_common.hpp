@@ -1,9 +1,5 @@
 #pragma once
 
-#define VK_NO_PROTOTYPES
-#ifdef PLATFORM_WINDOWS
-#define VK_USE_PLATFORM_WIN32_KHR
-#endif
 #include <vulkan/vulkan.h>
 #include <Volk/volk.h>
 #include <vulkan/vk_enum_string_helper.h>
@@ -11,6 +7,8 @@
 #include "platform/win32/win32_common.hpp"
 #include <vulkan/vulkan_win32.h>
 #endif
+
+#include "tools/logger.hpp"
 
 namespace Rake::platform {
 
@@ -66,7 +64,6 @@ static inline void CheckVulkanResult(VkResult _result) {
         case VK_THREAD_DONE_KHR:
         case VK_OPERATION_DEFERRED_KHR:
         case VK_OPERATION_NOT_DEFERRED_KHR:
-        case VK_ERROR_INVALID_VIDEO_STD_PARAMETERS_KHR:
         case VK_ERROR_COMPRESSION_EXHAUSTED_EXT:
         case VK_ERROR_INCOMPATIBLE_SHADER_BINARY_EXT:
         case VK_RESULT_MAX_ENUM:

@@ -1,5 +1,8 @@
 #include "pch.hpp"
 
+#define VMA_IMPLEMENTATION
+#include <vma/vk_mem_alloc.h>
+
 #include "platform/vulkan/vulkan_allocator.hpp"
 
 namespace Rake::platform::Vulkan {
