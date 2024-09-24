@@ -18,6 +18,8 @@ struct SwapChainSupportDetails {
     std::vector<VkSurfaceFormatKHR> formats;
     std::vector<VkPresentModeKHR> presentModes;
 
+    SwapChainSupportDetails() = default;
+
     bool IsComplete() { return !formats.empty() && !presentModes.empty(); }
 };
 

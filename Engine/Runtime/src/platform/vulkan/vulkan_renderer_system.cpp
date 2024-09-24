@@ -8,18 +8,19 @@ VulkanRenderingContext::VulkanRenderingContext(
     const std::shared_ptr<core::Window>& _window, const VulkanInstance& _instance)
     : m_window(_window), m_instance(_instance) {
     const auto& windowHandle = _window->GetNativeHandle();
+    const auto& renderTargetSize = _window->GetRenderTargetSize();
 
     Rake::tools::Profiler::BeginProfile(L"Initialization - Vulkan Context", Rake::tools::ProfileCategory::function);
 
     CreateVulkanSurface(m_surface, m_instance, windowHandle);
     CreateVulkanDevice(m_device, m_instance, m_surface);
-    CreateVulkanSwapchain(m_swapchain, m_device, m_surface);
+    CreateVulkanSwapchain(m_swapchain, m_device, m_surface, renderTargetSize);
 
     Rake::tools::Profiler::EndProfile();
 }
 
 VulkanRenderingContext::~VulkanRenderingContext() {
-    DestroyVulkanSwapchain(m_swapchain, m_device);
+    DestroyVulkanSwapchain(m_swapchain);
     DestroyVulkanDevice(m_device);
     DestroyVulkanSurface(m_surface, m_instance);
 }
