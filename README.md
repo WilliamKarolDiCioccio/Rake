@@ -1,7 +1,7 @@
 # Rake Game Engine
 
 <p align="center">
-  <img align="center" width="256" height="256" title="Rake logo" src="https://github.com/WilliamKarolDiCioccio/Rake/blob/main/.github/images/rake-logo.png">
+  <img align="center" width="256" height="256" title="Rake logo" src="https://github.com/WilliamKarolDiCioccio/Rake/blob/main/.github/images/logo.png">
 </p>
 
 ## Welcome to Rake
