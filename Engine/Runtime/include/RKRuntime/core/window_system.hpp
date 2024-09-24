@@ -256,6 +256,14 @@ class WindowSystem : public NonCopyable, NonMovable {
      */
     void Update() noexcept;
 
+    /**
+     * @brief Check wether all windows are closed and act accordingly.
+     * 
+     * @note This method is called by the Application class.
+     * @see Application
+     */
+    bool ShouldClose() noexcept;
+
    public:
     RK_API virtual const std::shared_ptr<Window> &CreateWindow(const std::string &_name) noexcept;
     RK_API virtual void DestroyWindow(const std::string &_name) noexcept;

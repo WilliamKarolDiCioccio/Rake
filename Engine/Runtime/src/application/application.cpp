@@ -67,7 +67,7 @@ void Application::Resume() noexcept {
 }
 
 void Application::Update() noexcept {
-    while (m_state.isRunning) {
+    while (m_state.isRunning && !m_windowSystem->ShouldClose()) {
         if (m_state.isPaused) continue;
 
         m_timer.Tick();

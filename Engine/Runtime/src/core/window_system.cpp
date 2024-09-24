@@ -37,6 +37,8 @@ void WindowSystem::Update() noexcept {
     }
 }
 
+bool Rake::core::WindowSystem::ShouldClose() noexcept { return m_windowRegistry.size() == 0; }
+
 void WindowSystem::LoadWindowState(const std::string &_name) noexcept {
     auto &window = m_windowRegistry[_name];
 
