@@ -134,6 +134,7 @@ void Win32Window::ToggleMinimize(bool _minimize) noexcept {
     }
 
     m_state.isMinimized = _minimize;
+    m_state.isMaximized = false;
 }
 
 void Win32Window::ToggleMaximize(bool _maximize) noexcept {
@@ -146,6 +147,7 @@ void Win32Window::ToggleMaximize(bool _maximize) noexcept {
     }
 
     m_state.isMaximized = _maximize;
+    m_state.isMinimized = false;
 }
 
 void Win32Window::ToggleFullscreen(bool _fullscreen) noexcept {
