@@ -7,14 +7,11 @@ namespace Rake::platform::Vulkan {
 VulkanRenderingContext::VulkanRenderingContext(
     const std::shared_ptr<core::Window>& _window, const VulkanInstance& _instance)
     : m_window(_window), m_instance(_instance) {
-    const auto& windowHandle = _window->GetNativeHandle();
-    const auto& renderTargetSize = _window->GetRenderTargetSize();
-
     Rake::tools::Profiler::BeginProfile(L"Initialization - Vulkan Context", Rake::tools::ProfileCategory::function);
 
-    CreateVulkanSurface(m_surface, m_instance, windowHandle);
+    CreateVulkanSurface(m_surface, m_instance, _window->GetNativeHandle());
     CreateVulkanDevice(m_device, m_instance, m_surface);
-    CreateVulkanSwapchain(m_swapchain, m_device, m_surface, renderTargetSize);
+    CreateVulkanSwapchain(m_swapchain, m_device, m_surface, _window);
 
     Rake::tools::Profiler::EndProfile();
 }

@@ -40,6 +40,10 @@ struct VulkanDevice {
             VK_KHR_MULTIVIEW_EXTENSION_NAME,
         };
 
+        optionalExtensions = {
+            VK_EXT_FULL_SCREEN_EXCLUSIVE_EXTENSION_NAME,
+        };
+
 #ifdef RK_DEBUG
         requiredLayers = {
             "VK_LAYER_KHRONOS_validation",

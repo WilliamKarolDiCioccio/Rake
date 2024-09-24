@@ -16,11 +16,14 @@ struct VulkanInstance {
     VulkanInstance() : instance(nullptr), debugMessenger(nullptr) {
         requiredExtensions = {
             VK_KHR_SURFACE_EXTENSION_NAME,
+#ifdef PLATFORM_WINDOWS
+            VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+#endif
         };
 
-#ifdef PLATFORM_WINDOWS
-        requiredExtensions.emplace_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
-#endif
+        optionalExtensions = {
+            VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME,
+        };
 
 #ifdef RK_DEBUG
         requiredExtensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -31,7 +34,7 @@ struct VulkanInstance {
         };
 #endif
     }
-};
+};  // namespace Rake::platform::Vulkan
 
 void CreateVulkanInstance(VulkanInstance& _instance);
 

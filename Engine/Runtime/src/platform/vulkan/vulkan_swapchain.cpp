@@ -8,7 +8,7 @@ void CreateVulkanSwapchain(
     VulkanSwapchain& _swapchain,
     const VulkanDevice& _device,
     const VulkanSurface& _surface,
-    const glm::uvec2& _renderTargetSize) {
+    const std::shared_ptr<core::Window>& _window) {
     _swapchain.device = _device.device;
 
     SwapChainSupportDetails swapChainSupport =
@@ -16,7 +16,7 @@ void CreateVulkanSwapchain(
 
     _swapchain.format = ChooseSwapSurfaceFormat(swapChainSupport.formats);
     _swapchain.presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
-    _swapchain.extent = ChooseSwapExtent(swapChainSupport.capabilities, _renderTargetSize);
+    _swapchain.extent = ChooseSwapExtent(swapChainSupport.capabilities, _window->GetRenderTargetSize());
 
     uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
 
@@ -26,7 +26,37 @@ void CreateVulkanSwapchain(
 
     VkSwapchainCreateInfoKHR createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-    createInfo.pNext = nullptr;
+
+    void* headExtPtr = nullptr;
+
+    const auto& exclusiveFullscreenAvailable = std::find(
+                                                   _device.availableExtensions.begin(),
+                                                   _device.availableExtensions.end(),
+                                                   "VK_EXT_full_screen_exclusive") != _device.availableExtensions.end();
+
+    VkSurfaceFullScreenExclusiveInfoEXT fullScreenExclusiveInfo = {};
+    fullScreenExclusiveInfo.sType = VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT;
+    fullScreenExclusiveInfo.fullScreenExclusive = VK_FULL_SCREEN_EXCLUSIVE_APPLICATION_CONTROLLED_EXT;
+
+#ifdef PLATFORM_WINDOWS
+    HMONITOR monitor = MonitorFromWindow((HWND)_window->GetNativeHandle(), MONITOR_DEFAULTTONEAREST);
+
+    VkSurfaceFullScreenExclusiveWin32InfoEXT win32FullScreenExclusiveInfo = {
+        .sType = VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT,
+        .pNext = nullptr,
+        .hmonitor = monitor,
+    };
+
+    fullScreenExclusiveInfo.pNext = &win32FullScreenExclusiveInfo;
+#endif
+
+    if (_window->GetState().isFullscreen && exclusiveFullscreenAvailable) {
+        _swapchain.canRequireExclusiveFullscreen = true;
+        headExtPtr = (void*)&fullScreenExclusiveInfo;
+    }
+
+    createInfo.pNext = headExtPtr;
+
     createInfo.flags = 0;
     createInfo.surface = _surface.surface;
     createInfo.minImageCount = imageCount;
@@ -67,9 +97,12 @@ void CreateVulkanSwapchain(
     vkGetSwapchainImagesKHR(_swapchain.device, _swapchain.swapchain, &imageCount, _swapchain.images.data());
 
     CreateImageViews(_swapchain);
+
+    AcquireExclusiveFullscreenMode(_swapchain);
 }
 
 void DestroyVulkanSwapchain(VulkanSwapchain& _swapchain) {
+    ReleaseExclusiveFullscreenMode(_swapchain);
     DestroyImageViews(_swapchain);
     vkDestroySwapchainKHR(_swapchain.device, _swapchain.swapchain, nullptr);
 }
@@ -141,6 +174,22 @@ VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& _capabilities, const
 
         return actualExtent;
     }
+}
+
+VkResult AcquireExclusiveFullscreenMode(VulkanSwapchain& _swapchain) {
+    if (!_swapchain.canRequireExclusiveFullscreen) {
+        return VK_ERROR_INITIALIZATION_FAILED;
+    }
+
+    vkAcquireFullScreenExclusiveModeEXT(_swapchain.device, _swapchain.swapchain);
+}
+
+VkResult ReleaseExclusiveFullscreenMode(VulkanSwapchain& _swapchain) {
+    if (!_swapchain.canRequireExclusiveFullscreen) {
+        return VK_ERROR_INITIALIZATION_FAILED;
+    }
+
+    vkReleaseFullScreenExclusiveModeEXT(_swapchain.device, _swapchain.swapchain);
 }
 
 }  // namespace Rake::platform::Vulkan
